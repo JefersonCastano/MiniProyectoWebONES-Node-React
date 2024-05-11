@@ -14,6 +14,7 @@ const loginUser = (req, res) => {
                     "One of the following keys is missing or is empty in request body: 'username', 'password'",
             },
         });
+        return;
     }
 
     const loginData = {
@@ -27,8 +28,8 @@ const loginUser = (req, res) => {
     } catch (error) {
         res
             .status(error?.status || 500)
-            .send({ status: "FAILDED", data: { error: error?.message || error } });
+            .send({ status: "FAILED", data: { error: error?.message || error } });
     }
 };
 
-module.exports = loginUser;
+module.exports = { loginUser};

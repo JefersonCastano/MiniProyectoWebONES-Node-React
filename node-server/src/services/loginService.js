@@ -22,4 +22,4 @@ const loginUser = (loginData) => {
     }
   };
 
-module.exports = loginUser;
+module.exports = {loginUser};
