@@ -1,6 +1,6 @@
 const { Usuario } = require('./models/index');
 
-const validateCredentials = async (loginData) => {
+const validateUserCredentials = async (loginData) => {
   try {
     const user = await Usuario.findOne({ where: { usuario_nombre: loginData.username, usuario_clave: loginData.password } });
     return user != null;
@@ -22,4 +22,4 @@ const getUserData = async (username) => {
   }
 };
 
-module.exports = { validateCredentials, getUserData }
+module.exports = { validateUserCredentials, getUserData }

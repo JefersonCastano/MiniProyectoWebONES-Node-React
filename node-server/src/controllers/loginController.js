@@ -1,4 +1,5 @@
-const loginService = require("../services/loginService");
+const loginService = require("../services/userService");
+const messagesEs = require("../utils/messagesEs");
 
 const loginUser = async (req, res) => {
     const { body } = req;
@@ -10,8 +11,7 @@ const loginUser = async (req, res) => {
         res.status(400).send({
             status: "FAILED",
             data: {
-                error:
-                    "One of the following keys is missing or is empty in request body: 'username', 'password'",
+                error: messagesEs.errors.MISSING_REQUIRED_FIELDS + "'username', 'password'",
             },
         });
         return;

@@ -1,12 +1,13 @@
 const secret = 'ones';
 const jwt = require('jsonwebtoken');
-const { validateCredentials, getUserData } = require('../repository/user');
+const messagesEs = require("../utils/messagesEs");
+const { validateUserCredentials, getUserData } = require('../repository/userRepo');
 
 const loginUser = async (loginData) => {
   try {
-    const isValid = await validateCredentials(loginData);
+    const isValid = await validateUserCredentials(loginData);
     if (!isValid) {
-      throw new Error("Credentials are not valid");
+      throw new Error(messagesEs.errors.CREDENTIALS_NOT_VALID);
     }
     const user = await getUserData(loginData.username);
     const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, secret);
