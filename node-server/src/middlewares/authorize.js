@@ -2,7 +2,7 @@
 const authorizeCoordinador = function(req, res, next) {
     const { role } = req.user;
   
-    if (role !== 'coordinador') {
+    if (role !== 'COORDINADOR') {
       return res.status(401).send('Not allowed');
     }
   

@@ -1,6 +1,6 @@
 const loginService = require("../services/loginService");
 
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
     const { body } = req;
 
     if (
@@ -23,7 +23,7 @@ const loginUser = (req, res) => {
     };
 
     try {
-        const userToken = loginService.loginUser(loginData);
+        const userToken = await loginService.loginUser(loginData);
         res.status(201).send({ status: "OK", data: userToken });
     } catch (error) {
         res
