@@ -28,7 +28,6 @@ const Login = () => {
             </div>
             <button type="submit" className="btn btn-primary">Ingresar</button>
           </form>
-
         </div>
       </div>
     </div>
