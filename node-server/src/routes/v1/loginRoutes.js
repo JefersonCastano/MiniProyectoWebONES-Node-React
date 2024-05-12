@@ -1,14 +1,9 @@
 const express = require("express");
-const router = express.Router();
 const loginController = require("../../controllers/loginController");
 
-router
-  .post("/", loginController.loginUser)
+const router = express.Router();
 
-  /**
-   * que devuelo el token?
-   * id
-   * nombre
-   * tipo (rol) 
-   */
+router
+  .post("/", loginController.loginUser);
+  
 module.exports = router;
