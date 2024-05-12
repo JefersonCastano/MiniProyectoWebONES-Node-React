@@ -6,8 +6,6 @@ const v1LoginRouter = require("./routes/v1/loginRoutes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-//Acá podría hacer el init de la bd
-
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/api/v1/login", v1LoginRouter);

@@ -7,7 +7,10 @@ module.exports = (sequelize) => {
       primaryKey: true
     },
     docente_id: DataTypes.INTEGER,
-    usuario_nombre: DataTypes.STRING(100),
+    usuario_nombre: {
+      type: DataTypes.STRING(100),
+      unique: true
+    },
     usuario_clave: DataTypes.STRING(50),
     usuario_tipo: {
       type: DataTypes.STRING(50),

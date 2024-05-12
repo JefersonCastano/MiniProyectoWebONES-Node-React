@@ -1,17 +1,20 @@
 const express = require("express");
 const authenticate = require("../../middlewares/authenticate");
 const authorizeCoordinador = require("../../middlewares/authorize");
+const horarioController = require("../../controllers/horarioController");
 
 const router = express.Router();
 
 router
-  .get("/", authenticate, (req, res) => {
-    res.send("GET /horarios publico");
-  })
+  .get("/:perId/:docId", authenticate, horarioController.getHorarioByPerAndDocId);
 
 router
-  .get("/coordinador", authenticate, authorizeCoordinador, (req, res) => {
-    res.send("GET /horarios privado coordinador");
-  })
+  .post("/", authenticate, authorizeCoordinador, horarioController.createHorario);
+
+router
+  .put("/:perId/:docId", authenticate, authorizeCoordinador, horarioController.updateHorario);
+
+router
+  .delete("/:perId/:docId", authenticate, authorizeCoordinador, horarioController.deleteHorario);
 
 module.exports = router;
