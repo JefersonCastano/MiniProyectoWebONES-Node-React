@@ -6,6 +6,9 @@ module.exports = {
         CREDENTIALS_NOT_VALID: "Nombre de usuario o contraseña incorrectos",
         HORARIO_NOT_FOUND: "Horario no encontrado",
         HORARIO_ALREADY_EXISTS: "El horario ya existe",
+        AUTHORIZATION_HEADER_MISSING: "Se requiere un encabezado de autorización",
+        TOKEN_MISSING: "Se requiere un token para la autenticación",
+        TOKEN_NOT_VALID: "Token no válido",
     },
     success: {
       // Agrega aquí los mensajes de éxito que necesites.

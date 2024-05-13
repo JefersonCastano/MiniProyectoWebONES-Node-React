@@ -36,13 +36,13 @@ const getUserByToken = async (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(403).send('An authorization header is required');
+        return res.status(403).send(messagesEs.errors.AUTHORIZATION_HEADER_MISSING);
     }
 
     const token = authHeader.split(' ')[1];
 
     if (!token) {
-        return res.status(403).send('A token is required for authentication');
+        return res.status(403).send(messagesEs.errors.TOKEN_MISSING);
     }
     try {
         const userInfo = await userService.getUserByToken(token);
