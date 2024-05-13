@@ -30,8 +30,6 @@ const createHorario = async (newHorario) => {
             throw new Error(messagesEs.errors.HORARIO_ALREADY_EXISTS);
         }
 
-        checkHorario(perId, docId, horarioFranjas);
-
         const createdFranjas = await horarioRepo.createFranjasHorario(perId, docId, horarioFranjas);
         const createdHorario = franjasToHorario(perId, docId, createdFranjas);
         return createdHorario;
@@ -67,10 +65,6 @@ const deleteHorario = async (perId, docId) => {
     } catch (error) {
         throw error;
     }
-};
-
-const checkHorario = (perId, docId, horarioFranjas) => {
-
 };
 
 const franjasToHorario = (perId, docId, franjas) => {
