@@ -22,4 +22,22 @@ const getUserData = async (username) => {
   }
 };
 
-module.exports = { validateUserCredentials, getUserData }
+const createUser = async (newUser) => {
+  try {
+    const user = await Usuario.create({
+      usuario_nombre: newUser.username,
+      docente_id: newUser.docente_id,
+      usuario_clave: newUser.password,
+      usuario_tipo: newUser.role
+    });
+    return user;
+  } catch (error) {
+    throw { status: error?.status || 500, message: error?.message || error };
+  }
+}
+module.exports = 
+{ 
+  validateUserCredentials, 
+  getUserData, 
+  createUser
+}

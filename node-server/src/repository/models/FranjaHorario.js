@@ -6,10 +6,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(6),
       primaryKey: true
     },
-    docente_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true
-    },
     periodo_id: {
       type: DataTypes.INTEGER,
       primaryKey: true
@@ -23,7 +19,8 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    competencia_id: DataTypes.INTEGER,
+    docente_id:DataTypes.INTEGER,
+    competencia_id: DataTypes.STRING(10),
     franja_hora_fin: DataTypes.INTEGER,
     franja_duracion: DataTypes.INTEGER
   });

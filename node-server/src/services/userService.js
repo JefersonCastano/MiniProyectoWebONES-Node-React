@@ -1,7 +1,7 @@
 const secret = 'ones';
 const jwt = require('jsonwebtoken');
 const messagesEs = require("../utils/messagesEs");
-const { validateUserCredentials, getUserData } = require('../repository/userRepo');
+const { validateUserCredentials, getUserData, createUser } = require('../repository/userRepo');
 
 const loginUser = async (loginData) => {
   try {
@@ -23,4 +23,32 @@ const loginUser = async (loginData) => {
   }
 };
 
-module.exports = { loginUser };
+const createDocenteUser = async (docenteFirstName, docenteLastName, docenteId, docenteIdentificacion) => {
+  const userName = docenteFirstName.substring(0,3) + docenteLastName.substring(0,3) + docenteIdentificacion;
+  const password = docenteIdentificacion; 
+  const newUser = {
+    username: userName,
+    docente_id: docenteId,
+    password: password,
+    role: 'DOCENTE'
+  };
+
+  try {
+    const user = await createUser(newUser);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getUserByToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, secret);
+    return decoded;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+module.exports = { loginUser, createDocenteUser, getUserByToken };
