@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       primaryKey: true
     },
     docente_id:DataTypes.INTEGER,
-    competencia_id: DataTypes.INTEGER,
+    competencia_id: DataTypes.STRING(10),
     franja_hora_fin: DataTypes.INTEGER,
     franja_duracion: DataTypes.INTEGER
   });

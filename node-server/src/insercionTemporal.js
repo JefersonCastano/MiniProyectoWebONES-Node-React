@@ -1,5 +1,37 @@
 
-const {Usuario, Docente} = require('./repository/models/index');
+const {Usuario, Docente, Ambiente, PeriodoAcademico, Competencia} = require('./repository/models/index');
+
+
+const newCompetencias = [{
+  competencia_id: "COMP1",
+  programa_id: null,
+  competencia_tipo: 'GENERICA',
+  competencia_nombre: 'Competencia 1',
+  competencia_activo: true
+},{
+  competencia_id: "COMP2",
+  programa_id: null,
+  competencia_tipo: 'GENERICA',
+  competencia_nombre: 'Competencia 2',
+  competencia_activo: true
+}
+];
+
+const newPeriodoAcademico = {
+  periodo_fecha_ini: new Date('2024-01-01'),
+  periodo_fecha_fin: new Date('2024-4-30'),
+  periodo_nombre: '2024-I',
+  periodo_activo: true
+};
+
+const newAmbiente = {
+  ambiente_id: 'AMB1',
+  ambiente_nombre: 'Aula 101',
+  ambiente_ubicacion: 'Edificio A',
+  ambiente_capacidad: 30,
+  ambiente_activo: true,
+  ambiente_tipo: 'PRESENCIAL'
+};
 
 const nuevoDocente1 = {
   docente_nombres: 'Pepe Andres',
@@ -28,6 +60,30 @@ const nuevoUsuario2 = {
   usuario_tipo: 'DOCENTE'
 };
 
+PeriodoAcademico.create(newPeriodoAcademico)
+  .then(periodoAcademico => {
+    console.log('Nuevo periodo academico creado:', periodoAcademico);
+  })
+  .catch(error => {
+    console.error('Error al crear el periodo academico:', error);
+  });
+
+Ambiente.create(newAmbiente)
+  .then(ambiente => {
+    console.log('Nuevo ambiente creado:', ambiente);
+  })
+  .catch(error => {
+    console.error('Error al crear el ambiente:', error);
+  });
+
+Competencia.bulkCreate(newCompetencias)
+  .then(competencia => {
+    console.log('Nueva competencia creada:', competencia);
+  })
+  .catch(error => {
+    console.error('Error al crear la competencia:', error);
+  });
+
 Docente.create(nuevoDocente1)
   .then(docente => {
     console.log('Nuevo docente creado:', docente);
@@ -52,5 +108,3 @@ Usuario.create(nuevoUsuario2)
   .catch(err => {
     console.error('Error al crear el usuario:', err);
   });
-
-

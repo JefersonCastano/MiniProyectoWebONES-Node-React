@@ -1,6 +1,5 @@
-const horarioRepo = require('../repository/horarioRepo');
+const horarioService = require("../services/horarioServiceFacade");
 const messagesEs = require("../utils/messagesEs");
-
 
 const getHorarioByPerAndDocId = async (perId, docId) => {
     try {

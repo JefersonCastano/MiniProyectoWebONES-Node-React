@@ -39,7 +39,16 @@ const createDocenteUser = async (docenteFirstName, docenteLastName, docenteId, d
   } catch (error) {
     throw error;
   }
+};
+
+const getUserByToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, secret);
+    return decoded;
+  } catch (error) {
+    throw error;
+  }
 }
 
 
-module.exports = { loginUser, createDocenteUser };
+module.exports = { loginUser, createDocenteUser, getUserByToken };
