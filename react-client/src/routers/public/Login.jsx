@@ -1,0 +1,99 @@
+import React, { useState } from 'react'
+import logo from '../../assets/images/logo.png';
+import logoSena from '../../assets/images/logoSena.png';
+import { useAuth } from '../../auth/AuthProvider'
+import { Navigate, useNavigate } from 'react-router-dom'
+import '../styles/Home.css'
+import { login } from '../../api/loginRoutes';
+
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [validated, setValidated] = useState(false);
+  const [error, setError] = useState('');
+
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      event.stopPropagation();
+      setValidated(true);
+      setError('Por favor, ingrese un usuario y contraseña');
+      return;
+    } else {
+      setValidated(false)
+    }
+
+    login(username, password).then(json => {
+      if (json.status === "OK") {
+        setError('');
+        const user = json.data;
+        if(user.token){
+          auth.saveUser(user);
+          navigate('/horario');
+        }
+        
+        console.log(user);
+      } else {
+        setError(json.data.error);
+      }
+    }).catch((error) => console.log(error));
+  };
+
+
+  if (auth.isAuthenticated) {
+    return <Navigate to="/horario" />;
+  }
+  return (
+    <div className="homeBackground">
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '90vh' }}>
+        <div className="text-center">
+
+          <div className="d-flex align-items-center" style={{ marginBottom: '50px' }}>
+            <img src={logoSena} alt="logo" width="100" className="align-text-top" />
+            <div style={{ borderLeft: '1px solid black', height: '100px', margin: '0 20px' }}></div>
+            <h4>Servicio Nacional de  <br /> Aprendizaje</h4>
+          </div>
+
+          <img src={logo} alt="logo" width="100" className="img-fluid" />
+          <h1 className="display-1 fw-bold title">ONES</h1>
+          <p>Iniciar Sesión</p>
+
+          <form className={`${validated ? 'was-validated' : ''}`} noValidate onSubmit={handleSubmit} >
+            <div className="input-group mb-3">
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                placeholder="Usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required />
+            </div>
+            <div className="input-group mb-3">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required />
+            </div>
+            <div className="text-danger">
+              {error}
+            </div>
+            <button type="submit" className="btn btn-primary">Ingresar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Login

@@ -1,14 +1,20 @@
 import React from 'react'
-import logo from '../assets/images/logo.png';
-import { useNavigate } from 'react-router-dom';
-import './styles/Home.css'
+import logo from '../../assets/images/logo.png';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthProvider'
+import '../styles/Home.css'
 
 const Home = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleButtonClick = () => {
     navigate('/login');
   };
+
+  if(auth.isAuthenticated) {
+    return <Navigate to="/horario" />;
+  }
   return (
     <div className="homeBackground">
       <div className="d-flex justify-content-center align-items-center" style={{ height: '70vh' }}>
