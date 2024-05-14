@@ -52,7 +52,7 @@ const createHorario = async (req, res) => {
   } catch (error) {
     res
       .status(error?.status || 500)
-      .send({ status: "FAILDED", data: { error: error?.message || error } });
+      .send({ status: "FAILED", data: { error: error?.message || error } });
   }
 };
 

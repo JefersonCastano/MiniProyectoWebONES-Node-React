@@ -22,16 +22,10 @@ const getFranjasHorarioByPerAndDocId = async (perId, docId) => {
     }
 };
 
-const createFranjasHorario = async (perId, docId, horarioFranjas) => {
+const createFranjasHorario = async (newHorarioFranjas) => {
     try {
-        const newHorarioFranjas = horarioFranjas.map(franja => ({
-            ...franja,
-            periodo_id: perId,
-            docente_id: docId
-        }));
-
-        const newHorario = await FranjaHorario.bulkCreate(newHorarioFranjas);
-        return newHorario;
+        const createdFranjas = await FranjaHorario.bulkCreate(newHorarioFranjas);
+        return createdFranjas;
     } catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };
     }
@@ -47,4 +41,16 @@ const deleteHorario = async (perId, docId) => {
     }
 };
 
-module.exports = { getFranjasHorarioByPerAndDocId, createFranjasHorario, deleteHorario, horarioExists };
+const getAmbientesByDay = async (franja_dia, perId) => {
+    try {
+        const franjas = await FranjaHorario.findAll({
+            attributes: ['ambiente_id', 'franja_hora_inicio', 'franja_hora_fin'],
+            where: { periodo_id: perId, franja_dia: franja_dia }
+        });
+        return franjas;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
+module.exports = { getFranjasHorarioByPerAndDocId, createFranjasHorario, deleteHorario, horarioExists, getAmbientesByDay };
