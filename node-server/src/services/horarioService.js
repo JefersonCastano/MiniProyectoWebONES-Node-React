@@ -1,12 +1,12 @@
 const horarioRepo = require('../repository/horarioRepo');
 const messagesEs = require("../utils/messagesEs");
-
+const HttpError = require('../utils/HttpError');
 
 const getHorarioByPerAndDocId = async (perId, docId) => {
     try {
         const exists = await horarioRepo.horarioExists(perId, docId);
         if (!exists) {
-            throw new Error(messagesEs.errors.HORARIO_NOT_FOUND);
+            throw new HttpError(400, messagesEs.errors.HORARIO_NOT_FOUND);
         }
 
         const franjas = await horarioRepo.getFranjasHorarioByPerAndDocId(perId, docId);
@@ -28,7 +28,7 @@ const createHorario = async (newHorario) => {
     try {
         const exists = await horarioRepo.horarioExists(perId, docId);
         if (exists) {
-            throw new Error(messagesEs.errors.HORARIO_ALREADY_EXISTS);
+            throw new HttpError(400, messagesEs.errors.HORARIO_ALREADY_EXISTS);
         }
         const createdFranjas = await horarioRepo.createFranjasHorario(newFranjasHorario);
         const createdHorario = franjasToHorario(perId, docId, createdFranjas);
@@ -43,7 +43,7 @@ const updateHorario = async (perId, docId, horarioChanges) => {
     try {
         const exists = await horarioRepo.horarioExists(perId, docId);
         if (!exists) {
-            throw new Error(messagesEs.errors.HORARIO_NOT_FOUND);
+            throw new HttpError(400, messagesEs.errors.HORARIO_NOT_FOUND);
         }
 
         //TODO Buscar forma de actualizar solo las franjas que cambian
@@ -59,7 +59,7 @@ const deleteHorario = async (perId, docId) => {
     try {
         const exists = await horarioRepo.horarioExists(perId, docId);
         if (!exists) {
-            throw new Error(messagesEs.errors.HORARIO_NOT_FOUND);
+            throw new HttpError(400, messagesEs.errors.HORARIO_NOT_FOUND);
         }
         await horarioRepo.deleteHorario(perId, docId);
     } catch (error) {

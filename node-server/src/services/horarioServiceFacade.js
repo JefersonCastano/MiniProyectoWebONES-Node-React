@@ -1,5 +1,6 @@
 const horarioService = require("./horarioService");
 const messagesEs = require("../utils/messagesEs");
+const HttpError = require("../utils/HttpError");
 /*const docenteService = require("./docenteService");
 const periodoService = require("./periodoService");
 const ambienteService = require("./ambienteService");
@@ -62,7 +63,7 @@ const checkDocenteHours = async (horario) => {
     }, 0);
 
     if (weekHours != requiredWeekHours) {
-        throw new Error(messagesEs.errors.WEEK_HOURS_REQUIRED(requiredWeekHours, weekHours));
+        throw HttpError(400, messagesEs.errors.WEEK_HOURS_REQUIRED(requiredWeekHours, weekHours));
     }
 
     const maxHoursPerDay = tipoContrato === "PT" ? 8 : 10;
@@ -75,7 +76,7 @@ const checkDocenteHours = async (horario) => {
     }, {});
 
     if (!Object.values(hoursPerDay).every(hours => hours <= maxHoursPerDay)) {
-        throw new Error(messagesEs.errors.MAX_HOURS_PER_DAY(maxHoursPerDay));
+        throw HttpError(400, messagesEs.errors.MAX_HOURS_PER_DAY(maxHoursPerDay));
     }
 };
 
@@ -84,24 +85,24 @@ const checkColumnsState = async (horario) => {
 
     const isPeriodoActive = await periodoService.isPeriodoActive(perId);
     if (!isPeriodoActive) {
-        throw new Error(messagesEs.errors.PERIODO_NOT_ACTIVE);
+        throw new HttpError(400, messagesEs.errors.PERIODO_NOT_ACTIVE);
     }
 
     const isDocenteActive = await docenteService.isDocenteActive(docId);
     if (!isDocenteActive) {
-        throw new Error(messagesEs.errors.DOCENTE_NOT_ACTIVE);
+        throw new HttpError(400, messagesEs.errors.DOCENTE_NOT_ACTIVE);
     }
 
     for(franjasHorario of horario.horario_franjas){
         for(franja of franjasHorario.franjas){
             const isAmbienteActive = await ambienteService.isAmbienteActive(franja.ambiente_id);
             if (!isAmbienteActive) {
-                throw new Error(messagesEs.errors.AMBIENTE_NOT_ACTIVE);
+                throw new HttpError(400, messagesEs.errors.AMBIENTE_NOT_ACTIVE);
             }
 
             const isCompetenciaActive = await competenciaService.isCompetenciaActive(franja.competencia_id);
             if (!isCompetenciaActive) {
-                throw new Error(messagesEs.errors.COMPETENCIA_NOT_ACTIVE);
+                throw new HttpError(400, messagesEs.errors.COMPETENCIA_NOT_ACTIVE);
             }
             
         }
@@ -125,7 +126,7 @@ const checkAmbientesAvailability = async (horario) => {
 
                 //TODO traer ambiente para mandar el nombre del ambiente en el mensaje
                 if (!(franja.franja_hora_fin <= franjaAmbiente.franja_hora_inicio || franja.franja_hora_inicio >= franjaAmbiente.franja_hora_fin)) {
-                    throw new Error(messagesEs.errors.AMBIENTE_NOT_AVAILABLE(franja.ambiente_id, horarioFranja.franja_dia, franjaAmbiente.franja_hora_inicio, franjaAmbiente.franja_hora_fin));
+                    throw new HttpError(400, messagesEs.errors.AMBIENTE_NOT_AVAILABLE(franja.ambiente_id, horarioFranja.franja_dia, franjaAmbiente.franja_hora_inicio, franjaAmbiente.franja_hora_fin));
                 }
             }
         }
