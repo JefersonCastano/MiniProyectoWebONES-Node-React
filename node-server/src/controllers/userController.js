@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const HttpError = require("../utils/HttpError");
 const messagesEs = require("../utils/messagesEs");
 
 const loginUser = async (req, res) => {
@@ -8,13 +9,7 @@ const loginUser = async (req, res) => {
         !body.username ||
         !body.password
     ) {
-        res.status(400).send({
-            status: "FAILED",
-            data: {
-                error: messagesEs.errors.MISSING_REQUIRED_FIELDS + "'username', 'password'",
-            },
-        });
-        return;
+        throw HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'username', 'password'");
     }
 
     const loginData = {
@@ -34,17 +29,17 @@ const loginUser = async (req, res) => {
 
 const getUserByToken = async (req, res) => {
     const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(403).send(messagesEs.errors.AUTHORIZATION_HEADER_MISSING);
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(403).send(messagesEs.errors.TOKEN_MISSING);
-    }
     try {
+        if (!authHeader) {
+            throw new HttpError(403, messagesEs.errors.AUTHORIZATION_HEADER_MISSING);
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        if (!token) {
+            throw new HttpError(403, messagesEs.errors.TOKEN_MISSING);
+        }
+
         const userInfo = await userService.getUserByToken(token);
         res.status(200).send({ status: "OK", data: userInfo });
     } catch (error) {

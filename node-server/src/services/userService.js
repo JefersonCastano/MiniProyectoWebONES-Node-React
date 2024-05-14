@@ -2,17 +2,19 @@ const secret = 'ones';
 const jwt = require('jsonwebtoken');
 const messagesEs = require("../utils/messagesEs");
 const { validateUserCredentials, getUserData, createUser } = require('../repository/userRepo');
+const HttpError = require('../utils/HttpError');
 
 const loginUser = async (loginData) => {
   try {
     const isValid = await validateUserCredentials(loginData);
     if (!isValid) {
-      throw new Error(messagesEs.errors.CREDENTIALS_NOT_VALID);
+      throw new HttpError(400, messagesEs.errors.CREDENTIALS_NOT_VALID);
     }
     const user = await getUserData(loginData.username);
     const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, secret);
     loginResponse = {
       id: user.id,
+      username: user.username,
       role: user.role,
       token: token
     };

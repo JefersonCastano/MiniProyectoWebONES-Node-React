@@ -8,6 +8,7 @@ module.exports = {
     AUTHORIZATION_HEADER_MISSING: "Se requiere un encabezado de autorización",
     TOKEN_MISSING: "Se requiere un token para la autenticación",
     TOKEN_NOT_VALID: "Token no válido",
+    NOT_ACCESS: "No tiene acceso a este recurso",
     WEEK_HOURS_REQUIRED: (requiredHours, assignedHours) => `El docente debe orientar ${requiredHours} horas a la semana. Se han asignado ${assignedHours} horas.`,
     MAX_HOURS_PER_DAY: (maxHours) => `El docente debe orientar máximo ${maxHours} horas por día.`,
     AMBIENTE_NOT_AVAILABLE: (ambienteId, day, startHour, endHour) => `El ambiente ${ambienteId} no está disponible el día ${day} entre ${startHour} y ${endHour}.`,
