@@ -1,10 +1,12 @@
 import React from 'react'
+import { useAuth } from '../../auth/AuthProvider';
 import DefaultLayout from '../../components/DefaultLayout'
 
 const Horario = () => {
+  const auth = useAuth();
   return (
-    <DefaultLayout>
-      <h1>Horario</h1>
+    <DefaultLayout rol = {auth.getUser().role}>
+      <p>En Construcción...</p>
     </DefaultLayout>
   );
 }

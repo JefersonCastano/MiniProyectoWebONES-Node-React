@@ -1,25 +1,46 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './routers/public/Login';
-import Home from './routers/public/Home';
-import AuthProvider from './auth/AuthProvider';
-import Horario from './routers/coordinador/Horario';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { public_routes } from './auth/publicRoutes';
+import { coordinador_routes } from './auth/coordinadorRoutes';
+import { docente_routes } from './auth/docenteRoutes';
 import ProtectedRoute from './routers/ProtectedRoute';
+import CoorProtectedRoute from './routers/coordinador/CoorProtectedRoute';
+import DocProtectedRoute from './routers/docente/DocProtectedRoute';
+import AuthProvider from './auth/AuthProvider';
+
+const coor_routes = [
+  {
+    path: '/',
+    element: <ProtectedRoute />,
+    children: [{
+      path: '/',
+      element: <CoorProtectedRoute />,
+      children: coordinador_routes
+    
+    }]
+  }
+];
+const doc_routes = [
+  {
+    path: '/',
+    element: <ProtectedRoute />,
+    children: [{
+      path: '/',
+      element: <DocProtectedRoute />,
+      children: docente_routes
+    
+    }]
+  }
+];
+
+const routes = [...public_routes, ...coor_routes, ...doc_routes];
+
+const router = createBrowserRouter(routes);
 
 function App() {
   return (
-    <div >
-      <AuthProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route path="/horario" element={<Horario />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AuthProvider>
-    </div>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 

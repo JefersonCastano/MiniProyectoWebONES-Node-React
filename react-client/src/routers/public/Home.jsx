@@ -1,8 +1,9 @@
 import React from 'react'
-import logo from '../../assets/images/logo.png';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider'
-import '../styles/Home.css'
+import logo from '../../assets/img/logo.png';
+import '../../assets/css/styles.css'
+import '../../assets/js/main.js'
 
 const Home = () => {
   const navigate = useNavigate();
@@ -12,8 +13,11 @@ const Home = () => {
     navigate('/login');
   };
 
-  if(auth.isAuthenticated) {
-    return <Navigate to="/horario" />;
+  if (auth.isAuthenticated && auth.getUser()?.role === 'COORDINADOR') {
+    return <Navigate to="/programas" />;
+  }
+  if (auth.isAuthenticated && auth.getUser()?.role === 'DOCENTE') {
+    return <Navigate to="/informacion-personal" />;
   }
   return (
     <div className="homeBackground">

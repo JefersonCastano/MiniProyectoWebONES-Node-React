@@ -1,79 +1,86 @@
 import React from 'react'
 import { useContext, createContext, useState, useEffect } from 'react'
-import { API_URL } from './config';
+import { getUserData } from '../api/userRoutes';
 
 const AuthContext = createContext({
     isAuthenticated: false,
     getAccessToken: () => { },
     saveUser: (userData) => { },
+    getUser: () => { },
+    logout: () => { },
 });
+
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [accessToken, setAccessToken] = useState("");
     const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-
+        checkAuth();
     }, [])
 
-    async function getUserData(accessToken) {
-        try {
-            const response = await fetch(`${API_URL}/user`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-            if (response.status === 200) {
-                const json = await response.json();
-                return json.data;
-            } else {
-                throw new Error(json.data.error);
-            }
-        } catch (error) {
-            console.log('Error al obtener los datos del usuario');
-            return null;
-        }
-    }
     async function checkAuth() {
         if (accessToken) {
             //El usuario esta autenticado
-            setIsAuthenticated(true);
+            const userData = await getUserData(accessToken);
+            if (userData) {
+                setUser(userData);
+                setIsAuthenticated(true);
+            }
         } else {
             //El usuario no esta autenticado
             const token = getAccessTokenLocalStorage();
             if (token) {
                 const userData = await getUserData(token);
                 if (userData) {
-                    saveUser(userData);
+                    setUser(userData);
+                    setAccessToken(token);
+                    setIsAuthenticated(true);
                 }
             }
         }
-    }
-
-    function getAccessToken() {
-        return accessToken;
-    }
-    function getAccessTokenLocalStorage() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            return JSON.parse(token);
-        }
-        return null;
+        setIsLoading(false);
     }
 
     function saveUser(userData) {
         setAccessToken(userData.token);
         setUser(userData);
         setIsAuthenticated(true);
-
         localStorage.setItem('token', JSON.stringify(userData.token));
     }
 
+    function logout() {
+        setAccessToken("");
+        setUser({});
+        setIsAuthenticated(false);
+        localStorage.removeItem('token');
+    }
+
+    function getAccessTokenLocalStorage() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                return JSON.parse(token);
+            } catch (error) {
+                console.error('Error parsing token:', error);
+                return null;
+            }
+        }
+        return null;
+    }
+
+    function getAccessToken() {
+        return accessToken;
+    }
+    
+    function getUser() {
+        return user;
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, getAccessToken, saveUser }}>
-            {children}
+        <AuthContext.Provider value={{ isAuthenticated, getAccessToken, saveUser, getUser, logout }}>
+            {isLoading ? <h1>Cargando...</h1> : children}
         </AuthContext.Provider>
     )
 }

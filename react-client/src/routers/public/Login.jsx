@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import logo from '../../assets/images/logo.png';
-import logoSena from '../../assets/images/logoSena.png';
-import { useAuth } from '../../auth/AuthProvider'
 import { Navigate, useNavigate } from 'react-router-dom'
-import '../styles/Home.css'
+import { useAuth } from '../../auth/AuthProvider'
 import { login } from '../../api/loginRoutes';
+import logo from '../../assets/img/logo.png';
+import logoSena from '../../assets/img/logoSena.png';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -16,29 +16,37 @@ const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-
+  const camposVacios = (e) => {
+    const form = e.currentTarget;
     if (!form.checkValidity()) {
-      event.stopPropagation();
+      e.stopPropagation();
       setValidated(true);
       setError('Por favor, ingrese un usuario y contraseña');
-      return;
+      return true;
     } else {
       setValidated(false)
     }
+    return false;
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    if (camposVacios(event)) return;
 
     login(username, password).then(json => {
       if (json.status === "OK") {
         setError('');
         const user = json.data;
-        if(user.token){
-          auth.saveUser(user);
-          navigate('/horario');
+        if (user.token) {
+          auth.saveUser({id: user.id, role: user.role, token: user.token, username: user.username});
+          if (user.role === 'COORDINADOR'){
+            navigate('/horarios');
+          }
+          else if (user.role === 'DOCENTE') {
+            navigate('/informacion-personal');
+          }
         }
-        
-        console.log(user);
       } else {
         setError(json.data.error);
       }
@@ -46,8 +54,11 @@ const Login = () => {
   };
 
 
-  if (auth.isAuthenticated) {
-    return <Navigate to="/horario" />;
+  if (auth.isAuthenticated && auth.getUser()?.role === 'COORDINADOR') {
+    return <Navigate to="/programas" />;
+  }
+  if (auth.isAuthenticated && auth.getUser()?.role === 'DOCENTE') {
+    return <Navigate to="/informacion-personal" />;
   }
   return (
     <div className="homeBackground">

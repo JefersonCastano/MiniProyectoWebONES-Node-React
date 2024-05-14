@@ -1,22 +1,46 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import Account from './Account'
+import Navbar from './Navbar'
+import { coordinador_routes } from '../auth/coordinadorRoutes'
+import { coordinador_pages } from '../auth/coordinadorRoutes'
+import { coordinador_icons } from '../auth/coordinadorRoutes'
+import { docente_routes } from '../auth/docenteRoutes'
+import { docente_pages } from '../auth/docenteRoutes'
+import { docente_icons } from '../auth/docenteRoutes'
 
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ children, rol }) => {
+
+    const location = useLocation();
+    const actualLocation = location.pathname;
+    let navItems = null;
+    let title = "Página no encontrada";
+
+    const navCoor = coordinador_pages.map((x, index) => {
+        return { page: x, route: coordinador_routes[index].path, icon: coordinador_icons[index] };
+    });
+    const navDoc = docente_pages.map((x, index) => {
+        return { page: x, route: docente_routes[index].path, icon: docente_icons[index] };
+    });
+
+    navItems = rol == "COORDINADOR" ? navCoor : navDoc;
+    title = navItems.find(item => item.route == actualLocation).page;
+
     return (
         <div>
-            <header>
-                <nav>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li>About</li>
-                        <li>Contact</li>
-                    </ul>
-                </nav>
-            </header>
-            <main>
-                {children}
+            <Navbar items={navItems} />
+            <main id="main">
+                <div className="container p-3">
+                    <div className="mt-4 mb-4 ">
+                        <div className="d-flex justify-content-between align-items-center">
+                            <h1 className='text-dark'>{title}</h1>
+                            <Account />
+                        </div>
+                    </div>
+                    {children}
+                </div>
             </main>
-        </div>
+        </div >
     )
 }
 
