@@ -17,10 +17,6 @@ module.exports = {
     AMBIENTE_NOT_ACTIVE: "El ambiente no se encuentra activo",
     COMPETENCIA_NOT_ACTIVE: "La competencia no se encuentra activa",
     DOCENTE_NOT_FOUND: "Docente no encontrado",
-    MISSING_FIELDS: "Todos los campos son requeridos",
-    INVALID_CONTRACT_TYPE: "Tipo de contrato inválido",
-    DOCENTE_EXISTS: "El docente ya existe",
-    DOCENTE_NOT_FOUND: "Docente no encontrado",
   },
   success: {
 
