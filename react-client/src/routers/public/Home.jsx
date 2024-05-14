@@ -1,14 +1,24 @@
 import React from 'react'
-import logo from '../assets/images/logo.png';
-import { useNavigate } from 'react-router-dom';
-import './styles/Home.css'
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthProvider'
+import logo from '../../assets/img/logo.png';
+import '../../assets/css/styles.css'
+import '../../assets/js/main.js'
 
 const Home = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleButtonClick = () => {
     navigate('/login');
   };
+
+  if (auth.isAuthenticated && auth.getUser()?.role === 'COORDINADOR') {
+    return <Navigate to="/programas" />;
+  }
+  if (auth.isAuthenticated && auth.getUser()?.role === 'DOCENTE') {
+    return <Navigate to="/informacion-personal" />;
+  }
   return (
     <div className="homeBackground">
       <div className="d-flex justify-content-center align-items-center" style={{ height: '70vh' }}>
