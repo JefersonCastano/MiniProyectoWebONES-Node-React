@@ -4,13 +4,13 @@ const HttpError = require('../utils/HttpError');
 
 const getAmbienteById = async (req, res) => {
   const {
-    params: { ambId },
+    params: { ambienteId },
   } = req;
   try {
-    if (!ambId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambId'");
+    if (!ambienteId) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
     }
-    const ambiente = await ambienteService.getAmbienteById(ambId);
+    const ambiente = await ambienteService.getAmbienteById(ambienteId);
     res.send({ status: "OK", data: ambiente });
     } catch (error) {
       res
@@ -54,8 +54,8 @@ const createAmbiente = async (req, res) => {
         ambiente_tipo: body.ambiente_tipo
     };
 
-    const ambiente = await ambienteService.createAmbiente(newAmbiente);
-    res.send({ status: "OK", data: ambiente });
+    await ambienteService.createAmbiente(newAmbiente);
+    res.send({ status: "OK", data: newAmbiente });
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -66,11 +66,11 @@ const createAmbiente = async (req, res) => {
 const updateAmbiente = async (req, res) => {
   const {
     body,
-    params: { ambId },
+    params: { ambienteId },
   } = req;
   try {
-    if (!ambId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambId'");
+    if (!ambienteId) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
     }
 
     const updatedAmbiente = {
@@ -81,8 +81,8 @@ const updateAmbiente = async (req, res) => {
         ambiente_tipo: body.ambiente_tipo
     };
 
-    const ambiente = await ambienteService.updateAmbiente(ambId, updatedAmbiente);
-    res.send({ status: "OK", data: ambiente });
+    await ambienteService.updateAmbiente(ambienteId, updatedAmbiente);
+    res.send({ status: "OK", data: updatedAmbiente });
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -92,15 +92,15 @@ const updateAmbiente = async (req, res) => {
 
 const deleteAmbiente = async (req, res) => {
   const {
-    params: { ambId },
+    params: { ambienteId },
   } = req;
   try {
-    if (!ambId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambId'");
+    if (!ambienteId) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
     }
 
-    const deleted = await ambienteService.deleteAmbiente(ambId);
-    res.send({ status: "OK", data: deleted });
+    await ambienteService.deleteAmbiente(ambienteId);
+    res.send({ status: "OK", data: { ambienteId } });
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -108,4 +108,10 @@ const deleteAmbiente = async (req, res) => {
   }
 };
 
-module.exports = { getAmbienteById, getAllAmbientes, createAmbiente, updateAmbiente, deleteAmbiente };
+module.exports = {
+  getAmbienteById,
+  getAllAmbientes,
+  createAmbiente,
+  updateAmbiente,
+  deleteAmbiente
+};
