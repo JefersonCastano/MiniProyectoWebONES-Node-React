@@ -18,6 +18,7 @@ module.exports = {
     COMPETENCIA_NOT_ACTIVE: "La competencia no se encuentra activa",
     DOCENTE_NOT_FOUND: "Docente no encontrado",
     PERIODO_NOT_FOUND: "Periodo académico no encontrado",
+    AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
   },
   success: {
 
