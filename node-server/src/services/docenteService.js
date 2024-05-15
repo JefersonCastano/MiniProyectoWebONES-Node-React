@@ -56,4 +56,20 @@ const getAllDocentes = async () => {
     }
 };
 
-module.exports = { createDocente, updateDocente, deleteDocente, getDocenteById, getAllDocentes };
+const isDocenteActive = async (docenteId) => {
+    try {
+        const docente = await getDocenteById(docenteId);
+        return docente.docente_activo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { 
+    createDocente, 
+    updateDocente, 
+    deleteDocente, 
+    getDocenteById, 
+    getAllDocentes,
+    isDocenteActive
+};

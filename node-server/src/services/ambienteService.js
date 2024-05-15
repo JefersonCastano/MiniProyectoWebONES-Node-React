@@ -56,4 +56,20 @@ const getAllAmbientes = async () => {
     }
 };
 
-module.exports = { createAmbiente, updateAmbiente, deleteAmbiente, getAmbienteById, getAllAmbientes };
+const isAmbienteActive = async (ambienteId) => {
+    try {
+        const ambiente = await getAmbienteById(ambienteId);
+        return ambiente.ambiente_activo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { 
+    createAmbiente, 
+    updateAmbiente, 
+    deleteAmbiente, 
+    getAmbienteById, 
+    getAllAmbientes,
+    isAmbienteActive
+};

@@ -2,9 +2,9 @@ const horarioService = require("./horarioService");
 const messagesEs = require("../utils/messagesEs");
 const HttpError = require("../utils/HttpError");
 const docenteService = require("./docenteService");
-/*const periodoAcademicoService = require("./periodoAcademicoService");
+const periodoAcademicoService = require("./periodoAcademicoService");
 const ambienteService = require("./ambienteService");
-const competenciaService = require("./competenciaService");*/
+const competenciaService = require("./competenciaService");
 
 const getHorarioByPerAndDocId = async (perId, docId) => {
     try {
@@ -49,7 +49,7 @@ const checkHorarioToCreate = async (newHorario) => {
     }
 
     await checkDocenteHours(newHorario);
-    //await checkColumnsState(newHorario);
+    await checkColumnsState(newHorario);
     await checkAmbientesAvailability(newHorario, horarioService.getAmbientesByDay);
 };
 
@@ -68,8 +68,8 @@ const checkHorarioToUpdate = async (horarioToUpdate) => {
         throw new HttpError(400, messagesEs.errors.NO_HORARIO_CHANGES);
     }
 
-    //await checkColumnsState(franjasToCreate);
-    
+    await checkColumnsState(franjasHorarioToCreate);
+
     const getAmbientesByDayFiltered = async (day, perId) => {
         let currentAmbientes = await horarioService.getAmbientesByDay(day, perId);
 
@@ -130,7 +130,7 @@ const checkColumnsState = async (horario) => {
     const { periodo_id: perId, docente_id: docId } = horario;
 
     const [isPeriodoActive, isDocenteActive] = await Promise.all([
-        periodoAcademicoService.isPeriodoActive(perId),
+        periodoAcademicoService.isPeriodoAcademicoActive(perId),
         docenteService.isDocenteActive(docId)
     ]);
 

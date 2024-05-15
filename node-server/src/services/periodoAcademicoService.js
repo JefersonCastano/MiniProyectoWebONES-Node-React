@@ -56,4 +56,20 @@ const getAllPeriodosAcademicos = async () => {
     }
 };
 
-module.exports = { createPeriodoAcademico, updatePeriodoAcademico, deletePeriodoAcademico, getPeriodoAcademicoById, getAllPeriodosAcademicos };
+const isPeriodoAcademicoActive = async (periodoId) => {
+    try {
+        const periodo = await getPeriodoAcademicoById(periodoId);
+        return periodo.periodo_activo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { 
+    createPeriodoAcademico, 
+    updatePeriodoAcademico,
+    deletePeriodoAcademico, 
+    getPeriodoAcademicoById, 
+    getAllPeriodosAcademicos, 
+    isPeriodoAcademicoActive
+};

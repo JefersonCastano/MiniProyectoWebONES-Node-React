@@ -56,4 +56,20 @@ const getAllCompetencias = async () => {
     }
 };
 
-module.exports = { createCompetencia, updateCompetencia, deleteCompetencia, getCompetenciaById, getAllCompetencias };
+const isCompetenciaActive = async (competenciaId) => {
+    try {
+        const competencia = await getCompetenciaById(competenciaId);
+        return competencia.competencia_activo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { 
+    createCompetencia, 
+    updateCompetencia, 
+    deleteCompetencia, 
+    getCompetenciaById, 
+    getAllCompetencias,
+    isCompetenciaActive 
+};
