@@ -1,4 +1,4 @@
-const docenteService = require('../services/docenteServiceFacade');
+const docenteService = require('../services/docenteService');
 const messagesEs = require("../utils/messagesEs");
 const HttpError = require('../utils/HttpError');
 
@@ -24,11 +24,11 @@ const createDocente = async (req, res) => {
 
   try {
     if (
-      !body.docente_id ||
       !body.docente_nombres ||
       !body.docente_apellidos ||
       !body.docente_tipoidentificacion ||
       !body.docente_identificacion ||
+      !body.docente_tipo ||
       !body.docente_tipocontrato ||
       !body.docente_area ||
       !body.docente_activo
@@ -37,7 +37,6 @@ const createDocente = async (req, res) => {
     }
 
     const newDocente = {
-        docente_id: body.docente_id,
         docente_nombres: body.docente_nombres,
         docente_apellidos: body.docente_apellidos,
         docente_tipoidentificacion: body.docente_tipoidentificacion,
@@ -68,7 +67,6 @@ const updateDocente = async (req, res) => {
     }
 
     const updatedDocente = {
-        docente_id: docId,
         docente_nombres: body.docente_nombres,
         docente_apellidos: body.docente_apellidos,
         docente_tipoidentificacion: body.docente_tipoidentificacion,
