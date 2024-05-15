@@ -9,6 +9,9 @@ router
   .get("/:docId", authenticate, docenteController.getDocenteById);
 
 router
+  .get("/", authenticate, docenteController.getAllDocentes);
+
+router
   .post("/", authenticate, authorizeCoordinador, docenteController.createDocente);
 
 router

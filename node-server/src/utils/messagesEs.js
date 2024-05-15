@@ -19,6 +19,10 @@ module.exports = {
     AMBIENTE_NOT_ACTIVE: (ambienteName) => `El ambiente ${ambienteName} no se encuentra activo`,
     COMPETENCIA_NOT_ACTIVE: (competenciaName) => `La competencia ${competenciaName} no se encuentra activa`,
     DOCENTE_NOT_FOUND: "Docente no encontrado",
+    PERIODO_NOT_FOUND: "Periodo académico no encontrado",
+    AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
+    COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
+    PROGRAMA_NOT_FOUND: "Programa no encontrado",
   },
   success: {
 
