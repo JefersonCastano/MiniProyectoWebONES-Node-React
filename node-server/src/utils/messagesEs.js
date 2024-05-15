@@ -19,6 +19,7 @@ module.exports = {
     DOCENTE_NOT_FOUND: "Docente no encontrado",
     PERIODO_NOT_FOUND: "Periodo académico no encontrado",
     AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
+    COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
   },
   success: {
 
