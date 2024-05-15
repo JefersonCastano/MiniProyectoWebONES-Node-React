@@ -20,6 +20,7 @@ module.exports = {
     PERIODO_NOT_FOUND: "Periodo académico no encontrado",
     AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
     COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
+    PROGRAMA_NOT_FOUND: "Programa no encontrado",
   },
   success: {
 
