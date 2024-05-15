@@ -69,7 +69,7 @@ const getProgramaById = async (req, res) => {
     }
 };
 
-const getAllProgramas = async (res) => {
+const getAllProgramas = async (req, res) => {
     try {
         const programas = await programaService.getAllProgramas();
         res.send({ status: "OK", data: programas });
