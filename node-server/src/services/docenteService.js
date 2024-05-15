@@ -47,4 +47,13 @@ const getDocenteById = async (docenteId) => {
     }
 };
 
-module.exports = { createDocente, updateDocente, deleteDocente, getDocenteById };
+const getAllDocentes = async () => {
+    try {
+        const docentes = await docenteRepo.getAllDocentes();
+        return docentes;
+    } catch (error) {
+        throw error;
+    }
+};
+
+module.exports = { createDocente, updateDocente, deleteDocente, getDocenteById, getAllDocentes };

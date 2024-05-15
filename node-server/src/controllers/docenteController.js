@@ -19,6 +19,17 @@ const getDocenteById = async (req, res) => {
     }   
 }
 
+const getAllDocentes = async (req, res) => {
+  try {
+    const docentes = await docenteService.getAllDocentes();
+    res.send({ status: "OK", data: docentes });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
+
 const createDocente = async (req, res) => {
   const { body } = req;
 
@@ -108,4 +119,5 @@ module.exports = {
   createDocente,
   updateDocente,
   deleteDocente,
+  getAllDocentes
 };

@@ -62,4 +62,14 @@ const getDocenteById = async (docenteId) => {
     }
 };
 
-module.exports = { docenteExists, createDocente, updateDocente, deleteDocente, getDocenteById };
+//Obtener todos los docentes
+const getAllDocentes = async () => {
+    try {
+        const docentes = await Docente.findAll();
+        return docentes;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
+module.exports = { docenteExists, createDocente, updateDocente, deleteDocente, getDocenteById, getAllDocentes };
