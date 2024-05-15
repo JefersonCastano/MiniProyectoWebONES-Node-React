@@ -41,6 +41,23 @@ const deleteHorario = async (perId, docId) => {
     }
 };
 
+const deleteFranjasHorario = async (franjasToDelete) => {
+    try {
+        for (const franja of franjasToDelete) {
+            await FranjaHorario.destroy({
+                where: { 
+                    periodo_id: franja.periodo_id, 
+                    ambiente_id: franja.ambiente_id, 
+                    franja_dia: franja.franja_dia, 
+                    franja_hora_inicio: franja.franja_hora_inicio
+                }
+            });
+        }
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 const getAmbientesByDay = async (franja_dia, perId) => {
     try {
         const franjas = await FranjaHorario.findAll({
@@ -53,4 +70,11 @@ const getAmbientesByDay = async (franja_dia, perId) => {
     }
 };
 
-module.exports = { getFranjasHorarioByPerAndDocId, createFranjasHorario, deleteHorario, horarioExists, getAmbientesByDay };
+module.exports = { 
+    getFranjasHorarioByPerAndDocId, 
+    createFranjasHorario, 
+    deleteHorario, 
+    horarioExists, 
+    getAmbientesByDay, 
+    deleteFranjasHorario 
+};
