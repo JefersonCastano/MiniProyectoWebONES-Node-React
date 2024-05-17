@@ -65,7 +65,9 @@ const getDocenteById = async (docenteId) => {
 //Obtener todos los docentes
 const getAllDocentes = async () => {
     try {
-        const docentes = await Docente.findAll();
+        const docentes = await Docente.findAll({
+            order: [['docente_activo', 'DESC'], ['docente_apellidos', 'ASC']]
+        });
         return docentes;
     } catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };
