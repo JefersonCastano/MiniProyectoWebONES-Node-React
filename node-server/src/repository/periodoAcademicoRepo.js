@@ -36,6 +36,21 @@ const updatePeriodoAcademico = async (periodoId, periodoChanges) => {
     }
 };
 
+const updatePeriodoAcademicoState = async (periodoId, newState) => {
+    try {
+        const [updated] = await PeriodoAcademico.update(
+            { periodo_activo: newState },
+            { where: { periodo_id: periodoId } }
+        );
+        if (updated) {
+            return true;
+        }
+        throw new HttpError(404, messagesEs.errors.PERIODO_NOT_FOUND);
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 const deletePeriodoAcademico = async (periodoId) => {
     try {
         const deleted = await PeriodoAcademico.destroy({
@@ -79,5 +94,6 @@ module.exports = {
     updatePeriodoAcademico,
     deletePeriodoAcademico,
     getPeriodoAcademicoById,
-    getAllPeriodosAcademicos
+    getAllPeriodosAcademicos,
+    updatePeriodoAcademicoState
 };
