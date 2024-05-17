@@ -25,6 +25,20 @@ const updatePrograma = async (programaId, programaChanges) => {
     }
 };
 
+const updateProgramaState = async (programaId, newState) => {
+    try {
+        const programaExists = await programaRepo.programaExists(programaId);
+        if (!programaExists) {
+            throw new HttpError(404, messagesEs.errors.PROGRAMA_NOT_FOUND);
+        }
+
+        const updated = await programaRepo.updateProgramaState(programaId, newState);
+        return updated;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const getProgramaById = async (programaId) => {
     try {
         const programa = await programaRepo.getProgramaById(programaId);
@@ -43,4 +57,4 @@ const getAllProgramas = async () => {
     }
 };
 
-module.exports = { createPrograma, updatePrograma, getProgramaById, getAllProgramas };
+module.exports = { createPrograma, updatePrograma, getProgramaById, getAllProgramas, updateProgramaState };

@@ -52,6 +52,26 @@ const updatePrograma = async (req, res) => {
     }
 };
 
+const updateProgramaState = async (req, res) => {
+    const {
+        params: { programaId },
+        body,
+    } = req;
+
+    try {
+        if (!programaId) {
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':programaId'");
+        }
+
+        const updated = await programaService.updateProgramaState(programaId, body.programa_activo);
+        res.send({ status: "OK", data: updated });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
+};
+
 const getProgramaById = async (req, res) => {
     const {
         params: { programaId },
@@ -80,4 +100,4 @@ const getAllProgramas = async (req, res) => {
     }
 };
 
-module.exports = { createPrograma, updatePrograma, getProgramaById, getAllProgramas };
+module.exports = { createPrograma, updatePrograma, getProgramaById, getAllProgramas, updateProgramaState };
