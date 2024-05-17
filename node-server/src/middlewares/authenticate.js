@@ -7,20 +7,20 @@ const authenticate = function (req, res, next) {
   const authHeader = req.headers.authorization;
   try {
     if (!authHeader) {
-      throw new HttpError(403, messagesEs.errors.AUTHORIZATION_HEADER_MISSING);
+      throw new HttpError(500, messagesEs.errors.AUTHORIZATION_HEADER_MISSING);
     }
 
     const token = authHeader.split(' ')[1];
 
     if (!token) {
-      throw new HttpError(403, messagesEs.errors.TOKEN_MISSING);
+      throw new HttpError(500, messagesEs.errors.TOKEN_MISSING);
     }
 
     const decoded = jwt.verify(token, secret);
     req.user = decoded;
   } catch (error) {
     return res
-      .status(error?.status || 401)
+      .status(error?.status || 500)
       .send({ status: "FAILED", data: { error: error?.message || messagesEs.errors.TOKEN_NOT_VALID } });
   }
   return next();
