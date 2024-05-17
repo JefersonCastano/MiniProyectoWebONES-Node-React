@@ -97,6 +97,27 @@ const updateDocente = async (req, res) => {
   }
 };
 
+const updateDocenteState = async (req, res) => {
+  const {
+    body,
+    params: { docId },
+  } = req;
+  
+  try {
+    if (!docId) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId'");
+    }
+
+    const newState = body.newState;
+    const docente = await docenteService.updateDocenteState(docId, newState);
+    res.send({ status: "OK", data: docente });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
+
 const deleteDocente = async (req, res) => {
   const {
     params: { docId },
@@ -118,6 +139,7 @@ module.exports = {
   getDocenteById,
   createDocente,
   updateDocente,
+  updateDocenteState,
   deleteDocente,
   getAllDocentes
 };

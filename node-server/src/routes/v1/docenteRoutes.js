@@ -18,6 +18,9 @@ router
   .put("/:docId", authenticate, authorizeCoordinador, docenteController.updateDocente);
 
 router
+  .put("/:docId/state", authenticate, authorizeCoordinador, docenteController.updateDocenteState);
+
+router
   .delete("/:docId", authenticate, authorizeCoordinador, docenteController.deleteDocente);
 
 module.exports = router;
