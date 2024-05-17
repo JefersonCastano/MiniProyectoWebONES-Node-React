@@ -50,7 +50,9 @@ const getProgramaById = async (programaId) => {
 
 const getAllProgramas = async () => {
     try {
-        const programas = await Programa.findAll();
+        const programas = await Programa.findAll({
+            order: [['programa_nombre', 'ASC']]
+        });
         return programas;
     } catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };

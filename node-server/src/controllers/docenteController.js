@@ -42,7 +42,7 @@ const createDocente = async (req, res) => {
       !body.docente_tipo ||
       !body.docente_tipocontrato ||
       !body.docente_area ||
-      !body.docente_activo
+      !body.hasOwnProperty('docente_activo')
     ) {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'docente_id', 'docente_nombres', 'docente_apellidos', 'docente_tipoidentificacion', 'docente_identificacion', 'docente_tipocontrato', 'docente_area', 'docente_activo'");   
     }
