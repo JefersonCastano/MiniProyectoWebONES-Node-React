@@ -90,6 +90,30 @@ const updateAmbiente = async (req, res) => {
   }
 };
 
+const updateAmbienteState = async (req, res) => {
+  const {
+    body,
+    params: { ambienteId },
+  } = req;
+
+  try {
+    if (!ambienteId) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
+    }
+
+    const updatedAmbiente = {
+        ambiente_activo: body.ambiente_activo
+    };
+
+    await ambienteService.updateAmbienteState(ambienteId, updatedAmbiente);
+    res.send({ status: "OK", data: updatedAmbiente });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+}
+
 const deleteAmbiente = async (req, res) => {
   const {
     params: { ambienteId },
@@ -113,5 +137,6 @@ module.exports = {
   getAllAmbientes,
   createAmbiente,
   updateAmbiente,
-  deleteAmbiente
+  deleteAmbiente,
+  updateAmbienteState
 };
