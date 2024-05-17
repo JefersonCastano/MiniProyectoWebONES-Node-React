@@ -25,6 +25,20 @@ const updatePeriodoAcademico = async (periodoId, periodoChanges) => {
     }
 };
 
+const updatePeriodoAcademicoState = async (periodoId, newState) => {
+    try {
+        const periodoExists = await periodoAcademicoRepo.periodoAcademicoExists(periodoId);
+        if (!periodoExists) {
+            throw new HttpError(404, messagesEs.errors.PERIODO_NOT_FOUND);
+        }
+
+        const updated = await periodoAcademicoRepo.updatePeriodoAcademicoState(periodoId, newState);
+        return updated;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const deletePeriodoAcademico = async (periodoId) => {
     try {
         const periodoExists = await periodoAcademicoRepo.periodoAcademicoExists(periodoId);
@@ -71,5 +85,6 @@ module.exports = {
     deletePeriodoAcademico, 
     getPeriodoAcademicoById, 
     getAllPeriodosAcademicos, 
-    isPeriodoAcademicoActive
+    isPeriodoAcademicoActive,
+    updatePeriodoAcademicoState
 };

@@ -36,6 +36,21 @@ const updateCompetencia = async (competenciaId, competenciaChanges) => {
     }
 };
 
+const updateCompetenciaState = async (competenciaId, newState) => {
+    try {
+        const [updated] = await Competencia.update(
+            { competencia_activo: newState },
+            { where: { competencia_id: competenciaId } }
+        );
+        if (updated) {
+            return true;
+        }
+        throw new HttpError(404, messagesEs.errors.COMPETENCIA_NOT_FOUND);
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 const deleteCompetencia = async (competenciaId) => {
     try {
         const deleted = await Competencia.destroy({
@@ -79,5 +94,6 @@ module.exports = {
     updateCompetencia,
     deleteCompetencia,
     getCompetenciaById,
-    getAllCompetencias
+    getAllCompetencias,
+    updateCompetenciaState
 };

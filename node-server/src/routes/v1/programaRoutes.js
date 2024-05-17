@@ -17,4 +17,7 @@ router
 router
     .put("/:programaId", authenticate, authorizeCoordinador, programaController.updatePrograma);
 
+router
+    .put("/:programaId/state", authenticate, authorizeCoordinador, programaController.updateProgramaState);
+
 module.exports = router;

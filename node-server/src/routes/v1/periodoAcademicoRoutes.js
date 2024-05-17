@@ -18,6 +18,9 @@ router
     .put("/:periodoId", authenticate, authorizeCoordinador, periodoAcademicoController.updatePeriodoAcademico);
 
 router
+    .put("/:periodoId/state", authenticate, authorizeCoordinador, periodoAcademicoController.updatePeriodoAcademicoState);
+
+router
     .delete("/:periodoId", authenticate, authorizeCoordinador, periodoAcademicoController.deletePeriodoAcademico);
 
 module.exports = router;

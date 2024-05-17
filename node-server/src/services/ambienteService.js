@@ -25,6 +25,20 @@ const updateAmbiente = async (ambienteId, ambienteChanges) => {
     }
 };
 
+const updateAmbienteState = async (ambienteId, newState) => {
+     try{
+        const ambienteExists = await ambienteRepo.ambienteExists(ambienteId);
+        if (!ambienteExists) {
+            throw new HttpError(404, messagesEs.errors.AMBIENTE_NOT_FOUND);
+        }
+        
+        const updated = await ambienteRepo.updateAmbienteState(ambienteId, newState);
+        return updated;
+     } catch (error) {
+        throw error;
+     }
+}
+
 const deleteAmbiente = async (ambienteId) => {
     try {
         const ambienteExists = await ambienteRepo.ambienteExists(ambienteId);
