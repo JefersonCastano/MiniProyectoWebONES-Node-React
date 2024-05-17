@@ -41,10 +41,9 @@ const createDocente = async (req, res) => {
       !body.docente_identificacion ||
       !body.docente_tipo ||
       !body.docente_tipocontrato ||
-      !body.docente_area ||
-      !body.hasOwnProperty('docente_activo')
+      !body.docente_area
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'docente_id', 'docente_nombres', 'docente_apellidos', 'docente_tipoidentificacion', 'docente_identificacion', 'docente_tipocontrato', 'docente_area', 'docente_activo'");   
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'docente_id', 'docente_nombres', 'docente_apellidos', 'docente_tipoidentificacion', 'docente_identificacion', 'docente_tipocontrato', 'docente_area'");   
     }
 
     const newDocente = {
@@ -54,8 +53,7 @@ const createDocente = async (req, res) => {
         docente_identificacion: body.docente_identificacion,
         docente_tipo: body.docente_tipo,
         docente_tipocontrato: body.docente_tipocontrato,
-        docente_area: body.docente_area,
-        docente_activo: body.docente_activo
+        docente_area: body.docente_area
     };
 
     const createdDocente = await docenteService.createDocente(newDocente);

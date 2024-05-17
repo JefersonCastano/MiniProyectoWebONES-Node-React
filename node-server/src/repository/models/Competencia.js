@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
       }
     },
     competencia_nombre: DataTypes.STRING(50),
-    competencia_activo: DataTypes.BOOLEAN
+    competencia_activo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   });
 };

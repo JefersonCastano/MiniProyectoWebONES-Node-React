@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(30),
       defaultValue: '1',
       validate: {
-        isIn: [['CC', 'TI', 'PAS']]
+        isIn: [['CC', 'CE', 'PAS']]
       }
     },
     docente_identificacion: DataTypes.STRING(10),
@@ -30,6 +30,9 @@ module.exports = (sequelize) => {
       }
     },
     docente_area: DataTypes.STRING(100),
-    docente_activo: DataTypes.BOOLEAN
+    docente_activo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   });
 };

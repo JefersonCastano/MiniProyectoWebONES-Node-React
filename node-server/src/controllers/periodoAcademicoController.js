@@ -38,8 +38,7 @@ const createPeriodoAcademico = async (req, res) => {
       !body.periodo_id ||
       !body.periodo_fecha_ini ||
       !body.periodo_fecha_fin ||
-      !body.periodo_nombre ||
-      !body.hasOwnProperty('periodo_activo')
+      !body.periodo_nombre
     ) {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre', 'periodo_activo'");
     }
@@ -48,8 +47,7 @@ const createPeriodoAcademico = async (req, res) => {
         periodo_id: body.periodo_id,
         periodo_fecha_ini: body.periodo_fecha_ini,
         periodo_fecha_fin: body.periodo_fecha_fin,
-        periodo_nombre: body.periodo_nombre,
-        periodo_activo: body.periodo_activo
+        periodo_nombre: body.periodo_nombre
     };
 
     const createdPeriodo = await periodoAcademicoService.createPeriodoAcademico(newPeriodo);

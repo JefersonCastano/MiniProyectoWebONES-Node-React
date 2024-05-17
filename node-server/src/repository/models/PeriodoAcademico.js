@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(50),
       unique: true
     },
-    periodo_activo: DataTypes.BOOLEAN
+    periodo_activo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   });
 };

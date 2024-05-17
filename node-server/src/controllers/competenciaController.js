@@ -10,8 +10,7 @@ const createCompetencia = async (req, res) => {
             !body.competencia_id ||
             !body.programa_id ||
             !body.competencia_tipo ||
-            !body.competencia_nombre ||
-            !body.hasOwnProperty('competencia_activo')
+            !body.competencia_nombre
         ) {
             throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'programa_id', 'competencia_tipo', 'competencia_nombre', 'competencia_activo'");
         }
@@ -20,8 +19,7 @@ const createCompetencia = async (req, res) => {
             competencia_id: body.competencia_id,
             programa_id: body.programa_id,
             competencia_tipo: body.competencia_tipo,
-            competencia_nombre: body.competencia_nombre,
-            competencia_activo: body.competencia_activo
+            competencia_nombre: body.competencia_nombre
         };
 
         const createdCompetencia = await competenciaService.createCompetencia(newCompetencia);

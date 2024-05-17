@@ -9,7 +9,10 @@ module.exports = (sequelize) => {
     ambiente_nombre: DataTypes.STRING(100),
     ambiente_ubicacion: DataTypes.STRING(100),
     ambiente_capacidad: DataTypes.INTEGER,
-    ambiente_activo: DataTypes.BOOLEAN,
+    ambiente_activo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
     ambiente_tipo: {
       type: DataTypes.STRING(10),
       validate: {

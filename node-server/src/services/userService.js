@@ -26,7 +26,7 @@ const loginUser = async (loginData) => {
 };
 
 const createDocenteUser = async (docenteFirstName, docenteLastName, docenteId, docenteIdentificacion) => {
-  const userName = docenteFirstName.substring(0,3) + docenteLastName.substring(0,3) + docenteIdentificacion;
+  const userName = docenteFirstName.substring(0,3).toLowerCase() + docenteLastName.substring(0,3).toLowerCase() + docenteIdentificacion;
   const password = docenteIdentificacion; 
   const newUser = {
     username: userName,
@@ -34,7 +34,7 @@ const createDocenteUser = async (docenteFirstName, docenteLastName, docenteId, d
     password: password,
     role: 'DOCENTE'
   };
-
+  console.log(newUser);
   try {
     const user = await createUser(newUser);
     return user;

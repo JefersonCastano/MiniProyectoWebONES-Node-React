@@ -1,10 +1,12 @@
 const docenteRepo = require('../repository/docenteRepo');
 const messagesEs = require("../utils/messagesEs");
 const HttpError = require('../utils/HttpError');
+const { createDocenteUser } = require('./userService');
 
 const createDocente = async (newDocente) => {
     try {
         const createdDocente = await docenteRepo.createDocente(newDocente);
+        await createDocenteUser(createdDocente.docente_nombres, createdDocente.docente_apellidos, createdDocente.docente_id, createdDocente.docente_identificacion);
         return createdDocente;
     } catch (error) {
         throw error;
