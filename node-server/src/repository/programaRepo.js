@@ -1,4 +1,4 @@
-const { Programa } = require('./models/index');
+const { Programa, Competencia } = require('./models/index');
 const messagesEs = require("../utils/messagesEs");
 const HttpError = require('../utils/HttpError');
 
@@ -53,7 +53,12 @@ const updateProgramaState = async (programaId, newState) => {
 
 const getProgramaById = async (programaId) => {
     try {
-        const programa = await Programa.findByPk(programaId);
+        const programa = await Programa.findByPk(programaId, {
+            include: [{
+            model: Competencia,
+            attributes: ['competencia_id', 'competencia_nombre']
+            }]
+        });
         if (programa) {
             return programa;
         }
@@ -66,7 +71,11 @@ const getProgramaById = async (programaId) => {
 const getAllProgramas = async () => {
     try {
         const programas = await Programa.findAll({
-            order: [['programa_nombre', 'ASC']]
+            order: [['programa_nombre', 'ASC']],
+            include: [{
+            model: Competencia,
+            attributes: ['competencia_id', 'competencia_nombre']
+            }]
         });
         return programas;
     } catch (error) {

@@ -95,8 +95,8 @@ const updateAmbienteState = async (req, res) => {
   } = req;
 
   try {
-    if (!ambienteId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
+    if (!ambienteId || !body.hasOwnProperty("ambiente_activo")) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId', 'ambiente_activo'");
     }
 
     const updatedAmbiente = {

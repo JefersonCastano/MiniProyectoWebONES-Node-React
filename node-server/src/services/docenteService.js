@@ -5,6 +5,11 @@ const { createDocenteUser } = require('./userService');
 
 const createDocente = async (newDocente) => {
     try {
+        const identificacionExists = await docenteRepo.docenteIdentificacionAlreadyExists(newDocente.docente_identificacion);
+        if (identificacionExists) {
+            throw new HttpError(400, messagesEs.errors.DOCENTE_IDENTIFICACION_ALREADY_EXISTS);
+        }
+
         const createdDocente = await docenteRepo.createDocente(newDocente);
         await createDocenteUser(createdDocente.docente_nombres, createdDocente.docente_apellidos, createdDocente.docente_id, createdDocente.docente_identificacion);
         return createdDocente;
@@ -18,6 +23,11 @@ const updateDocente = async (docenteId, docenteChanges) => {
         const docenteExists = await docenteRepo.docenteExists(docenteId);
         if (!docenteExists) {
             throw new HttpError(404, messagesEs.errors.DOCENTE_NOT_FOUND);
+        }
+
+        const identificacionExists = await docenteRepo.docenteIdentificacionAlreadyExists(docenteChanges.docente_identificacion);
+        if (identificacionExists) {
+            throw new HttpError(400, messagesEs.errors.DOCENTE_IDENTIFICACION_ALREADY_EXISTS);
         }
 
         const updated = await docenteRepo.updateDocente(docenteId, docenteChanges);

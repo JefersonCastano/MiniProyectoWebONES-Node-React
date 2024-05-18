@@ -19,10 +19,12 @@ module.exports = {
     AMBIENTE_NOT_ACTIVE: (ambienteName) => `El ambiente ${ambienteName} no se encuentra activo`,
     COMPETENCIA_NOT_ACTIVE: (competenciaName) => `La competencia ${competenciaName} no se encuentra activa`,
     DOCENTE_NOT_FOUND: "Docente no encontrado",
+    DOCENTE_IDENTIFICACION_ALREADY_EXISTS: "Ya registró un docente con ese número identificación",
     PERIODO_NOT_FOUND: "Periodo académico no encontrado",
     AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
     AMBIENTE_ALREADY_EXISTS: (ambienteId) => `Ya existe un ambiente con id ${ambienteId}`,
     COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
+    COMPETENCIA_ALREADY_EXISTS: (competenciaId) => `Ya existe una competencia con id ${competenciaId}`,
     PROGRAMA_NOT_FOUND: "Programa no encontrado",
   },
   success: {

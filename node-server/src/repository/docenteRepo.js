@@ -77,6 +77,17 @@ const getDocenteById = async (docenteId) => {
     }
 };
 
+const docenteIdentificacionAlreadyExists = async (docenteIdentificacion) => {
+    try {
+        const docente = await Docente.findOne({
+            where: { docente_identificacion: docenteIdentificacion }
+        });
+        return docente !== null;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 //Obtener todos los docentes
 const getAllDocentes = async () => {
     try {
@@ -95,6 +106,7 @@ module.exports = {
     updateDocente,
     updateDocenteState, 
     deleteDocente, 
-    getDocenteById, 
+    getDocenteById,
+    docenteIdentificacionAlreadyExists, 
     getAllDocentes 
 };

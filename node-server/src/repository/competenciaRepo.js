@@ -80,7 +80,7 @@ const getCompetenciaById = async (competenciaId) => {
 const getAllCompetencias = async () => {
     try {
         const competencias = await Competencia.findAll({
-            order: [['competencia_nombre', 'ASC'], ['competencia_activo', 'DESC']]
+            order: [['competencia_activo', 'DESC'], ['competencia_nombre', 'ASC']]
         });
         return competencias;
     } catch (error) {

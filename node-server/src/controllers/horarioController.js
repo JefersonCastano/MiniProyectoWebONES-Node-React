@@ -58,7 +58,6 @@ const updateHorario = async (req, res) => {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':perId', 'docId'");
     }
 
-
     const updatedHorario = await horarioService.updateHorario(perId, docId, body);
     res.status(200).send({ status: "OK", data: updatedHorario });
   } catch (error) {

@@ -4,6 +4,11 @@ const HttpError = require('../utils/HttpError');
 
 const createCompetencia = async (newCompetencia) => {
     try {
+        const competenciaExists = await competenciaRepo.competenciaExists(newCompetencia.competencia_id);
+        if (competenciaExists) {
+            throw new HttpError(404, messagesEs.errors.COMPETENCIA_ALREADY_EXISTS(newCompetencia.competencia_id));
+        }
+
         const createdCompetencia = await competenciaRepo.createCompetencia(newCompetencia);
         return createdCompetencia;
     } catch (error) {

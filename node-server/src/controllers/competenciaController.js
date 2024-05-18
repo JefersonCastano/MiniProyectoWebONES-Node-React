@@ -12,7 +12,7 @@ const createCompetencia = async (req, res) => {
             !body.competencia_tipo ||
             !body.competencia_nombre
         ) {
-            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'programa_id', 'competencia_tipo', 'competencia_nombre', 'competencia_activo'");
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'programa_id', 'competencia_tipo', 'competencia_nombre'");
         }
 
         const newCompetencia = {
@@ -42,6 +42,15 @@ const updateCompetencia = async (req, res) => {
             throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':competenciaId'");
         }
 
+        if (
+            !body.competencia_id ||
+            !body.programa_id ||
+            !body.competencia_tipo ||
+            !body.competencia_nombre
+        ) {
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'programa_id', 'competencia_tipo', 'competencia_nombre'");
+        }
+        
         const competenciaChanges = {
             competencia_id: body.competencia_id,
             programa_id: body.programa_id,
@@ -64,7 +73,7 @@ const updateCompetenciaState = async (req, res) => {
     const { competencia_activo } = req.body;
 
     try {
-        if (!competenciaId || !competencia_activo) {
+        if (!competenciaId || !body.hasOwnProperty("competencia_activo")) {
             throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':competenciaId', 'competencia_activo'");
         }
 

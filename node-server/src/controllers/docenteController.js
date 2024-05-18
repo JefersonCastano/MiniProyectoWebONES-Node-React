@@ -75,6 +75,18 @@ const updateDocente = async (req, res) => {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId'");
     }
 
+    if (
+      !body.docente_nombres ||
+      !body.docente_apellidos ||
+      !body.docente_tipoidentificacion ||
+      !body.docente_identificacion ||
+      !body.docente_tipo ||
+      !body.docente_tipocontrato ||
+      !body.docente_area
+    ) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'docente_id', 'docente_nombres', 'docente_apellidos', 'docente_tipoidentificacion', 'docente_identificacion', 'docente_tipocontrato', 'docente_area'");   
+    }
+
     const updatedDocente = {
         docente_nombres: body.docente_nombres,
         docente_apellidos: body.docente_apellidos,
@@ -102,8 +114,8 @@ const updateDocenteState = async (req, res) => {
   } = req;
   
   try {
-    if (!docId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId'");
+    if (!docId || !body.hasOwnProperty("newState")) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId', 'newState'");
     }
 
     const newState = body.newState;

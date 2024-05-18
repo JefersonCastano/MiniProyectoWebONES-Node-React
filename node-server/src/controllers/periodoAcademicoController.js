@@ -70,6 +70,15 @@ const updatePeriodoAcademico = async (req, res) => {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId'");
     }
 
+    if (
+      !body.periodo_id ||
+      !body.periodo_fecha_ini ||
+      !body.periodo_fecha_fin ||
+      !body.periodo_nombre
+    ) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
+    }
+
     const periodoChanges = {
         periodo_fecha_ini: body.periodo_fecha_ini,
         periodo_fecha_fin: body.periodo_fecha_fin,
@@ -93,8 +102,8 @@ const updatePeriodoAcademicoState = async (req, res) => {
   } = req;
 
   try {
-    if (!periodoId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId'");
+    if (!periodoId || !body.hasOwnProperty("periodo_activo")) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId', 'periodo_activo'");
     }
 
     const newState = body.periodo_activo;

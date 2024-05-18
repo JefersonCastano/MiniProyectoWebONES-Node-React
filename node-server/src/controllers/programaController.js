@@ -38,6 +38,13 @@ const updatePrograma = async (req, res) => {
             throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':programaId'");
         }
 
+        if (
+            !body.programa_id ||
+            !body.programa_nombre
+        ) {
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'programa_id', 'programa_nombre'");
+        }
+
         const programaChanges = {
             programa_id: body.programa_id,
             programa_nombre: body.programa_nombre

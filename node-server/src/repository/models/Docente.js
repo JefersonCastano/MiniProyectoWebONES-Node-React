@@ -11,12 +11,15 @@ module.exports = (sequelize) => {
     docente_apellidos: DataTypes.STRING(100),
     docente_tipoidentificacion: {
       type: DataTypes.STRING(30),
-      defaultValue: '1',
+      defaultValue: 'CC',
       validate: {
         isIn: [['CC', 'TE', 'PAS', 'CE']]
       }
     },
-    docente_identificacion: DataTypes.STRING(10),
+    docente_identificacion: {
+      type: DataTypes.STRING(10),
+      unique: true
+    },
     docente_tipo: {
       type: DataTypes.STRING(30),
       validate: {
