@@ -72,6 +72,7 @@ const updateAmbiente = async (req, res) => {
     }
 
     const updatedAmbiente = {
+        ambiente_id: body.ambiente_id,
         ambiente_nombre: body.ambiente_nombre,
         ambiente_ubicacion: body.ambiente_ubicacion,
         ambiente_capacidad: body.ambiente_capacidad,

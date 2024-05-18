@@ -35,16 +35,14 @@ const createPeriodoAcademico = async (req, res) => {
 
   try {
     if (
-      !body.periodo_id ||
       !body.periodo_fecha_ini ||
       !body.periodo_fecha_fin ||
       !body.periodo_nombre
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
     }
 
     const newPeriodo = {
-        periodo_id: body.periodo_id,
         periodo_fecha_ini: body.periodo_fecha_ini,
         periodo_fecha_fin: body.periodo_fecha_fin,
         periodo_nombre: body.periodo_nombre
@@ -71,12 +69,11 @@ const updatePeriodoAcademico = async (req, res) => {
     }
 
     if (
-      !body.periodo_id ||
       !body.periodo_fecha_ini ||
       !body.periodo_fecha_fin ||
       !body.periodo_nombre
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
     }
 
     const periodoChanges = {
@@ -100,7 +97,7 @@ const updatePeriodoAcademicoState = async (req, res) => {
     params: { periodoId },
     body
   } = req;
-
+  console.log(body.hasOwnProperty("periodo_activo"));
   try {
     if (!periodoId || !body.hasOwnProperty("periodo_activo")) {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId', 'periodo_activo'");

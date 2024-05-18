@@ -114,11 +114,11 @@ const updateDocenteState = async (req, res) => {
   } = req;
   
   try {
-    if (!docId || !body.hasOwnProperty("newState")) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId', 'newState'");
+    if (!docId || !body.hasOwnProperty("docente_activo")) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':docId', 'docente_activo'");
     }
 
-    const newState = body.newState;
+    const newState = body.docente_activo;
     const docente = await docenteService.updateDocenteState(docId, newState);
     res.send({ status: "OK", data: docente });
   } catch (error) {
