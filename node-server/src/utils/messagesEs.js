@@ -27,6 +27,7 @@ module.exports = {
     COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
     COMPETENCIA_ALREADY_EXISTS: (competenciaId) => `Ya existe una competencia con id ${competenciaId}`,
     PROGRAMA_NOT_FOUND: "Programa no encontrado",
+    PROGRAMA_ALREADY_EXISTS: (programaId) => `Ya existe un programa con id ${programaId}`,
   },
   success: {
 
