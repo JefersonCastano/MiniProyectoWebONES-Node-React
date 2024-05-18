@@ -36,18 +36,30 @@ h1 {
 .card-body .dropdown-menu {
   display: block;
   position: static;
-  border: none; /* Elimina el borde del menú */
-  box-shadow: none; /* Elimina cualquier sombra que pueda aparecer */
+  border: none; 
+  box-shadow: none; 
 }
 
 .dropdown-item:hover,
 .dropdown-item:active,
 .dropdown-item.active {
   border-left: 2px solid rgb(13, 13, 155);
-  background-color: #f8f9fa; /* Color gris claro */
+  background-color: #f8f9fa; 
   color:black
 }
 
 .disabledItem {
   background-color: #eef0f3;
 }
+
+.fixed-height-card {
+  max-height: 200px; 
+  min-height: 40px;
+  overflow-y: scroll; 
+}
+
+.fixed-height-card-form {
+  max-height: 550px; 
+  overflow-y: scroll; 
+}
+

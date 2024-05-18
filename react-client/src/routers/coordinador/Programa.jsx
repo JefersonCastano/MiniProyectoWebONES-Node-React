@@ -13,7 +13,7 @@ const Programa = () => {
   programaRoutes.setToken(auth.getAccessToken());
 
   const keys = { id: 'programa_id', name: 'programa_nombre'};
-  const text = {button: 'Programa', message: 'Programa'}
+  const text = {button: 'Programa', message: 'programa'}
 
   const crudMethods = {
     get: programaRoutes.getAllProgramas,
