@@ -17,14 +17,14 @@ const createPeriodoAcademico = async (newPeriodo) => {
 
 const updatePeriodoAcademico = async (periodoId, periodoChanges) => {
     try {
-        const periodoExists = await periodoAcademicoRepo.periodoAcademicoExists(periodoId);
-        if (!periodoExists) {
+        const currentPeriodo = await periodoAcademicoRepo.getPeriodoAcademicoById(periodoId);
+        if (!currentPeriodo) {
             throw new HttpError(404, messagesEs.errors.PERIODO_NOT_FOUND);
         }
 
-        const nameExists = await periodoAcademicoRepo.periodoAcademicoNameExists(newPeriodo.periodo_nombre);
-        if (nameExists) {
-            throw new HttpError(400, messagesEs.errors.PERIODO_NAME_ALREADY_EXISTS(newPeriodo.periodo_nombre));
+        const nameExists = await periodoAcademicoRepo.periodoAcademicoNameExists(periodoChanges.periodo_nombre);
+        if (periodoChanges.periodo_nombre != currentPeriodo.periodo_nombre && nameExists) {
+            throw new HttpError(400, messagesEs.errors.PERIODO_NAME_ALREADY_EXISTS(periodoChanges.periodo_nombre));
         }
 
         const updated = await periodoAcademicoRepo.updatePeriodoAcademico(periodoId, periodoChanges);

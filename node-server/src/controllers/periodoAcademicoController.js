@@ -97,7 +97,7 @@ const updatePeriodoAcademicoState = async (req, res) => {
     params: { periodoId },
     body
   } = req;
-  console.log(body.hasOwnProperty("periodo_activo"));
+
   try {
     if (!periodoId || !body.hasOwnProperty("periodo_activo")) {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId', 'periodo_activo'");
