@@ -40,7 +40,7 @@ const createPeriodoAcademico = async (req, res) => {
       !body.periodo_fecha_fin ||
       !body.periodo_nombre
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre', 'periodo_activo'");
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'periodo_id', 'periodo_fecha_ini', 'periodo_fecha_fin', 'periodo_nombre'");
     }
 
     const newPeriodo = {

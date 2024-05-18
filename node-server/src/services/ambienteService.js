@@ -4,6 +4,11 @@ const HttpError = require('../utils/HttpError');
 
 const createAmbiente = async (newAmbiente) => {
     try {
+        const exists = await ambienteRepo.ambienteExists(newAmbiente.ambiente_id);
+        if (!exists) {
+            throw new HttpError(400, messagesEs.errors.AMBIENTE_ALREADY_EXISTS(newAmbiente.ambiente_id));
+        }
+
         const createdAmbiente = await ambienteRepo.createAmbiente(newAmbiente);
         return createdAmbiente;
     } catch (error) {
@@ -55,6 +60,9 @@ const deleteAmbiente = async (ambienteId) => {
 const getAmbienteById = async (ambienteId) => {
     try {
         const ambiente = await ambienteRepo.getAmbienteById(ambienteId);
+        if (!ambiente) {
+            throw new HttpError(404, messagesEs.errors.AMBIENTE_NOT_FOUND);
+        }
         return ambiente;
     } catch (error) {
         throw error;
