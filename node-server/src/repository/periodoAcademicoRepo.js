@@ -14,6 +14,7 @@ const periodoAcademicoExists = async (periodoId) => {
 };
 
 const periodoAcademicoNameExists = async (periodoNombre) => {
+    console.log('periodoNombre', periodoNombre);
     try {
         const periodo = await PeriodoAcademico.findOne({
             where: { periodo_nombre: periodoNombre }
