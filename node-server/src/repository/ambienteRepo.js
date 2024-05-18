@@ -38,10 +38,12 @@ const updateAmbiente = async (ambienteId, ambienteChanges) => {
 
 const updateAmbienteState = async (ambienteId, newState) => {
     try {
+
         const [updated] = await Ambiente.update(
             { ambiente_activo: newState },
             { where: { ambiente_id: ambienteId } }
         );
+        console.log("elp"+updated);
         if (updated) {
             return true;
         }

@@ -36,7 +36,7 @@ const updateAmbienteState = async (ambienteId, newState) => {
         if (!ambienteExists) {
             throw new HttpError(404, messagesEs.errors.AMBIENTE_NOT_FOUND);
         }
-        
+        console.log(newState);
         const updated = await ambienteRepo.updateAmbienteState(ambienteId, newState);
         return updated;
      } catch (error) {

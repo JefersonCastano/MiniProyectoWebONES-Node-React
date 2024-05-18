@@ -20,13 +20,13 @@ const createDocente = async (newDocente) => {
 
 const updateDocente = async (docenteId, docenteChanges) => {
     try {
-        const docenteExists = await docenteRepo.docenteExists(docenteId);
-        if (!docenteExists) {
+        const currentDocente = await docenteRepo.getDocenteById(docenteId);
+        if (!currentDocente) {
             throw new HttpError(404, messagesEs.errors.DOCENTE_NOT_FOUND);
         }
 
         const identificacionExists = await docenteRepo.docenteIdentificacionAlreadyExists(docenteChanges.docente_identificacion);
-        if (identificacionExists) {
+        if (docenteChanges.docente_identificacion != currentDocente.docente_identificacion && identificacionExists) {
             throw new HttpError(400, messagesEs.errors.DOCENTE_IDENTIFICACION_ALREADY_EXISTS);
         }
 

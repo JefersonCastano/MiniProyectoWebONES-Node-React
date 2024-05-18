@@ -67,16 +67,20 @@ const updateCompetencia = async (req, res) => {
 };
 
 const updateCompetenciaState = async (req, res) => {
-    const { competenciaId } = req.params;
-    const { competencia_activo } = req.body;
+    const {
+        body,
+        params: { competenciaId },
+      } = req;
 
     try {
         if (!competenciaId || !body.hasOwnProperty("competencia_activo")) {
             throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':competenciaId', 'competencia_activo'");
         }
 
-        const updated = await competenciaService.updateCompetenciaState(competenciaId, competencia_activo);
-        res.send({ status: "OK", data: updated });
+        const newState =  body.competencia_activo;
+
+        const response = await competenciaService.updateCompetenciaState(competenciaId, newState);
+        res.send({ status: "OK", data: response });
     } catch (error) {
         res
             .status(error?.status || 500)

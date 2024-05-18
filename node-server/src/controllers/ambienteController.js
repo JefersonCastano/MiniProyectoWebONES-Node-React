@@ -100,12 +100,10 @@ const updateAmbienteState = async (req, res) => {
       throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId', 'ambiente_activo'");
     }
 
-    const updatedAmbiente = {
-        ambiente_activo: body.ambiente_activo
-    };
+    const newState =  body.ambiente_activo;
 
-    await ambienteService.updateAmbienteState(ambienteId, updatedAmbiente);
-    res.send({ status: "OK", data: updatedAmbiente });
+    const response = await ambienteService.updateAmbienteState(ambienteId, newState);
+    res.send({ status: "OK", data: response });
   } catch (error) {
     res
       .status(error?.status || 500)

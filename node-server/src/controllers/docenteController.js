@@ -119,8 +119,8 @@ const updateDocenteState = async (req, res) => {
     }
 
     const newState = body.docente_activo;
-    const docente = await docenteService.updateDocenteState(docId, newState);
-    res.send({ status: "OK", data: docente });
+    const response = await docenteService.updateDocenteState(docId, newState);
+    res.send({ status: "OK", data: response });
   } catch (error) {
     res
       .status(error?.status || 500)

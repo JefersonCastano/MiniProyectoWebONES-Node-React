@@ -11,6 +11,8 @@ router
 router
     .get("/", authenticate, competenciaController.getAllCompetencias);
 
+//router.get()
+
 router
     .post("/", authenticate, authorizeCoordinador, competenciaController.createCompetencia);
 
