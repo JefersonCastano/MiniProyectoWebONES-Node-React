@@ -4,6 +4,10 @@ const HttpError = require('../utils/HttpError');
 
 const createPeriodoAcademico = async (newPeriodo) => {
     try {
+        const nameExists = await periodoAcademicoRepo.periodoAcademicoNameExists(newPeriodo.periodo_name);
+        if (nameExists) {
+            throw new HttpError(400, messagesEs.errors.PERIODO_NAME_ALREADY_EXISTS(newPeriodo.periodo_name));
+        }
         const createdPeriodo = await periodoAcademicoRepo.createPeriodoAcademico(newPeriodo);
         return createdPeriodo;
     } catch (error) {
@@ -16,6 +20,11 @@ const updatePeriodoAcademico = async (periodoId, periodoChanges) => {
         const periodoExists = await periodoAcademicoRepo.periodoAcademicoExists(periodoId);
         if (!periodoExists) {
             throw new HttpError(404, messagesEs.errors.PERIODO_NOT_FOUND);
+        }
+
+        const nameExists = await periodoAcademicoRepo.periodoAcademicoNameExists(newPeriodo.periodo_name);
+        if (nameExists) {
+            throw new HttpError(400, messagesEs.errors.PERIODO_NAME_ALREADY_EXISTS(newPeriodo.periodo_name));
         }
 
         const updated = await periodoAcademicoRepo.updatePeriodoAcademico(periodoId, periodoChanges);

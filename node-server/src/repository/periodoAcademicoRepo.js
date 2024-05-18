@@ -13,6 +13,17 @@ const periodoAcademicoExists = async (periodoId) => {
     }
 };
 
+const periodoAcademicoNameExists = async (periodoNombre) => {
+    try {
+        const periodo = await PeriodoAcademico.findOne({
+            where: { periodo_nombre: periodoNombre }
+        });
+        return periodo !== null;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+}
+
 const createPeriodoAcademico = async (newPeriodo) => {
     try {
         const createdPeriodo = await PeriodoAcademico.create(newPeriodo);
@@ -95,5 +106,6 @@ module.exports = {
     deletePeriodoAcademico,
     getPeriodoAcademicoById,
     getAllPeriodosAcademicos,
-    updatePeriodoAcademicoState
+    updatePeriodoAcademicoState,
+    periodoAcademicoNameExists
 };

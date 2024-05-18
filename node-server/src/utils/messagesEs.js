@@ -21,6 +21,7 @@ module.exports = {
     DOCENTE_NOT_FOUND: "Docente no encontrado",
     DOCENTE_IDENTIFICACION_ALREADY_EXISTS: "Ya registró un docente con ese número identificación",
     PERIODO_NOT_FOUND: "Periodo académico no encontrado",
+    PERIODO_NAME_ALREADY_EXISTS: (periodoName) => `Ya existe un periodo académico con nombre ${periodoName}`,
     AMBIENTE_NOT_FOUND: "Ambiente no encontrado",
     AMBIENTE_ALREADY_EXISTS: (ambienteId) => `Ya existe un ambiente con id ${ambienteId}`,
     COMPETENCIA_NOT_FOUND: "Competencia no encontrada",
