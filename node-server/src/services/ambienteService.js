@@ -5,7 +5,7 @@ const HttpError = require('../utils/HttpError');
 const createAmbiente = async (newAmbiente) => {
     try {
         const exists = await ambienteRepo.ambienteExists(newAmbiente.ambiente_id);
-        if (!exists) {
+        if (exists) {
             throw new HttpError(400, messagesEs.errors.AMBIENTE_ALREADY_EXISTS(newAmbiente.ambiente_id));
         }
 
