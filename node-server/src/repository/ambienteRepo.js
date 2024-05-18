@@ -80,7 +80,7 @@ const getAmbienteById = async (ambienteId) => {
 const getAllAmbientes = async () => {
     try {
         const ambientes = await Ambiente.findAll({
-            order: [['ambiente_nombre', 'ASC'], ['ambiente_activo', 'DESC']]
+            order: [['ambiente_activo', 'DESC'], ['ambiente_nombre', 'ASC']]
         });
         return ambientes;
     } catch (error) {

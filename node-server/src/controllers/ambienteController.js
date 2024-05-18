@@ -41,7 +41,7 @@ const createAmbiente = async (req, res) => {
       !body.ambiente_capacidad ||
       !body.ambiente_tipo
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'ambiente_id', 'ambiente_nombre', 'ambiente_ubicacion', 'ambiente_capacidad', 'ambiente_activo', 'ambiente_tipo'");   
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'ambiente_id', 'ambiente_nombre', 'ambiente_ubicacion', 'ambiente_capacidad', 'ambiente_tipo'");   
     }
 
     const newAmbiente = {

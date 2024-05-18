@@ -81,7 +81,8 @@ const isAmbienteActive = async (ambienteId) => {
 
 module.exports = { 
     createAmbiente, 
-    updateAmbiente, 
+    updateAmbiente,
+    updateAmbienteState, 
     deleteAmbiente, 
     getAmbienteById, 
     getAllAmbientes,

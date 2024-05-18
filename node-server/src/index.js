@@ -20,10 +20,10 @@ app.use(morgan("dev"));
 app.use(v1BasePath + "users", v1UserRouter);
 app.use(v1BasePath + "horarios", v1HorarioRouter);
 app.use(v1BasePath + "docentes", v1DocenteRouter);
-app.use(v1BasePath + "periodo_academico", v1PeriodoAcademicoRouter);
-app.use(v1BasePath + "ambiente", v1AmbienteRouter);
-app.use(v1BasePath + "competencia", v1competenciaRouter);
-app.use(v1BasePath + "programa", v1ProgramaRouter);
+app.use(v1BasePath + "periodos_academicos", v1PeriodoAcademicoRouter);
+app.use(v1BasePath + "ambientes", v1AmbienteRouter);
+app.use(v1BasePath + "competencias", v1competenciaRouter);
+app.use(v1BasePath + "programas", v1ProgramaRouter);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
