@@ -134,4 +134,43 @@ const getAllCompetencias = async (req, res) => {
     }
 };
 
-module.exports = { createCompetencia, updateCompetencia, deleteCompetencia, getCompetenciaById, getAllCompetencias, updateCompetenciaState };
+const getCompetenciasGenericas = async (req, res) => {
+    try {
+        const competencias = await competenciaService.getCompetenciasGenericas();
+        res.send({ status: "OK", data: competencias });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
+};
+
+const getCompetenciasByPrograma = async (req, res) => {
+    const { programaId } = req.params;
+
+    try {
+        if (!programaId) {
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':programaId'");
+        }
+
+        const competencias = await competenciaService.getCompetenciasByPrograma(programaId);
+        res.send({ status: "OK", data: competencias });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
+}
+
+
+
+module.exports = {
+    createCompetencia, 
+    updateCompetencia, 
+    deleteCompetencia, 
+    getCompetenciaById, 
+    getAllCompetencias, 
+    updateCompetenciaState,
+    getCompetenciasGenericas,
+    getCompetenciasByPrograma
+};
