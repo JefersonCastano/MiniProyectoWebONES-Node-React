@@ -9,6 +9,10 @@ const createCompetencia = async (newCompetencia) => {
             throw new HttpError(404, messagesEs.errors.COMPETENCIA_ALREADY_EXISTS(newCompetencia.competencia_id));
         }
 
+        if(newCompetencia.competencia_tipo === 'GENERICA'){
+            newCompetencia.programa_id = null;
+        }
+
         const createdCompetencia = await competenciaRepo.createCompetencia(newCompetencia);
         return createdCompetencia;
     } catch (error) {
@@ -21,6 +25,10 @@ const updateCompetencia = async (competenciaId, competenciaChanges) => {
         const competenciaExists = await competenciaRepo.competenciaExists(competenciaId);
         if (!competenciaExists) {
             throw new HttpError(404, messagesEs.errors.COMPETENCIA_NOT_FOUND);
+        }
+
+        if(competenciaChanges.competencia_tipo === 'GENERICA'){
+            competenciaChanges.programa_id = null;
         }
 
         const updated = await competenciaRepo.updateCompetencia(competenciaId, competenciaChanges);
