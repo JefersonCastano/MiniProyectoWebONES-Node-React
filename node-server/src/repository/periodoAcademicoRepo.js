@@ -80,7 +80,7 @@ const getPeriodoAcademicoById = async (periodoId) => {
 const getAllPeriodosAcademicos = async () => {
     try {
         const periodos = await PeriodoAcademico.findAll({
-            order: [['periodo_nombre', 'ASC'], ['periodo_activo', 'DESC']]
+            order: [['periodo_activo', 'DESC'], ['periodo_nombre', 'ASC']]
         });
         return periodos;
     } catch (error) {
