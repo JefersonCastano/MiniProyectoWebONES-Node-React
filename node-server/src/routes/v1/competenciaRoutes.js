@@ -6,12 +6,16 @@ const competenciaController = require("../../controllers/competenciaController")
 const router = express.Router();
 
 router
+    .get("/genericas", authenticate, authorizeCoordinador, competenciaController.getCompetenciasGenericas);
+
+router
     .get("/:competenciaId", authenticate, competenciaController.getCompetenciaById);
 
 router
     .get("/", authenticate, competenciaController.getAllCompetencias);
 
-//router.get()
+router
+    .get("/programa/:programaId", authenticate, authorizeCoordinador, competenciaController.getCompetenciasByPrograma);
 
 router
     .post("/", authenticate, authorizeCoordinador, competenciaController.createCompetencia);

@@ -83,6 +83,27 @@ const getAllCompetencias = async () => {
     }
 };
 
+const getCompetenciasGenericas = async () => {
+    try {
+        const competencias = await competenciaRepo.getCompetenciasGenericas();
+        return competencias;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const getCompetenciasByPrograma = async (programaId) => {
+    try {
+        const competencias = await competenciaRepo.getCompetenciasByPrograma(programaId);
+        if(competencias.length === 0){
+            throw new HttpError(404, messagesEs.errors.NO_PROGRAMA_COMPETENCIAS);
+        }
+        return competencias;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const isCompetenciaActive = async (competenciaId) => {
     try {
         const competencia = await getCompetenciaById(competenciaId);
@@ -99,5 +120,7 @@ module.exports = {
     getCompetenciaById, 
     getAllCompetencias,
     isCompetenciaActive,
-    updateCompetenciaState
+    updateCompetenciaState,
+    getCompetenciasGenericas,
+    getCompetenciasByPrograma
 };

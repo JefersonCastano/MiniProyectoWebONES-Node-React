@@ -56,7 +56,10 @@ const getProgramaById = async (programaId) => {
         const programa = await Programa.findByPk(programaId, {
             include: [{
             model: Competencia,
-            attributes: ['competencia_id', 'competencia_nombre']
+            as: 'competencias',
+            attributes: ['competencia_id', 'competencia_nombre'],
+            where: { competencia_activo: true },
+            required: false
             }]
         });
         if (programa) {
@@ -74,7 +77,10 @@ const getAllProgramas = async () => {
             order: [['programa_nombre', 'ASC']],
             include: [{
             model: Competencia,
-            attributes: ['competencia_id', 'competencia_nombre']
+            as: 'competencias',
+            attributes: ['competencia_id', 'competencia_nombre'],
+            where: { competencia_activo: true },
+            required: false
             }]
         });
         return programas;

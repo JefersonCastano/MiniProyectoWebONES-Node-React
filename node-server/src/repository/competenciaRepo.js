@@ -88,6 +88,30 @@ const getAllCompetencias = async () => {
     }
 };
 
+const getCompetenciasGenericas = async () => {
+    try {
+        const competencias = await Competencia.findAll({
+            where: [{ programa_id: null }, { competencia_activo: true }],
+            order: [['competencia_nombre', 'ASC']]
+        });
+        return competencias;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
+const getCompetenciasByPrograma = async (programaId) => {
+    try {
+        const competencias = await Competencia.findAll({
+            where: [{ programa_id: programaId }, { competencia_activo: true }],
+            order: [['competencia_nombre', 'ASC']]
+        });
+        return competencias;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 module.exports = {
     competenciaExists,
     createCompetencia,
@@ -95,5 +119,7 @@ module.exports = {
     deleteCompetencia,
     getCompetenciaById,
     getAllCompetencias,
-    updateCompetenciaState
+    updateCompetenciaState,
+    getCompetenciasGenericas,
+    getCompetenciasByPrograma
 };

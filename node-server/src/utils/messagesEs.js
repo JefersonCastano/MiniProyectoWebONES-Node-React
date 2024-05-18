@@ -28,6 +28,7 @@ module.exports = {
     COMPETENCIA_ALREADY_EXISTS: (competenciaId) => `Ya existe una competencia con id ${competenciaId}`,
     PROGRAMA_NOT_FOUND: "Programa no encontrado",
     PROGRAMA_ALREADY_EXISTS: (programaId) => `Ya existe un programa con id ${programaId}`,
+    NO_PROGRAMA_COMPETENCIAS: "No se encontraron competencias especificas para este programa",
   },
   success: {
 
