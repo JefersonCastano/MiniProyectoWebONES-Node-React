@@ -23,21 +23,34 @@ const ManageItems = ({ form, text }) => {
         setSelectedItem('');
     }
 
+    const stateMessages = {
+        [states.closed]: `Elige un ${text.message} para ver su información`,
+        [states.adding]: `Agrega un nuevo ${text.message}`,
+        [states.editing]: `Edita un ${text.message}`,
+        [states.consulting]: `Información del ${text.message}`
+    };
+
+    const stateMessagesCompetencia = {
+        [states.closed]: `Elige una ${text.message} para ver su información`,
+        [states.adding]: `Agrega una nueva ${text.message}`,
+        [states.editing]: `Edita una ${text.message}`,
+        [states.consulting]: `Información de la ${text.message}`
+    };
+
     return (
         <div>
             <button type="button" className={`btn d-flex align-items-center mb-3 ${state == states.adding ? 'btn-secondary' : 'btn-primary'}`} onClick={handleNewItem}>
                 <i className="bx bx-plus fs-5 me-1"></i>
-                Nuevo {text.button}
+                {
+                    text.button == "Competencia" ? "Nueva Competencia" : `Nuevo ${text.button}`
+                }
             </button>
-            <div className="card">
+            <div className="card fixed-height-card-form">
                 <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-muted">
                             {
-                                state == states.closed ? `Elige un ${text.message} para ver su información` :
-                                    state == states.adding ? `Agrega un nuevo ${text.message}` :
-                                        state == states.editing ? `Edita un ${text.message}` :
-                                            state == states.consulting ? `Información del ${text.message}` : ""
+                                text.button == "Competencia" ? stateMessagesCompetencia[state] : stateMessages[state]
                             }
                         </span>
                         {

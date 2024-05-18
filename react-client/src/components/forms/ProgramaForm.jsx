@@ -11,7 +11,8 @@ const ProgramaForm = () => {
         createItem, updateItem } = useCommonContext();
 
     const { register, handleSubmit, setValue, reset, formState: { errors, isValid } } = useForm();
-
+    
+    const [competencias, setCompetencias] = useState([]);
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -19,6 +20,7 @@ const ProgramaForm = () => {
             reset();
             setValue('programa_id', selectedItemInfo.programa_id);
             setValue('programa_nombre', selectedItemInfo.programa_nombre);
+            setCompetencias(selectedItemInfo.competencia);
         } else {
             if (!error) reset();
             setError(false);
@@ -76,6 +78,21 @@ const ProgramaForm = () => {
                     {errors.programa_nombre && errors.programa_nombre.message}
                 </div>
             </div>
+            {
+                state == states.consulting &&
+                <div className="mb-3">
+                    <label htmlFor="competencias" className="form-label">Competencias</label>
+                    <div className="card fixed-height-card">
+                        <ul className="list-group list-group-flush">
+                            {
+                                competencias?.map((competencia, index) => (
+                                    <li key={index} className="list-group-item">{competencia.competencia_nombre}</li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
             {
                 [states.adding, states.editing].includes(state) &&
                 <div className="text-end">
