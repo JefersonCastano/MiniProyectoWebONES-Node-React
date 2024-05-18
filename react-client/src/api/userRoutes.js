@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../auth/config';
+import { showErrorMessage } from '../utilities/Messages';
 
 export async function getUserData(accessToken) {
     try {
@@ -8,17 +9,9 @@ export async function getUserData(accessToken) {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
-        if (response.status === 200) {
-            return response.data.data;
-        } else {
-            console.log(response.data.data.error);
-        }
+        return response.data.data;
     } catch (error) {
-        if (error.response) {
-            console.log(error.response.data);
-        } else {
-            console.log(error);
-        }
+        console.log("Get user data error: ", error);
         return null;
     }
 }

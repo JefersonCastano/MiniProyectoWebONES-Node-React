@@ -5,6 +5,7 @@ import logo from '../../assets/img/logo.png';
 import '../../assets/css/styles.css'
 import '../../assets/js/main.js'
 
+
 const Home = () => {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -14,7 +15,7 @@ const Home = () => {
   };
 
   if (auth.isAuthenticated && auth.getUser()?.role === 'COORDINADOR') {
-    return <Navigate to="/programas" />;
+    return <Navigate to="/horarios" />;
   }
   if (auth.isAuthenticated && auth.getUser()?.role === 'DOCENTE') {
     return <Navigate to="/informacion-personal" />;

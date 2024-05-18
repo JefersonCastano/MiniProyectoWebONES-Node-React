@@ -35,11 +35,12 @@ const Login = () => {
     if (camposVacios(event)) return;
 
     login(username, password).then(json => {
+      if(!json) return;
       if (json.status === "OK") {
         setError('');
         const user = json.data;
         if (user.token) {
-          auth.saveUser({id: user.id, role: user.role, token: user.token, username: user.username});
+          auth.saveUser(user);
           if (user.role === 'COORDINADOR'){
             navigate('/horarios');
           }
@@ -55,7 +56,7 @@ const Login = () => {
 
 
   if (auth.isAuthenticated && auth.getUser()?.role === 'COORDINADOR') {
-    return <Navigate to="/programas" />;
+    return <Navigate to="/horarios" />;
   }
   if (auth.isAuthenticated && auth.getUser()?.role === 'DOCENTE') {
     return <Navigate to="/informacion-personal" />;

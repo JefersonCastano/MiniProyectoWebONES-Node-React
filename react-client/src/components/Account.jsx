@@ -12,16 +12,17 @@ const PortalLayout = () => {
 
     return (
         <div className="dropdown">
-            <button className="btn " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i className="bx bx-user-circle fs-1"></i>
+            <button className="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{outline: 'none'}}>
+                <i className="bx bx-user fs-1"></i>
             </button>
-            <ul className="dropdown-menu p-2">
-                <li ><p className="dropdown-item fw-bold disabled" >{auth.getUser().username}</p></li>
-                <li><hr className="dropdown-divider"/></li>
-                <li><a className="dropdown-item" href="#" onClick={handleLogOut}>
-                    Cerrar Sesión
-                    <i className="bx bx-log-out fs-5"></i>
-                </a>
+            <ul className="dropdown-menu">
+                <li ><span className="dropdown-item text-dark fw-bold disabled" >{auth.getUser().username}</span></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li>
+                    <a className="dropdown-item d-flex align-items-center" href="#" onClick={handleLogOut}>
+                        <i className="bx bx-log-out-circle fs-5 me-1"></i>
+                        Cerrar Sesión
+                    </a>
                 </li>
             </ul>
         </div>

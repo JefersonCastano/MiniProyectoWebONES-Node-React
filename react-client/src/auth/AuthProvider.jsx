@@ -1,6 +1,7 @@
 import React from 'react'
 import { useContext, createContext, useState, useEffect } from 'react'
 import { getUserData } from '../api/userRoutes';
+import loading from '../assets/img/loading.png';
 
 const AuthContext = createContext({
     isAuthenticated: false,
@@ -9,6 +10,7 @@ const AuthContext = createContext({
     getUser: () => { },
     logout: () => { },
 });
+export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -73,18 +75,21 @@ const AuthProvider = ({ children }) => {
     function getAccessToken() {
         return accessToken;
     }
-    
+
     function getUser() {
         return user;
     }
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, getAccessToken, saveUser, getUser, logout }}>
-            {isLoading ? <h1>Cargando...</h1> : children}
+            {isLoading ?
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <img src={loading} alt="logo" width="100" className="img-fluid mt-4" />
+                </div>
+                : children
+            }
         </AuthContext.Provider>
     )
 }
 
 export default AuthProvider
-
-export const useAuth = () => useContext(AuthContext);
