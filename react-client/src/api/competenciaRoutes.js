@@ -86,7 +86,7 @@ export async function updateCompetencia(id, competencia) {
 
 export async function changeCompetenciaActiveState(id, newState){
     try {
-        const response = await Axios.put(`${API_URL}/competencias/${id}/state`, { newState: newState });
+        const response = await Axios.put(`${API_URL}/competencias/${id}/state`, { competencia_activo: newState });
         if (newState) {
             showSuccessMessage("Activación exitosa", "La competencia se ha activado correctamente.");
         } else {

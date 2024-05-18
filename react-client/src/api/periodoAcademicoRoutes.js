@@ -86,7 +86,7 @@ export async function updatePeriodoAcademico(id, periodoAcademico) {
 
 export async function changePeriodoAcademicoActiveState(id, newState){
     try {
-        const response = await Axios.put(`${API_URL}/periodos_academicos/${id}/state`, {newState: newState});
+        const response = await Axios.put(`${API_URL}/periodos_academicos/${id}/state`, {periodo_activo: newState});
         if (newState) {
             showSuccessMessage("Activación exitosa", "El periodo académico se ha activado correctamente.");
         } else {

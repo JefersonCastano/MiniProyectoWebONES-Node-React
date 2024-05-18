@@ -86,7 +86,7 @@ export async function updateDocente(id, docente) {
 
 export async function changeDocenteActiveState(id, newState) {
     try {
-        const response = await Axios.put(`${API_URL}/docentes/${id}/state`, { newState: newState });
+        const response = await Axios.put(`${API_URL}/docentes/${id}/state`, { docente_activo: newState });
         if (newState) {
             showSuccessMessage("Activación exitosa", "El docente se ha activado correctamente.");
         } else {

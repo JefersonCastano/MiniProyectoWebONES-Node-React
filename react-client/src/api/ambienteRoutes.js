@@ -86,7 +86,7 @@ export async function updateAmbiente(id, ambiente) {
 
 export async function changeAmbienteActiveState(id, newState) {
     try {
-        const response = await Axios.put(`${API_URL}/ambientes/${id}/state`, { newState: newState });
+        const response = await Axios.put(`${API_URL}/ambientes/${id}/state`, { ambiente_activo: newState });
         if (newState) {
             showSuccessMessage("Activación exitosa", "El ambiente se ha activado correctamente.");
         } else {    
