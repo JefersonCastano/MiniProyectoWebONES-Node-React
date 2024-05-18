@@ -1,19 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useCommonContext } from '../CommonContext';
+import SearchableDropdown from '../SearchableDropdown';
+import { getAllProgramas } from '../../api/programaRoutes';
 
 const CompetenciaForm = () => {
-  
+
   const { state, states, updateState,
     selectedItem, setSelectedItem,
     selectedItemInfo, setSelectedItemInfo,
     getItems, getItemBy,
     createItem, updateItem } = useCommonContext();
 
-  const { register, handleSubmit, setValue, reset, watch, formState: { errors, isValid } } = useForm();
+  const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
 
-  const tipoCompetencia = watch('competencia_tipo');
+  const [tipoCompetencia, setTipoCompetencia] = useState("");
+  const [programas, setProgramas] = useState([]);
+  const programaIds = programas.map(programa => programa.programa_id);
+
   const [error, setError] = useState(false);
+
+  const keys = {id: 'programa_id', name: 'programa_nombre'};
+
+  const getProgramas = async () => {
+    const programasResult = await getAllProgramas();
+    if (programasResult) {
+      setProgramas(programasResult);
+    }
+  }
+
+  useEffect(() => {
+    getProgramas();
+  }, []);
 
   useEffect(() => {
     if (state == states.consulting || state == states.editing) {
@@ -22,17 +40,26 @@ const CompetenciaForm = () => {
       setValue('competencia_nombre', selectedItemInfo.competencia_nombre);
       setValue('competencia_tipo', selectedItemInfo.competencia_tipo);
       setValue('programa_id', selectedItemInfo.programa_id);
+      setTipoCompetencia(selectedItemInfo.competencia_tipo);
     } else {
-      if (!error) reset();
+      if (!error) {
+        reset();
+        setValue('programa_id', "");
+      }
       setError(false);
     }
   }, [updateState]);
+
+  useEffect(() => {
+    if (typeof watch('competencia_tipo') != "undefined" && watch('competencia_tipo') != "ESPECIFICA") {
+      setTipoCompetencia("");
+    }
+  }, [watch('competencia_tipo')]);
 
   const onSubmit = handleSubmit(async (data, e) => {
     e.preventDefault();
     if (isValid) {
       if (state == states.adding) {
-        console.log(data);
         const result = await createItem(data);
         if (result) {
           setSelectedItem(result.competencia_id);
@@ -71,10 +98,8 @@ const CompetenciaForm = () => {
       <div className="mb-3">
         <label htmlFor="nombre" className="form-label">Nombre</label>
         <input type="text" className="form-control" id="nombre" aria-describedby="nombre" {...register('competencia_nombre', {
-          required: {
-            value: true,
-            message: "El nombre es requerido"
-          }
+          required: "El nombre es requerido"
+
         })} disabled={state == states.consulting} />
         <div className="invalid-feedback d-block">
           {errors.competencia_nombre && errors.competencia_nombre.message}
@@ -94,15 +119,27 @@ const CompetenciaForm = () => {
         </div>
       </div>
       {
-        tipoCompetencia == "ESPECIFICA" &&
+        (watch('competencia_tipo') == "ESPECIFICA" || tipoCompetencia == "ESPECIFICA") &&
         <div className="mb-3">
           <label htmlFor="programa" className="form-label">Programa</label>
-          <input type="text" className="form-control" id="programa" aria-describedby="programa" {...register('programa_id', {
-            required: {
-              value: true,
-              message: "El programa es requerido"
+          <Controller
+            name="programa_id"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "El programa es requerido",
+              validate: value => programaIds.includes(value) || "Seleccione un programa válido"
+            }}
+            render={({ field }) =>
+              <SearchableDropdown
+                options={programas}
+                value={field.value}
+                setValue={field.onChange}
+                disabled={state == states.consulting}
+                keys={keys}
+              />
             }
-          })} disabled={state == states.consulting} />
+          />
           <div className="invalid-feedback d-block">
             {errors.programa_id && errors.programa_id.message}
           </div>
