@@ -31,8 +31,8 @@ const createHorario = async (newHorario) => {
         if (exists) {
             throw new HttpError(400, messagesEs.errors.HORARIO_ALREADY_EXISTS);
         }
-        const createdFranjas = await horarioRepo.createFranjasHorario(newFranjasHorario);
-        const createdHorario = franjasToHorario(perId, docId, createdFranjas);
+        await horarioRepo.createFranjasHorario(newFranjasHorario);
+        const createdHorario = getHorarioByPerAndDocId(perId, docId);
         return createdHorario;
     } catch (error) {
         throw error;

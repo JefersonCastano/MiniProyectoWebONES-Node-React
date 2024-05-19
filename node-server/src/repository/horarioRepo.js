@@ -1,4 +1,4 @@
-const { FranjaHorario } = require('./models/index');
+const { FranjaHorario, Ambiente, Competencia } = require('./models/index');
 
 const horarioExists = async (perId, docId) => {
     try {
@@ -13,9 +13,13 @@ const horarioExists = async (perId, docId) => {
 
 const getFranjasHorarioByPerAndDocId = async (perId, docId) => {
     try {
-      const franjas = await FranjaHorario.findAll({
-         where: { periodo_id: perId, docente_id: docId }
-        });
+    const franjas = await FranjaHorario.findAll({
+       where: { periodo_id: perId, docente_id: docId },
+       include: [
+           { model: Ambiente, attributes: ['ambiente_nombre', 'ambiente_ubicacion'] },
+           { model: Competencia, as: 'competencia', attributes: ['competencia_nombre'] }
+       ]
+    });
         return franjas;
     } catch (error) {
       throw { status: error?.status || 500, message: error?.message || error };

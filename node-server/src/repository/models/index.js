@@ -25,7 +25,7 @@ Programa.hasMany(Competencia, { foreignKey: 'programa_id', as: 'competencias' })
 FranjaHorario.belongsTo(Ambiente, { foreignKey: 'ambiente_id' });
 FranjaHorario.belongsTo(Docente, { foreignKey: 'docente_id' });
 FranjaHorario.belongsTo(PeriodoAcademico, { foreignKey: 'periodo_id' });
-FranjaHorario.belongsTo(Competencia, { foreignKey: 'competencia_id' });
+FranjaHorario.belongsTo(Competencia, { foreignKey: 'competencia_id', as: 'competencia' });
 Usuario.belongsTo(Docente, { foreignKey: 'docente_id' });
 
 console.log("syncing");
