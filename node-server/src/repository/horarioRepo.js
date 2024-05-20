@@ -17,7 +17,7 @@ const getFranjasHorarioByPerAndDocId = async (perId, docId) => {
        where: { periodo_id: perId, docente_id: docId },
        include: [
            { model: Ambiente, attributes: ['ambiente_nombre', 'ambiente_ubicacion'] },
-           { model: Competencia, as: 'competencia', attributes: ['competencia_nombre'] }
+           { model: Competencia, as: 'competencia', attributes: ['competencia_nombre', 'programa_id'] }
        ]
     });
         return franjas;
