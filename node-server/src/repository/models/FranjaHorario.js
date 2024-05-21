@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   return sequelize.define('franja_horario', {
     ambiente_id: {
-      type: DataTypes.STRING(6),
+      type: DataTypes.STRING(10),
       primaryKey: true
     },
     periodo_id: {
@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       primaryKey: true
     },
     docente_id:DataTypes.INTEGER,
-    competencia_id: DataTypes.STRING(10),
+    competencia_id: DataTypes.INTEGER,
     franja_hora_fin: DataTypes.INTEGER,
     franja_duracion: DataTypes.INTEGER
   });

@@ -15,7 +15,10 @@ const ambienteExists = async (ambienteId) => {
 
 const createAmbiente = async (newAmbiente) => {
     try {
-        const createdAmbiente = await Ambiente.create(newAmbiente);
+        let createdAmbiente = await Ambiente.create(newAmbiente);
+        const ambienteId = 'AMB' + String(createdAmbiente.id).padStart(3, '0');
+        await Ambiente.update({ ambiente_id: ambienteId }, { where: { id: createdAmbiente.id } });
+        createdAmbiente.ambiente_id = ambienteId;
         return createdAmbiente;
     } catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };
@@ -43,7 +46,7 @@ const updateAmbienteState = async (ambienteId, newState) => {
             { ambiente_activo: newState },
             { where: { ambiente_id: ambienteId } }
         );
-        console.log("elp"+updated);
+
         if (updated) {
             return true;
         }
@@ -69,7 +72,9 @@ const deleteAmbiente = async (ambienteId) => {
 
 const getAmbienteById = async (ambienteId) => {
     try {
-        const ambiente = await Ambiente.findByPk(ambienteId);
+        const ambiente = await Ambiente.findOne({
+            where: { ambiente_id: ambienteId }
+        });
         if (ambiente) {
             return ambiente;
         }

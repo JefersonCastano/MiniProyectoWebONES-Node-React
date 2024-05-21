@@ -4,11 +4,6 @@ const HttpError = require('../utils/HttpError');
 
 const createPrograma = async (newPrograma) => {
     try {
-        const programaExists = await programaRepo.programaExists(newPrograma.programa_id);
-        if (programaExists) {
-            throw new HttpError(404, messagesEs.errors.PROGRAMA_ALREADY_EXISTS(newPrograma.programa_id));
-        }
-
         const createdPrograma = await programaRepo.createPrograma(newPrograma);
         return createdPrograma;
     } catch (error) {

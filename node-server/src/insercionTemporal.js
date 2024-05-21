@@ -3,13 +3,11 @@ const {Usuario, Docente, Ambiente, PeriodoAcademico, Competencia} = require('./r
 
 
 const newCompetencias = [{
-  competencia_id: "COMP1",
   programa_id: null,
   competencia_tipo: 'GENERICA',
   competencia_nombre: 'Competencia 1',
   competencia_activo: true
 },{
-  competencia_id: "COMP2",
   programa_id: null,
   competencia_tipo: 'GENERICA',
   competencia_nombre: 'Competencia 2',
@@ -25,7 +23,6 @@ const newPeriodoAcademico = {
 };
 
 const newAmbiente = {
-  ambiente_id: 'AMB1',
   ambiente_nombre: 'Aula 101',
   ambiente_ubicacion: 'Edificio A',
   ambiente_capacidad: 30,

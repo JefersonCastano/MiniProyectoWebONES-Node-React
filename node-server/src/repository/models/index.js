@@ -22,7 +22,8 @@ const Usuario = require('./Usuario')(sequelize);
 
 Competencia.belongsTo(Programa, { foreignKey: 'programa_id' });
 Programa.hasMany(Competencia, { foreignKey: 'programa_id', as: 'competencias' });
-FranjaHorario.belongsTo(Ambiente, { foreignKey: 'ambiente_id' });
+FranjaHorario.belongsTo(Ambiente, { foreignKey: 'ambiente_id', targetKey: 'ambiente_id' });
+Ambiente.hasMany(FranjaHorario, { foreignKey: 'ambiente_id', sourceKey: 'ambiente_id' });
 FranjaHorario.belongsTo(Docente, { foreignKey: 'docente_id' });
 FranjaHorario.belongsTo(PeriodoAcademico, { foreignKey: 'periodo_id' });
 FranjaHorario.belongsTo(Competencia, { foreignKey: 'competencia_id', as: 'competencia' });

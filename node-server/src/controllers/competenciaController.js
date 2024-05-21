@@ -7,15 +7,13 @@ const createCompetencia = async (req, res) => {
 
     try {
         if (
-            !body.competencia_id ||
             !body.competencia_tipo ||
             !body.competencia_nombre
         ) {
-            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'competencia_tipo', 'competencia_nombre'");
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_tipo', 'competencia_nombre'");
         }
 
         const newCompetencia = {
-            competencia_id: body.competencia_id,
             programa_id: body.programa_id,
             competencia_tipo: body.competencia_tipo,
             competencia_nombre: body.competencia_nombre
@@ -42,19 +40,16 @@ const updateCompetencia = async (req, res) => {
         }
 
         if (
-            !body.competencia_id ||
             !body.competencia_tipo ||
             !body.competencia_nombre
         ) {
-            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_id', 'competencia_tipo', 'competencia_nombre'");
+            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'competencia_tipo', 'competencia_nombre'");
         }
         
         const competenciaChanges = {
-            competencia_id: body.competencia_id,
             programa_id: body.programa_id,
             competencia_tipo: body.competencia_tipo,
-            competencia_nombre: body.competencia_nombre,
-            competencia_activo: body.competencia_activo
+            competencia_nombre: body.competencia_nombre
         };
 
         const updated = await competenciaService.updateCompetencia(competenciaId, competenciaChanges);

@@ -2,9 +2,15 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   return sequelize.define('ambiente', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false
+    },
     ambiente_id: {
-      type: DataTypes.STRING(6),
-      primaryKey: true
+      type: DataTypes.STRING(10),
+      unique: true
     },
     ambiente_nombre: DataTypes.STRING(100),
     ambiente_ubicacion: DataTypes.STRING(100),

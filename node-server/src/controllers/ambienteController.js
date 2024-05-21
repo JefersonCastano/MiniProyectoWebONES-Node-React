@@ -35,17 +35,15 @@ const createAmbiente = async (req, res) => {
 
   try {
     if (
-      !body.ambiente_id ||
       !body.ambiente_nombre ||
       !body.ambiente_ubicacion ||
       !body.ambiente_capacidad ||
       !body.ambiente_tipo
     ) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'ambiente_id', 'ambiente_nombre', 'ambiente_ubicacion', 'ambiente_capacidad', 'ambiente_tipo'");   
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_FIELDS + "'ambiente_nombre', 'ambiente_ubicacion', 'ambiente_capacidad', 'ambiente_tipo'");   
     }
 
     const newAmbiente = {
-        ambiente_id: body.ambiente_id,
         ambiente_nombre: body.ambiente_nombre,
         ambiente_ubicacion: body.ambiente_ubicacion,
         ambiente_capacidad: body.ambiente_capacidad,
@@ -72,7 +70,6 @@ const updateAmbiente = async (req, res) => {
     }
 
     const updatedAmbiente = {
-        ambiente_id: body.ambiente_id,
         ambiente_nombre: body.ambiente_nombre,
         ambiente_ubicacion: body.ambiente_ubicacion,
         ambiente_capacidad: body.ambiente_capacidad,
