@@ -20,7 +20,7 @@ const ProgramaForm = () => {
             reset();
             setValue('programa_id', selectedItemInfo.programa_id);
             setValue('programa_nombre', selectedItemInfo.programa_nombre);
-            setCompetencias(selectedItemInfo.competencia);
+            setCompetencias(selectedItemInfo.competencias);
         } else {
             if (!error) reset();
             setError(false);
