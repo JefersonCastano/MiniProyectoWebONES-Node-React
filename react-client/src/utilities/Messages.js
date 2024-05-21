@@ -47,3 +47,19 @@ export function showConfirmationMessage(action) {
         }
     });
 }
+
+export function showConfirmationMessageHorario(action) {
+    Swal.fire({
+        title: "Estas seguro de eliminar este horario?",
+        text: "Esta acción es permanente y no podrás revertirla luego",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            return action();
+        }
+    });
+}

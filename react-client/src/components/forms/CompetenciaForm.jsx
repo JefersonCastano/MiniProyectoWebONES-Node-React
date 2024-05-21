@@ -20,7 +20,7 @@ const CompetenciaForm = () => {
 
   const [error, setError] = useState(false);
 
-  const keys = {id: 'programa_id', name: 'programa_nombre'};
+  const keys = { id: 'programa_id', name: 'programa_nombre' };
 
   const getProgramas = async () => {
     const programasResult = await getAllProgramas();

@@ -6,17 +6,22 @@ const SearchableDropdown = ({ options, value, setValue, disabled, keys }) => {
   const [filteredOptions, setFilteredOptions] = useState(options);
 
   useEffect(() => {
+    if(!value) setSearchItem('');
     if (value && value != -1) setSearchItem(getNameById(value));
   }, [value]);
 
   useEffect(() => {
     setFilteredOptions(
-      options.filter(option => option[keys.name].toLowerCase().includes(searchItem.toLowerCase()))
+      options.filter(option => {
+        const optionName = option[keys.name].toLowerCase();
+        const searchWords = searchItem.toLowerCase().split(' ').filter(word => word !== '');
+
+        return searchWords.every(word => optionName.includes(word));
+      })
     );
   }, [searchItem, options]);
 
   const getNameById = (id) => {
-    console.log(id);
     const option = options.find(option => option[keys.id] === id);
     return option ? option[keys.name] : '';
   };
@@ -40,7 +45,7 @@ const SearchableDropdown = ({ options, value, setValue, disabled, keys }) => {
   };
 
   return (
-    <div onBlur={handleBlur}>
+    <div className="position-relative" onBlur={handleBlur}>
       <input
         type="text"
         className="form-control"
@@ -51,10 +56,10 @@ const SearchableDropdown = ({ options, value, setValue, disabled, keys }) => {
         placeholder="Buscar..."
       />
       {showOptions && filteredOptions.length > 0 && (
-        <div className="card fixed-height-card">
+        <div className="card fixed-height-card-dropdown position-absolute w-100 mt-1 zindex-dropdown" style={{ zIndex: 1050 }}>
           <ul className="list-group list-group-flush">
             {filteredOptions.map((option, index) => (
-              <button key={index} className="list-group-item list-group-item-action" onClick={() => handleOptionClick(option)} >
+              <button key={index} className="list-group-item list-group-item-action searchable-dropdown-menu p-1" onClick={() => handleOptionClick(option)} >
                 {option[keys.name]}
               </button>
             ))}

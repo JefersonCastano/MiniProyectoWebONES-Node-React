@@ -108,7 +108,7 @@ export async function changeCompetenciaActiveState(id, newState){
     }
 }
 
-export async function getCompetenciasGenericas(){
+export async function getAllCompetenciasGenericas(){
     try {
         const response = await Axios.get(`${API_URL}/competencias/genericas`);
         return response.data.data;
@@ -127,15 +127,13 @@ export async function getCompetenciasGenericas(){
     }
 }
 
-export async function getCompetenciasByProgramaId (id){
+export async function getAllCompetenciasByProgramaId (id){
     try {
         const response = await Axios.get(`${API_URL}/competencias/programa/${id}`);
         return response.data.data;
     } catch (error) {
         if (error.response) {
-            if (error.response.status >= 400 && error.response.status < 500) {
-                showFailedMessage("Error", error.response.data.data.error);
-            } else {
+            if (!(error.response.status >= 400 && error.response.status < 500)) {
                 showErrorMessage("Error", "No se pudo realizar la consulta. Intente de nuevo.", error);
                 console.log("Get competencias by programa id error: ", error);
             }

@@ -31,7 +31,7 @@ const DefaultLayout = ({ children, rol }) => {
         <div>
             <Navbar items={navItems} />
             <main id="main">
-                <div className="container p-3 mx-1.5">
+                <div className="container px-5 pt-2">
                     <div className="mt-4 mb-4 ">
                         <div className="d-flex justify-content-between align-items-center">
                             <h1 className='text-dark'>{title}</h1>
