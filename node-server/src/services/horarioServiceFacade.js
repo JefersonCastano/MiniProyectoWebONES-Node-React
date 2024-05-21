@@ -73,6 +73,9 @@ const checkHorarioToUpdate = async (horarioToUpdate) => {
     const getAmbientesByDayFiltered = async (day, perId) => {
         let currentAmbientes = await horarioService.getAmbientesByDay(day, perId);
 
+        if(currentAmbientes.length === 0){
+            return currentAmbientes;
+        }
         const franjasDay = franjasHorarioToDelete.horario_franjas.find(franja => franja.franja_dia === day ).franjas;
 
         for(const ambiente of currentAmbientes){
