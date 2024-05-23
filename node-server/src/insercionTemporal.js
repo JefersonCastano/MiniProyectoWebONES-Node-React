@@ -1,5 +1,6 @@
 
 const {Usuario, Docente, Ambiente, PeriodoAcademico, Competencia} = require('./repository/models/index');
+const ambienteService = require('./services/ambienteService');
 
 
 const newCompetencias = [{
@@ -65,8 +66,7 @@ PeriodoAcademico.create(newPeriodoAcademico)
     console.error('Error al crear el periodo academico:', error);
   });
 
-Ambiente.create(newAmbiente)
-  .then(ambiente => {
+ambienteService.createAmbiente(newAmbiente).then(ambiente => {
     console.log('Nuevo ambiente creado:', ambiente);
   })
   .catch(error => {
