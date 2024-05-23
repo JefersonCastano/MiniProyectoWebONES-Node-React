@@ -4,12 +4,13 @@ import { getAllPeriodosAcademicos } from '../../api/periodoAcademicoRoutes';
 import SearchableDropdown from '../../components/SearchableDropdown';
 
 import { getAllDocentes } from '../../api/docenteRoutes';
-import { useHorarioContext } from '../../routers/coordinador/Horario';
 
-const ConsultaHorarioForm = ({getHorarios}) => {
+import { useCommonHorarioContext } from '../CommonHorarioContext';
+
+const ConsultaHorarioForm = () => {
 
     const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
-    const { states, state, setState, setDatosHorario, datosHorario } = useHorarioContext();
+    const { states, state, setDatosHorario, datosHorario, getHorarios } = useCommonHorarioContext();
 
     const [periodosAcademicos, setPeriodosAcademicos] = useState([]);
     const [docentes, setDocentes] = useState([]);
@@ -43,7 +44,7 @@ const ConsultaHorarioForm = ({getHorarios}) => {
     const onSubmit = handleSubmit(async (data, e) => {
         e.preventDefault();
         if (isValid) {
-            getHorarios(data.periodo_id, data.docente_id);
+            getHorarios(data.periodo_id, data.docente_id, "Puedes crearlo ahora mismo");
             setDatosHorario(data);
         }
     });

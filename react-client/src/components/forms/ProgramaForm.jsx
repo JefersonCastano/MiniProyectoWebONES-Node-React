@@ -18,7 +18,6 @@ const ProgramaForm = () => {
     useEffect(() => {
         if (state == states.consulting || state == states.editing) {
             reset();
-            setValue('programa_id', selectedItemInfo.programa_id);
             setValue('programa_nombre', selectedItemInfo.programa_nombre);
             setCompetencias(selectedItemInfo.competencias);
         } else {
@@ -54,18 +53,6 @@ const ProgramaForm = () => {
 
     return (
         <form className="mt-2" onSubmit={onSubmit}>
-            <div className="mb-3">
-                <label htmlFor="id" className="form-label">Id</label>
-                <input type="text" className="form-control" id="id" aria-describedby="id" {...register('programa_id', {
-                    required: {
-                        value: true,
-                        message: "El Id es requerido"
-                    }
-                })} disabled={[states.consulting, states.editing].includes(state)} />
-                <div className="invalid-feedback d-block">
-                    {errors.programa_id && errors.programa_id.message}
-                </div>
-            </div>
             <div className="mb-3">
                 <label htmlFor="nombre" className="form-label">Nombre</label>
                 <input type="text" className="form-control" id="nombre" aria-describedby="nombre" {...register('programa_nombre', {

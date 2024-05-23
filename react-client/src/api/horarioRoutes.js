@@ -6,7 +6,7 @@ export function setToken(token) {
     Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
-export async function getHorarioByPerAndDocId(perId, docId){
+export async function getHorarioByPerAndDocId(perId, docId) {
     try {
         const response = await Axios.get(`${API_URL}/horarios/${perId}/${docId}`);
         return response.data.data;
@@ -82,5 +82,15 @@ export async function deleteHorario(perId, docId) {
             console.log("Delete horario error: ", error);
         }
         return false;
+    }
+}
+
+export async function getAllAmbientesDisponibles(perId, dia, horaInicio) {
+    try {
+        const response = await Axios.get(`${API_URL}/horarios/${perId}/ambientes/${dia}/${horaInicio}`);
+        return response.data.data;
+    } catch (error) {
+        console.log("Get Ambientes disponibles error: ", error);
+        return [];
     }
 }

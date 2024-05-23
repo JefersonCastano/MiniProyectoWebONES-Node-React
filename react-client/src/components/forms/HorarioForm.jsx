@@ -4,14 +4,17 @@ import { useForm, Controller } from 'react-hook-form';
 import Modal from 'react-bootstrap/Modal';
 import SearchableDropdown from '../SearchableDropdown';
 import { getAllProgramas } from '../../api/programaRoutes';
+import { getAllCompetencias } from '../../api/competenciaRoutes';
 import { getAllCompetenciasGenericas } from '../../api/competenciaRoutes';
 import { getAllCompetenciasByProgramaId } from '../../api/competenciaRoutes';
 import { getAllAmbientes } from '../../api/ambienteRoutes';
-import { useHorarioContext } from '../../routers/coordinador/Horario';
+import { getAllAmbientesDisponibles } from '../../api/horarioRoutes';
+import { getDocenteById } from '../../api/docenteRoutes';
+import { useCommonHorarioContext } from '../CommonHorarioContext';
 
 const HorarioForm = ({ handleClose, deleteFranja }) => {
 
-    const { state, states, setState, franjaActual, horario, setHorario, datosHorario, horasMaximas, setError, setShowMessage, setErrorMessage } = useHorarioContext();
+    const { state, states, franjaActual, horario, setHorario, datosHorario, setError, setShowMessage, setErrorMessage } = useCommonHorarioContext();
 
     const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
 
@@ -26,22 +29,53 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
 
     const programa = watch('programa_id');
 
+    const [horasMaximas, setHorasMaximas] = useState({});
+    const horasTipoContrato = { PT: { max_dia: 8, max_semana: 32 }, CNT: { max_dia: 10, max_semana: 40 } }
+
+    useEffect(() => {
+        const getHorasMaximas = async () => {
+            const docente = await getDocenteById(datosHorario.docente_id);
+            if (docente) setHorasMaximas(horasTipoContrato[docente.docente_tipocontrato]);
+        }
+        if (datosHorario.docente_id) getHorasMaximas();
+    }, [datosHorario]);
+
     useEffect(() => {
         const loadInitialData = async () => {
             const programasResult = await getAllProgramas();
             const competenciasGenericasResult = await getAllCompetenciasGenericas();
-            const ambientesResult = await getAllAmbientes();
-
+            const ambientesResult = await getAllAmbientesDisponibles(datosHorario.periodo_id, franjaActual.franja_dia, franjaActual.franja_hora_inicio);
             if (programasResult) setProgramas(programasResult);
             if (competenciasGenericasResult) setCompetencias(competenciasGenericasResult);
-            if (ambientesResult) setAmbientes(ambientesResult.filter(ambiente => ambiente.ambiente_activo));
+            if (ambientesResult) setAmbientes(ambientesResult);
+                    
+            if (state == states.consulting || state == states.editing) {
+                setAmbientes(prevAmbientes => {
+                    const ambienteExists = prevAmbientes.some(ambiente => ambiente.ambiente_id === franjaActual.ambiente_id);
+                    if (!ambienteExists) {
+                      return [{ ambiente_id: franjaActual.ambiente_id, ambiente_nombre: franjaActual.ambiente.ambiente_nombre },
+                        ...prevAmbientes
+                      ];
+                    }
+                    return prevAmbientes;
+                  });
+
+                setCompetencias(prevCompetencias => {
+                    const competenciaExists = prevCompetencias.some(competencia => competencia.competencia_id === franjaActual.competencia_id);
+                    if (!competenciaExists) {
+                      return [{ competencia_id: franjaActual.competencia_id, competencia_nombre: franjaActual.competencia.competencia_nombre },
+                        ...prevCompetencias
+                      ];
+                    }
+                    return prevCompetencias;
+                  });
+            } 
 
             if (franjaActual.state == 'existing') {
                 if (franjaActual.competencia.programa_id && programa != -1) {
                     const competenciasEspecificasResult = await getAllCompetenciasByProgramaId(franjaActual.competencia.programa_id);
                     if (competenciasEspecificasResult) {
                         setCompetencias(prevCompetencias => [...competenciasEspecificasResult, ...prevCompetencias]);
-                        //Aqui va el setValue si falla
                     }
                 }
                 setValue('competencia_id', franjaActual.competencia_id);
@@ -77,7 +111,6 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     const validateHoursDay = (horario) => {
         const franjas_dia = horario.horario_franjas.find(franja => franja.franja_dia === franjaActual.franja_dia).franjas;
         const hours = franjas_dia.reduce((acc, franja) => acc + franja.franja_duracion, 0);
-        console.log("horas dia:", hours);
         if (hours > horasMaximas.max_dia) {
             setError("oh oh");
             setErrorMessage(`El docente debe orientar máximo ${horasMaximas.max_dia} horas por día.`);
@@ -99,23 +132,33 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     const validateHours = (horario) => {
         return validateHoursDay(horario) && validateHoursWeek(horario);
     }
-    const validateCrossing = (horario) => {
-        const franjas_dia = horario.horario_franjas.find(franja => franja.franja_dia === franjaActual.franja_dia).franjas;
-        const crossing = franjas_dia.find(franja =>
-            franja.franja_hora_inicio < franjaActual.franja_hora_inicio && franja.franja_hora_fin > franjaActual.franja_hora_inicio
-            || franja.franja_hora_inicio < franjaActual.franja_hora_fin && franja.franja_hora_fin > franjaActual.franja_hora_fin
-            || franja.franja_hora_inicio >= franjaActual.franja_hora_inicio && franja.franja_hora_fin <= franjaActual.franja_hora_fin
+    const validateCrossing = (horario, newFranja) => {
+
+        const franjas_dia = horario.horario_franjas.find(franja => franja?.franja_dia === franjaActual.franja_dia)?.franjas;
+        const crossing = franjas_dia?.find(franja =>
+            franja.franja_hora_inicio < newFranja.franja_hora_inicio && franja.franja_hora_fin > newFranja.franja_hora_inicio
+            || franja.franja_hora_inicio < newFranja.franja_hora_fin && franja.franja_hora_fin > newFranja.franja_hora_fin
+            || franja.franja_hora_inicio >= newFranja.franja_hora_inicio && franja.franja_hora_fin <= newFranja.franja_hora_fin
         );
         if (crossing) {
             setError("oh oh");
-            setErrorMessage(`Tienes un cruce de horas con la competencia: ${crossing.competencia.competencia_nombre}`);
+            setErrorMessage(`Se presenta un cruce de horas con la competencia: ${crossing.competencia.competencia_nombre}`);
             setShowMessage(true);
             return false;
         }
         return true;
     }
-    const addFranja = (horario, data) => {
-        const franja_dia = franjaActual.franja_dia;
+    const validateAmbiente = (newFranja) => {
+        const ambiente = ambientes.find(ambiente => ambiente.ambiente_id == newFranja.ambiente_id);
+        if(ambiente.available_until < newFranja.franja_hora_fin){
+            setError("oh oh");
+            setErrorMessage(`El ambiente ${ambiente.ambiente_nombre} no está disponible para las horas seleccionadas.`);
+            setShowMessage(true);
+            return false;
+        }
+        return true;
+    }
+    const getNewFranja = (data) => {
         const franja_hora_fin = franjaActual.franja_hora_inicio + parseInt(data.cantidad_horas);
         const newFranja = {
             ambiente_id: data.ambiente_id,
@@ -127,10 +170,13 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
                 programa_id: data.programa_id
             }
         };
+        return newFranja;
+    }
+    const addFranja = (horario, newFranja) => {
         const nuevoHorario = {
             ...datosHorario,
             horario_franjas: horario.horario_franjas.map(franja =>
-                franja.franja_dia === franja_dia
+                franja.franja_dia === franjaActual.franja_dia
                     ? { ...franja, franjas: [...franja.franjas, newFranja] }
                     : franja
             )
@@ -141,15 +187,15 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     const onSubmit = handleSubmit(async (data, e) => {
         e.preventDefault();
         if (isValid) {
-                let horarioActual = horario;
-                if(franjaActual.state == 'existing') {
-                    horarioActual = deleteFranja();
-                }
-                const nuevoHorario = addFranja(horarioActual, data);
-
-                if (!validateHours(nuevoHorario) && !validateCrossing(nuevoHorario)) return;
-                setHorario(nuevoHorario);
-                handleClose();
+            let horarioActual = JSON.parse(JSON.stringify(horario));
+            if (franjaActual.state == 'existing') {
+                horarioActual = deleteFranja();
+            }
+            const newFranja = getNewFranja(data);
+            const nuevoHorario = addFranja(horarioActual, newFranja);
+            if (!validateHours(nuevoHorario) || !validateCrossing(horarioActual, newFranja) || !validateAmbiente(newFranja)) return;
+            setHorario(nuevoHorario);
+            handleClose();
         }
     });
 

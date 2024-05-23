@@ -15,6 +15,14 @@
   height: 100%;
 }
 
+#header {
+  width: 255px;
+  
+  z-index: 1040; 
+  background-color: #fff; 
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
 .title {
   color: rgb(6, 6, 89);
   font-family: 'Franklin Gothic Medium';
@@ -63,19 +71,34 @@ h1 {
   overflow-y: scroll; 
 }
 
-.color1{
-  background-color: #8abccf;
-  border: #202123cd;
-}
+.color-0{ background-color: transparent; }
+.color-1{ background-color: rgb(241, 241, 239); } /*light grey*/
+.color-2{ background-color: rgb(207, 207, 207); } /*grey*/
+.color-3{ background-color: rgb(244, 238, 237); } /*NOOOO*/
+.color-4{ background-color: rgb(250, 229, 205); } /*light orange*/
+.color-5{ background-color: rgb(251, 243, 219); } /*light yellow*/
+.color-6{ background-color: rgb(221, 237, 234); } /*light green*/
+.color-7{ background-color: rgb(220, 235, 245); } /*light blue*/
+.color-8 { background-color: rgb(231, 222, 244); } /*soft purple*/
+.color-9{ background-color: rgb(244, 223, 235); } /*light pink*/
+.color-10{ background-color: rgb(253, 235, 236); } /*light red*/
+.color-11 { background-color: rgb(209, 225, 244); } /*blue strong*/
+.color-12 { background-color: rgb(201, 218, 223); } /*grey*/
+.color-13 { background-color: rgb(213, 217, 231); } /*not sure*/
+.color-14 { background-color: rgb(235, 219, 229); } /*skin color*/
+.color-15 { background-color: rgb(213, 220, 245); } /*light purple*/
+.color-16 { background-color: rgb(208, 208, 234); } /*soft purple*/
+.color-default{ background-color: #dbdee2; } /*light grey*/
 
-.color0{
-  background-color: transparent; 
-}
+
 
 .franja-cell {
   color: inherit;
-  width: 100%;
-  height: 100%;
+  border-radius: 10px;
+  margin-top: 2px;
+  width: 97%;
+  height: 90%;
+
 }
 
 .week-days{
@@ -129,6 +152,28 @@ h1 {
   display: inline-block;
   margin-right: 10px;
 }
+
+
+.mobile-nav-toggle {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  padding: 1rem;
+  z-index: 10000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

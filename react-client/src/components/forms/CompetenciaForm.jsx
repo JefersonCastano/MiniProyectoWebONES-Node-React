@@ -36,7 +36,6 @@ const CompetenciaForm = () => {
   useEffect(() => {
     if (state == states.consulting || state == states.editing) {
       reset();
-      setValue('competencia_id', selectedItemInfo.competencia_id);
       setValue('competencia_nombre', selectedItemInfo.competencia_nombre);
       setValue('competencia_tipo', selectedItemInfo.competencia_tipo);
       setValue('programa_id', selectedItemInfo.programa_id);
@@ -83,18 +82,6 @@ const CompetenciaForm = () => {
 
   return (
     <form className="mt-2" onSubmit={onSubmit}>
-      <div className="mb-3">
-        <label htmlFor="id" className="form-label">Id</label>
-        <input type="text" className="form-control" id="id" aria-describedby="id" {...register('competencia_id', {
-          required: {
-            value: true,
-            message: "El Id es requerido"
-          }
-        })} disabled={[states.consulting, states.editing].includes(state)} />
-        <div className="invalid-feedback d-block">
-          {errors.competencia_id && errors.competencia_id.message}
-        </div>
-      </div>
       <div className="mb-3">
         <label htmlFor="nombre" className="form-label">Nombre</label>
         <input type="text" className="form-control" id="nombre" aria-describedby="nombre" {...register('competencia_nombre', {
