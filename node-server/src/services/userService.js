@@ -4,16 +4,23 @@ const messagesEs = require("../utils/messagesEs");
 const { validateUserCredentials, getUserData, createUser } = require('../repository/userRepo');
 const HttpError = require('../utils/HttpError');
 const bcrypt = require('bcryptjs');
+const CryptoJS = require('crypto-js');
+
+const secretKey = 'ones';
+
+
 
 const loginUser = async (loginData) => {
+  loginData.password = decrypt(loginData.password);
   try {
     const isValid = await validateUserCredentials(loginData);
     if (!isValid) {
       throw new HttpError(400, messagesEs.errors.CREDENTIALS_NOT_VALID);
     }
+
     const user = await getUserData(loginData.username);
     const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, secret);
-    loginResponse = {
+    const loginResponse = {
       id: user.id,
       username: user.username,
       role: user.role,
@@ -52,6 +59,11 @@ const getUserByToken = async (token) => {
   } catch (error) {
     throw error;
   }
+}
+
+function decrypt(ciphertext) {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+  return bytes.toString(CryptoJS.enc.Utf8);
 }
 
 
