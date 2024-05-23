@@ -17,7 +17,15 @@ const getHorarioByPerAndDocId = async (perId, docId) => {
 
 const getAvailableAmbientesByDiaHoraInicio = async (perId, dia, horaInicio) => {
     try {
-        //hacer comprobaciones
+        const periodoExists = await periodoAcademicoService.getPeriodoAcademicoById(perId);
+        if (!periodoExists) {
+            throw new HttpError(400, messagesEs.errors.PERIODO_NOT_FOUND);
+        }
+
+        if(dia < 1 || dia > 7){
+            throw new HttpError(400, messagesEs.errors.INVALID_DAY);
+        }
+
         const bussyAmbientes = await horarioService.getBussyAmbientes(perId, dia, horaInicio);
         const allAmbientes = await ambienteService.getAllAmbientes();
         const activeAmbientes = allAmbientes.filter(ambiente => ambiente.ambiente_activo === true);
@@ -35,12 +43,10 @@ const getAvailableAmbientesByDiaHoraInicio = async (perId, dia, horaInicio) => {
             if (!ambientesDay || ambientesDay.franjas.length === 0) { 
                 continue;
             }
-            console.log(ambientesDay);
             for (let i = 0; i < ambientesDay.franjas.length; i++) {
                 const franja = ambientesDay.franjas[i];
                 console.log(franja);
                 if (franja.franja_hora_inicio >= horaInicio) {
-
                     ambienteAvailable.available_until = franja.franja_hora_inicio;
                     break;
                 }
@@ -53,27 +59,7 @@ const getAvailableAmbientesByDiaHoraInicio = async (perId, dia, horaInicio) => {
         throw error;
     }
 };
-/*
-const getAvailableAmbientesByDiaHoraInicio = async (perId, dia, horaInicio) => {
-    try {
-        //hacer comprobaciones
-        const bussyAmbientes = await horarioService.getBussyAmbientes(perId, dia, horaInicio);
-        const allAmbientes = await ambienteService.getAllAmbientes();
-        const activeAmbientes = allAmbientes.filter(ambiente => ambiente.ambiente_activo === true);
 
-        const ambientesAvailable = activeAmbientes.filter(ambiente => !bussyAmbientes.find(bussyAmbiente => bussyAmbiente.ambiente_id === ambiente.ambiente_id)).map(ambiente => {
-            return {
-            ambiente_id: ambiente.ambiente_id,
-            ambiente_nombre: ambiente.ambiente_nombre
-            };
-        });
-
-        return ambientesAvailable;
-    } catch (error) {
-        throw error;
-    }
-};
-*/
 const createHorario = async (newHorario) => {
     try {
         await checkHorarioToCreate(newHorario);
@@ -241,7 +227,8 @@ const checkAmbientesAvailability = async (horario, getAmbientesByDay) => {
             for (let franjaAmbiente of ambienteFound.franjas) {
 
                 if (!(franja.franja_hora_fin <= franjaAmbiente.franja_hora_inicio || franja.franja_hora_inicio >= franjaAmbiente.franja_hora_fin)) {  
-                    throw new HttpError(400, messagesEs.errors.AMBIENTE_NOT_AVAILABLE(franja.ambiente_id, horarioFranja.franja_dia, franjaAmbiente.franja_hora_inicio, franjaAmbiente.franja_hora_fin));
+                    const ambiente = await ambienteService.getAmbienteById(franja.ambiente_id);
+                    throw new HttpError(400, messagesEs.errors.AMBIENTE_NOT_AVAILABLE(ambiente.ambiente_nombre, horarioFranja.franja_dia, franjaAmbiente.franja_hora_inicio, franjaAmbiente.franja_hora_fin));
                 }
             }
         }

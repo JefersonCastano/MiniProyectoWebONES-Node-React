@@ -13,7 +13,7 @@ module.exports = {
     NOT_ACCESS: "No tiene acceso a este recurso",
     WEEK_HOURS_REQUIRED: (requiredHours, assignedHours) => `El docente debe orientar ${requiredHours} horas a la semana. Se han asignado ${assignedHours} horas.`,
     MAX_HOURS_PER_DAY: (maxHours) => `El docente debe orientar máximo ${maxHours} horas por día.`,
-    AMBIENTE_NOT_AVAILABLE: (ambienteId, day, startHour, endHour) => `El ambiente ${ambienteId} no está disponible el día ${day} entre ${startHour} y ${endHour}.`,
+    AMBIENTE_NOT_AVAILABLE: (ambienteName, day, startHour, endHour) => `El ambiente ${ambienteName} no está disponible el día ${weekDays[day]} entre ${startHour} y ${endHour}.`,
     PERIODO_NOT_ACTIVE: "El periodo no se encuentra activo",
     DOCENTE_NOT_ACTIVE: "El docente no se encuentra activo",
     AMBIENTE_NOT_ACTIVE: (ambienteName) => `El ambiente ${ambienteName} no se encuentra activo`,
@@ -29,8 +29,19 @@ module.exports = {
     PROGRAMA_NOT_FOUND: "Programa no encontrado",
     PROGRAMA_ALREADY_EXISTS: (programaId) => `Ya existe un programa con id ${programaId}`,
     NO_PROGRAMA_COMPETENCIAS: "No se encontraron competencias especificas para este programa",
+    INVALID_DAY: "El día de la franja horaria no es válido",
   },
   success: {
 
   }
 };
+ 
+const weekDays = {
+  1: "Lunes",
+  2: "Martes",
+  3: "Miércoles",
+  4: "Jueves",
+  5: "Viernes",
+  6: "Sábado",
+  7: "Domingo"
+}
