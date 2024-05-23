@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const validateUserCredentials = async (loginData) => {
   try {
     const user = await Usuario.findOne({ where: { usuario_nombre: loginData.username } });
-    return !user || bcrypt.compareSync(loginData.password, user.usuario_clave);
+    console.log(user);
+    if(user == null) return false;
+    return bcrypt.compareSync(loginData.password, user.usuario_clave);
   } catch (error) {
     throw { status: error?.status || 500, message: error?.message || error };
   }
