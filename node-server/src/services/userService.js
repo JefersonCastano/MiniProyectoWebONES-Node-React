@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const messagesEs = require("../utils/messagesEs");
 const { validateUserCredentials, getUserData, createUser } = require('../repository/userRepo');
 const HttpError = require('../utils/HttpError');
+const bcrypt = require('bcryptjs');
 
 const loginUser = async (loginData) => {
   try {
@@ -27,14 +28,15 @@ const loginUser = async (loginData) => {
 
 const createDocenteUser = async (docenteFirstName, docenteLastName, docenteId, docenteIdentificacion) => {
   const userName = docenteFirstName.substring(0,3).toLowerCase() + docenteLastName.substring(0,3).toLowerCase() + docenteIdentificacion;
-  const password = docenteIdentificacion; 
+  const hashedPassword = await bcrypt.hash(docenteIdentificacion, 10);
+
   const newUser = {
     username: userName,
     docente_id: docenteId,
-    password: password,
+    password: hashedPassword,
     role: 'DOCENTE'
   };
-  console.log(newUser);
+
   try {
     const user = await createUser(newUser);
     return user;

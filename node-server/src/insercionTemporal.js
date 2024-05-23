@@ -1,6 +1,8 @@
 
 const {Usuario, Docente, Ambiente, PeriodoAcademico, Competencia} = require('./repository/models/index');
 const ambienteService = require('./services/ambienteService');
+const docenteService = require('./services/docenteService');
+const bcrypt = require('bcryptjs');
 
 
 const newCompetencias = [{
@@ -32,12 +34,23 @@ const newAmbiente = {
 };
 
 const nuevoDocente1 = {
-  docente_nombres: 'Pepe Andres',
-  docente_apellidos: 'Perez Pelaez',
+  docente_nombres: 'Pachito',
+  docente_apellidos: 'Gonzalez',
   docente_tipoidentificacion: 'CC',
-  docente_identificacion: '1234567890',
+  docente_identificacion: '696969',
   docente_tipo: 'TECNICO',
   docente_tipocontrato: 'PT',
+  docente_area: 'Matemáticas',
+  docente_activo: true
+};
+
+const nuevoDocente2 = {
+  docente_nombres: 'Pepito Andres',
+  docente_apellidos: 'Perez',
+  docente_tipoidentificacion: 'CC',
+  docente_identificacion: '123',
+  docente_tipo: 'TECNICO',
+  docente_tipocontrato: 'CNT',
   docente_area: 'Matemáticas',
   docente_activo: true
 };
@@ -46,7 +59,7 @@ const nuevoUsuario1 = {
   usuario_id: 1,
   docente_id: null,
   usuario_nombre: 'coor',
-  usuario_clave: 'coor',
+  usuario_clave: bcrypt.hashSync('coor', 10),
   usuario_tipo: 'COORDINADOR'
 };
 
@@ -54,7 +67,7 @@ const nuevoUsuario2 = {
   usuario_id: 2,
   docente_id: 1,
   usuario_nombre: 'pepe',
-  usuario_clave: 'pepe',
+  usuario_clave: bcrypt.hashSync('pepe', 10),
   usuario_tipo: 'DOCENTE'
 };
 
@@ -81,7 +94,7 @@ Competencia.bulkCreate(newCompetencias)
     console.error('Error al crear la competencia:', error);
   });
 
-Docente.create(nuevoDocente1)
+docenteService.createDocente(nuevoDocente1)
   .then(docente => {
     console.log('Nuevo docente creado:', docente);
   })
@@ -89,6 +102,13 @@ Docente.create(nuevoDocente1)
     console.error('Error al crear el docente:', err);
   });
 
+Docente.create(nuevoDocente2)
+  .then(docente => {
+    console.log('Nuevo docente creado:', docente);
+  })
+  .catch(err => {
+    console.error('Error al crear el docente:', err);
+  }); 
 
 Usuario.create(nuevoUsuario1)
   .then(usuario => {

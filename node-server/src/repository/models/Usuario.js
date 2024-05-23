@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(100),
       unique: true
     },
-    usuario_clave: DataTypes.STRING(50),
+    usuario_clave: DataTypes.STRING(100),
     usuario_tipo: {
       type: DataTypes.STRING(50),
       validate: {
