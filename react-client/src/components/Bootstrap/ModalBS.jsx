@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useHorarioContext } from '../../routers/coordinador/Horario';
 import HorarioForm from '../forms/HorarioForm';
+import { useCommonHorarioContext } from '../CommonHorarioContext';
 
 function ModalBS({ children, closeModal, setCloseModal }) {
 
   const [show, setShow] = useState(false);
-  const { state, states, franjaActual } = useHorarioContext();
+  const { state, states, franjaActual } = useCommonHorarioContext();
 
   const handleClose = () => {
     setShow(false);
@@ -22,7 +22,6 @@ function ModalBS({ children, closeModal, setCloseModal }) {
   let otherChildren = [];
 
   useEffect(() => {
-    console.log('closeModal', closeModal);
     if (closeModal) {
       handleClose();
     }

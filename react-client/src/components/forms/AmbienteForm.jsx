@@ -17,7 +17,6 @@ const AmbienteForm = () => {
   useEffect(() => {
     if (state == states.consulting || state == states.editing) {
       reset();
-      setValue('ambiente_id', selectedItemInfo.ambiente_id);
       setValue('ambiente_nombre', selectedItemInfo.ambiente_nombre);
       setValue('ambiente_ubicacion', selectedItemInfo.ambiente_ubicacion);
       setValue('ambiente_capacidad', selectedItemInfo.ambiente_capacidad);
@@ -55,18 +54,6 @@ const AmbienteForm = () => {
 
   return (
     <form className="mt-2" onSubmit={onSubmit}>
-      <div className="mb-3">
-        <label htmlFor="id" className="form-label">Id</label>
-        <input type="text" className="form-control" id="id" aria-describedby="id" {...register('ambiente_id', {
-          required: {
-            value: true,
-            message: "El Id es requerido"
-          }
-        })} disabled={[states.consulting, states.editing].includes(state)} />
-        <div className="invalid-feedback d-block">
-          {errors.ambiente_id && errors.ambiente_id.message}
-        </div>
-      </div>
       <div className="mb-3">
         <label htmlFor="nombre" className="form-label">Nombre</label>
         <input type="text" className="form-control" id="nombre" aria-describedby="nombre" {...register('ambiente_nombre', {

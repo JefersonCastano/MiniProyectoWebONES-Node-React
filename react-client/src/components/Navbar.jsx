@@ -15,27 +15,28 @@ const Navbar = ({ items }) => {
     return (
         <div className={isMobileNav ? "mobile-nav-active" : ""}>
             {/* Mobile nav toggle button */}
-            
-            <i className={`bi mobile-nav-toggle d-xl-none ${isMobileNav ? 'bi-x' : 'bi-list'}`} onClick={handleMobileNav}></i>
+            <div className="d-flex justify-content-start">
+                <i className={`bi mobile-nav-toggle d-xl-none ${isMobileNav ? 'bi-x' : 'bi-list'}`} onClick={handleMobileNav}></i>
+            </div>
 
             <header id="header" className="container m-0 p-0 border-0" >
                 <div className="navBackground d-flex flex-column">
 
-                    <div className="container d-flex align-items-center justify-content-center mt-4 mb-5">
-                        <img src={logo} alt="logo" width="50" className="img-fluid mr-2" />
-                        <h1 className="display-5 fw-bold ">
+                    <div className="container d-flex align-items-center justify-content-bottom mt-4 mb-5 ms-3">
+                        <img src={logo} alt="logo" width="45" className="img-fluid mr-2" />
+                        <h2 className="display-6 fw-bold ">
                             <Link to="/horarios" className="text-decoration-none title">ONES</Link>
-                        </h1>
+                        </h2>
                     </div>
 
-                    <nav id="navbar" className="nav-menu navbar justify-content-center align-items-center" >
+                    <nav id="navbar" className="nav-menu navbar justify-content-bottom align-items-center ms-3" >
                         <ul>
                             {
                                 items.map((item, index) => (
                                     <li key={index} className="mb-2">
                                         <Link to={item.route} className={`nav-link scrollto text-dark nav-link-custom ${item.route == actualLocation ? 'active' : ''}`}>
                                             <i className={`bx ${item.icon}`}></i>
-                                            <span className="fs-5" style={{ fontFamily: 'Franklin Gothic Medium'}}>
+                                            <span className="fs-5" style={{ fontFamily: 'Franklin Gothic Medium' }}>
                                                 {item.page.split(' ').map((word, index, array) =>
                                                     array.length - 1 !== index ? (<React.Fragment key={index}> {word} <br /> </React.Fragment>) : word
                                                 )}
