@@ -86,4 +86,23 @@ const deleteHorario = async (req, res) => {
   }
 };
 
-module.exports = { getHorarioByPerAndDocId, createHorario, updateHorario, deleteHorario };
+const getAvailableAmbientesByDiaHoraInicio =  async (req, res) => {
+  const {
+    params: { perId, dia, horaInicio },
+  } = req;
+  try {
+    if (!perId || !dia || !horaInicio) {
+      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':perId', 'dia', 'horaInicio'");
+    }
+
+
+    const availableAmbientes = await horarioService.getAvailableAmbientesByDiaHoraInicio(perId, dia, horaInicio);
+    res.status(200).send({ status: "OK", data: availableAmbientes });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
+
+module.exports = { getHorarioByPerAndDocId, createHorario, updateHorario, deleteHorario, getAvailableAmbientesByDiaHoraInicio };

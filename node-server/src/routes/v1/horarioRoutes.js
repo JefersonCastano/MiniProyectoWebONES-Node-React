@@ -6,6 +6,9 @@ const horarioController = require("../../controllers/horarioController");
 const router = express.Router();
 
 router
+  .get("/:perId/ambientes/:dia/:horaInicio", authenticate, authorizeCoordinador, horarioController.getAvailableAmbientesByDiaHoraInicio);
+
+router
   .get("/:perId/:docId", authenticate, horarioController.getHorarioByPerAndDocId);
 
 router

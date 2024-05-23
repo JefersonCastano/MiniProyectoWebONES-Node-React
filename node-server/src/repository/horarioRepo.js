@@ -1,4 +1,5 @@
 const { FranjaHorario, Ambiente, Competencia } = require('./models/index');
+const { Op } = require('sequelize');
 
 const horarioExists = async (perId, docId) => {
     try {
@@ -74,11 +75,33 @@ const getAmbientesByDay = async (franja_dia, perId) => {
     }
 };
 
+const getBussyAmbientes = async (perId, dia, horaInicio) => {
+    try {
+        const ambientes = await FranjaHorario.findAll({
+            attributes: ['ambiente_id', 'franja_hora_inicio', 'franja_hora_fin'],
+            where: { 
+            periodo_id: perId, 
+            franja_dia: dia, 
+            [Op.and]: [
+                { franja_hora_inicio: { [Op.lte]: horaInicio } },
+                { franja_hora_fin: { [Op.gt]: horaInicio } }
+            ]
+            },
+            include: [{ model: Ambiente }],
+            order: [['franja_hora_inicio', 'ASC']]
+        });
+        return ambientes;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
+    }
+};
+
 module.exports = { 
     getFranjasHorarioByPerAndDocId, 
     createFranjasHorario, 
     deleteHorario, 
     horarioExists, 
     getAmbientesByDay, 
-    deleteFranjasHorario 
+    deleteFranjasHorario,
+    getBussyAmbientes
 };

@@ -89,10 +89,20 @@ const getAmbientesByDay = async (franja_dia, perId) => {
     }
 };
 
+const getBussyAmbientes = async (perId, dia, horaInicio) => {
+    try {
+        const ambientes = await horarioRepo.getBussyAmbientes(perId, dia, horaInicio);
+        return ambientes;
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = { 
     getHorarioByPerAndDocId, 
     createHorario, 
     updateHorario, 
     deleteHorario, 
-    getAmbientesByDay 
+    getAmbientesByDay,
+    getBussyAmbientes
 };
