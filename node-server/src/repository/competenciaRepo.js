@@ -51,20 +51,6 @@ const updateCompetenciaState = async (competenciaId, newState) => {
     }
 };
 
-const deleteCompetencia = async (competenciaId) => {
-    try {
-        const deleted = await Competencia.destroy({
-            where: { competencia_id: competenciaId }
-        });
-        if (deleted) {
-            return true;
-        }
-        throw new HttpError(404, messagesEs.errors.COMPETENCIA_NOT_FOUND);
-    } catch (error) {
-        throw { status: error?.status || 500, message: error?.message || error };
-    }
-};
-
 const getCompetenciaById = async (competenciaId) => {
     try {
         const competencia = await Competencia.findByPk(competenciaId);
@@ -116,7 +102,6 @@ module.exports = {
     competenciaExists,
     createCompetencia,
     updateCompetencia,
-    deleteCompetencia,
     getCompetenciaById,
     getAllCompetencias,
     updateCompetenciaState,

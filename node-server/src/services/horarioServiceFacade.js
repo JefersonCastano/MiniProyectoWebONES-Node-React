@@ -26,12 +26,12 @@ const getAvailableAmbientesByDiaHoraInicio = async (perId, dia, horaInicio) => {
             throw new HttpError(400, messagesEs.errors.INVALID_DAY);
         }
 
-        const bussyAmbientes = await horarioService.getBussyAmbientes(perId, dia, horaInicio);
+        const occupiedAmbientes = await horarioService.getOccupiedAmbientes (perId, dia, horaInicio);
         const allAmbientes = await ambienteService.getAllAmbientes();
         const activeAmbientes = allAmbientes.filter(ambiente => ambiente.ambiente_activo === true);
         const ambientesByDay = await horarioService.getAmbientesByDay(dia, perId);
 
-        let ambientesAvailable = activeAmbientes.filter(ambiente => !bussyAmbientes.find(bussyAmbiente => bussyAmbiente.ambiente_id === ambiente.ambiente_id)).map(ambiente => {
+        let ambientesAvailable = activeAmbientes.filter(ambiente => !occupiedAmbientes.find(occupiedAmbiente => occupiedAmbiente.ambiente_id === ambiente.ambiente_id)).map(ambiente => {
             return {
                 ...ambiente.dataValues,
                 available_until: 22

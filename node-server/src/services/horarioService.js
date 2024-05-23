@@ -89,9 +89,9 @@ const getAmbientesByDay = async (franja_dia, perId) => {
     }
 };
 
-const getBussyAmbientes = async (perId, dia, horaInicio) => {
+const getOccupiedAmbientes  = async (perId, dia, horaInicio) => {
     try {
-        const ambientes = await horarioRepo.getBussyAmbientes(perId, dia, horaInicio);
+        const ambientes = await horarioRepo.getOccupiedAmbientes(perId, dia, horaInicio);
         return ambientes;
     } catch (error) {
         throw error;
@@ -104,5 +104,5 @@ module.exports = {
     updateHorario, 
     deleteHorario, 
     getAmbientesByDay,
-    getBussyAmbientes
+    getOccupiedAmbientes 
 };

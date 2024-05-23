@@ -51,19 +51,6 @@ const updateDocenteState = async (docenteId, newState) => {
     }
 };
 
-const deleteDocente = async (docenteId) => {
-    try {
-        const docenteExists = await docenteRepo.docenteExists(docenteId);
-        if (!docenteExists) {
-            throw new HttpError(404, messagesEs.errors.DOCENTE_NOT_FOUND);
-        }
-        const deleted = await docenteRepo.deleteDocente(docenteId);
-        return deleted;
-    } catch (error) {
-        throw error;
-    }
-};
-
 const getDocenteById = async (docenteId) => {
     try {
         const docente = await docenteRepo.getDocenteById(docenteId);
@@ -95,7 +82,6 @@ module.exports = {
     createDocente, 
     updateDocente,
     updateDocenteState, 
-    deleteDocente, 
     getDocenteById, 
     getAllDocentes,
     isDocenteActive

@@ -105,4 +105,9 @@ const getAvailableAmbientesByDiaHoraInicio =  async (req, res) => {
   }
 };
 
-module.exports = { getHorarioByPerAndDocId, createHorario, updateHorario, deleteHorario, getAvailableAmbientesByDiaHoraInicio };
+module.exports = { 
+  getHorarioByPerAndDocId, 
+  createHorario, 
+  updateHorario, 
+  deleteHorario, 
+  getAvailableAmbientesByDiaHoraInicio };

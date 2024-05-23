@@ -26,7 +26,4 @@ router
 router
     .put("/:competenciaId/state", authenticate, authorizeCoordinador, competenciaController.updateCompetenciaState);
 
-router
-    .delete("/:competenciaId", authenticate, authorizeCoordinador, competenciaController.deleteCompetencia);
-
 module.exports = router;

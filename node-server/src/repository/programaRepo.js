@@ -36,21 +36,6 @@ const updatePrograma = async (programaId, programaChanges) => {
     }
 };
 
-const updateProgramaState = async (programaId, newState) => {
-    try {
-        const [updated] = await Programa.update(
-            { programa_activo: newState },
-            { where: { programa_id: programaId } }
-        );
-        if (updated) {
-            return true;
-        }
-        throw new HttpError(404, messagesEs.errors.PROGRAMA_NOT_FOUND);
-    } catch (error) {
-        throw { status: error?.status || 500, message: error?.message || error };
-    }
-};
-
 const getProgramaById = async (programaId) => {
     try {
         const programa = await Programa.findByPk(programaId, {
@@ -89,4 +74,10 @@ const getAllProgramas = async () => {
     }
 };
 
-module.exports = { programaExists, createPrograma, updatePrograma, getProgramaById, getAllProgramas, updateProgramaState };
+module.exports = { 
+    programaExists, 
+    createPrograma, 
+    updatePrograma, 
+    getProgramaById, 
+    getAllProgramas, 
+};

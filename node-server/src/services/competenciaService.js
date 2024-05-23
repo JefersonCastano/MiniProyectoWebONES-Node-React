@@ -47,19 +47,6 @@ const updateCompetenciaState = async (competenciaId, newState) => {
     }
 };
 
-const deleteCompetencia = async (competenciaId) => {
-    try {
-        const competenciaExists = await competenciaRepo.competenciaExists(competenciaId);
-        if (!competenciaExists) {
-            throw new HttpError(404, messagesEs.errors.COMPETENCIA_NOT_FOUND);
-        }
-        const deleted = await competenciaRepo.deleteCompetencia(competenciaId);
-        return deleted;
-    } catch (error) {
-        throw error;
-    }
-};
-
 const getCompetenciaById = async (competenciaId) => {
     try {
         const competencia = await competenciaRepo.getCompetenciaById(competenciaId);
@@ -110,8 +97,7 @@ const isCompetenciaActive = async (competenciaId) => {
 
 module.exports = { 
     createCompetencia, 
-    updateCompetencia, 
-    deleteCompetencia, 
+    updateCompetencia,  
     getCompetenciaById, 
     getAllCompetencias,
     isCompetenciaActive,

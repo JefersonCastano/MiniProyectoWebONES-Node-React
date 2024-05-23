@@ -83,22 +83,6 @@ const updateCompetenciaState = async (req, res) => {
     }
 };
 
-const deleteCompetencia = async (req, res) => {
-    const { competenciaId } = req.params;
-
-    try {
-        if (!competenciaId) {
-            throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':competenciaId'");
-        }
-
-        const deleted = await competenciaService.deleteCompetencia(competenciaId);
-        res.send({ status: "OK", data: deleted });
-    } catch (error) {
-        res
-            .status(error?.status || 500)
-            .send({ status: "FAILED", data: { error: error?.message || error } });
-    }
-};
 
 const getCompetenciaById = async (req, res) => {
     const { competenciaId } = req.params;
@@ -162,7 +146,6 @@ const getCompetenciasByPrograma = async (req, res) => {
 module.exports = {
     createCompetencia, 
     updateCompetencia, 
-    deleteCompetencia, 
     getCompetenciaById, 
     getAllCompetencias, 
     updateCompetenciaState,

@@ -113,29 +113,10 @@ const updatePeriodoAcademicoState = async (req, res) => {
   }
 };
 
-const deletePeriodoAcademico = async (req, res) => {
-  const {
-    params: { periodoId },
-  } = req;
-  try {
-    if (!periodoId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':periodoId'");
-    }
-
-    const deleted = await periodoAcademicoService.deletePeriodoAcademico(periodoId);
-    res.send({ status: "OK", data: deleted });
-  } catch (error) {
-    res
-      .status(error?.status || 500)
-      .send({ status: "FAILED", data: { error: error?.message || error } });
-  }
-};
-
 module.exports = {
     getPeriodoAcademicoById,
     getAllPeriodosAcademicos,
     createPeriodoAcademico,
     updatePeriodoAcademico,
-    deletePeriodoAcademico,
     updatePeriodoAcademicoState
 };

@@ -19,8 +19,5 @@ router
 
 router
     .put("/:ambienteId/state", authenticate, authorizeCoordinador, ambienteController.updateAmbienteState);
-
-router
-    .delete("/:ambienteId", authenticate, authorizeCoordinador, ambienteController.deleteAmbiente);
-
+    
 module.exports = router;

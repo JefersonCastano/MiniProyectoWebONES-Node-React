@@ -51,20 +51,6 @@ const updateDocenteState = async (docenteId, newState) => {
     }
 };
 
-const deleteDocente = async (docenteId) => {
-    try {
-        const deleted = await Docente.destroy({
-            where: { docente_id: docenteId }
-        });
-        if (deleted) {
-            return true;
-        }
-        throw new HttpError(404, messagesEs.errors.DOCENTE_NOT_FOUND);
-    } catch (error) {
-        throw { status: error?.status || 500, message: error?.message || error };
-    }
-};
-
 const getDocenteById = async (docenteId) => {
     try {
         const docente = await Docente.findByPk(docenteId);
@@ -88,7 +74,6 @@ const docenteIdentificacionAlreadyExists = async (docenteIdentificacion) => {
     }
 };
 
-//Obtener todos los docentes
 const getAllDocentes = async () => {
     try {
         const docentes = await Docente.findAll({
@@ -105,7 +90,6 @@ module.exports = {
     createDocente,
     updateDocente,
     updateDocenteState, 
-    deleteDocente, 
     getDocenteById,
     docenteIdentificacionAlreadyExists, 
     getAllDocentes 

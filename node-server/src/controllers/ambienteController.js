@@ -108,29 +108,10 @@ const updateAmbienteState = async (req, res) => {
   }
 }
 
-const deleteAmbiente = async (req, res) => {
-  const {
-    params: { ambienteId },
-  } = req;
-  try {
-    if (!ambienteId) {
-      throw new HttpError(400, messagesEs.errors.MISSING_REQUIRED_PARAMETERS + "':ambienteId'");
-    }
-
-    await ambienteService.deleteAmbiente(ambienteId);
-    res.send({ status: "OK", data: { ambienteId } });
-  } catch (error) {
-    res
-      .status(error?.status || 500)
-      .send({ status: "FAILED", data: { error: error?.message || error } });
-  }
-};
-
 module.exports = {
   getAmbienteById,
   getAllAmbientes,
   createAmbiente,
   updateAmbiente,
-  deleteAmbiente,
   updateAmbienteState
 };

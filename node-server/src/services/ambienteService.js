@@ -39,19 +39,6 @@ const updateAmbienteState = async (ambienteId, newState) => {
      }
 }
 
-const deleteAmbiente = async (ambienteId) => {
-    try {
-        const ambienteExists = await ambienteRepo.ambienteExists(ambienteId);
-        if (!ambienteExists) {
-            throw new HttpError(404, messagesEs.errors.AMBIENTE_NOT_FOUND);
-        }
-        const deleted = await ambienteRepo.deleteAmbiente(ambienteId);
-        return deleted;
-    } catch (error) {
-        throw error;
-    }
-};
-
 const getAmbienteById = async (ambienteId) => {
     try {
         const ambiente = await ambienteRepo.getAmbienteById(ambienteId);
@@ -86,7 +73,6 @@ module.exports = {
     createAmbiente, 
     updateAmbiente,
     updateAmbienteState, 
-    deleteAmbiente, 
     getAmbienteById, 
     getAllAmbientes,
     isAmbienteActive

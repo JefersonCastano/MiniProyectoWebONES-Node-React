@@ -75,7 +75,7 @@ const getAmbientesByDay = async (franja_dia, perId) => {
     }
 };
 
-const getBussyAmbientes = async (perId, dia, horaInicio) => {
+const getOccupiedAmbientes  = async (perId, dia, horaInicio) => {
     try {
         const ambientes = await FranjaHorario.findAll({
             attributes: ['ambiente_id', 'franja_hora_inicio', 'franja_hora_fin'],
@@ -103,5 +103,5 @@ module.exports = {
     horarioExists, 
     getAmbientesByDay, 
     deleteFranjasHorario,
-    getBussyAmbientes
+    getOccupiedAmbientes 
 };

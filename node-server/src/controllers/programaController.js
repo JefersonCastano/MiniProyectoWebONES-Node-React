@@ -83,4 +83,9 @@ const getAllProgramas = async (req, res) => {
     }
 };
 
-module.exports = { createPrograma, updatePrograma, getProgramaById, getAllProgramas };
+module.exports = { 
+    createPrograma, 
+    updatePrograma, 
+    getProgramaById, 
+    getAllProgramas 
+};
