@@ -108,20 +108,23 @@ const checkHorarioToUpdate = async (horarioToUpdate) => {
 
     const franjasHorarioToCreate = compareHorario1NotInHorario2(horarioToUpdate, currentHorario);
     const franjasHorarioToDelete = compareHorario1NotInHorario2(currentHorario, horarioToUpdate);
-
+    
     if(franjasHorarioToCreate.horario_franjas.length === 0 && franjasHorarioToDelete.horario_franjas.length === 0){
         throw new HttpError(400, messagesEs.errors.NO_HORARIO_CHANGES);
     }
 
     await checkColumnsState(franjasHorarioToCreate);
-
+    
     const getAmbientesByDayFiltered = async (day, perId) => {
         let currentAmbientes = await horarioService.getAmbientesByDay(day, perId);
-
         if(currentAmbientes.length === 0){
             return currentAmbientes;
         }
-        const franjasDay = franjasHorarioToDelete.horario_franjas.find(franja => franja.franja_dia === day ).franjas;
+
+        const franjasDay = franjasHorarioToDelete.horario_franjas.find(franja => franja.franja_dia === day )?.franjas;
+        if(!franjasDay || franjasDay.length === 0){
+            return currentAmbientes;
+        }
 
         for(const ambiente of currentAmbientes){
             const franjasUsingAmbiente = franjasDay.filter(franja => franja.ambiente_id === ambiente.ambiente_id);
@@ -136,7 +139,6 @@ const checkHorarioToUpdate = async (horarioToUpdate) => {
         }
         return currentAmbientes;
     };
-
     await checkAmbientesAvailability(franjasHorarioToCreate, getAmbientesByDayFiltered);
     return {
         franjasHorarioToCreate: franjasHorarioToCreate,
@@ -245,7 +247,7 @@ const compareHorario1NotInHorario2 = (horario1, horario2) => {
             continue;
         }
         let franjaDay = [];
-
+        
         for(let franjaInterna1 of franja1.franjas){
             const franjaInterna2 = franja2.franjas
             .find(franja => 

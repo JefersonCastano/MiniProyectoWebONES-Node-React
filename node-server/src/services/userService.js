@@ -8,8 +8,6 @@ const CryptoJS = require('crypto-js');
 
 const secretKey = 'ones';
 
-
-
 const loginUser = async (loginData) => {
   loginData.password = decrypt(loginData.password);
   try {
