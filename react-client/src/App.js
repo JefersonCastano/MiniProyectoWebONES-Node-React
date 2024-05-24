@@ -33,7 +33,6 @@ const doc_routes = [
 ];
 
 const routes = [...public_routes, ...coor_routes, ...doc_routes];
-
 const router = createBrowserRouter(routes);
 
 function App() {
