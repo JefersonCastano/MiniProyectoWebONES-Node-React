@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthProvider'
+import { useAuth } from '../AuthProvider'
 
 const CoorProtectedRoute = () => {
     const auth = useAuth()

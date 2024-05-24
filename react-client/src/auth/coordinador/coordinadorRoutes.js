@@ -1,9 +1,9 @@
-import Horario from '../views/coordinador/Horario';
-import PeriodoAcademico from '../views/coordinador/PeriodoAcademico';
-import Docente from '../views/coordinador/Docente';
-import Ambiente from '../views/coordinador/Ambiente';
-import Programa from '../views/coordinador/Programa';
-import Competencia from '../views/coordinador/Competencia';
+import Horario from '../../views/coordinador/Horario';
+import PeriodoAcademico from '../../views/coordinador/PeriodoAcademico';
+import Docente from '../../views/coordinador/Docente';
+import Ambiente from '../../views/coordinador/Ambiente';
+import Programa from '../../views/coordinador/Programa';
+import Competencia from '../../views/coordinador/Competencia';
 
 export const coordinador_routes = [
     {

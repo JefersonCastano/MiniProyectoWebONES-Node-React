@@ -1,11 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { coordinador_routes } from '../auth/coordinadorRoutes'
-import { coordinador_pages } from '../auth/coordinadorRoutes'
-import { coordinador_icons } from '../auth/coordinadorRoutes'
-import { docente_routes } from '../auth/docenteRoutes'
-import { docente_pages } from '../auth/docenteRoutes'
-import { docente_icons } from '../auth/docenteRoutes'
+import { coordinador_routes, coordinador_pages, coordinador_icons } from '../auth/coordinador/coordinadorRoutes'
+import { docente_routes, docente_pages, docente_icons } from '../auth/docente/docenteRoutes'
 import Account from './Account'
 import Navbar from './Navbar'
 
