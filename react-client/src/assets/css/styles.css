@@ -81,13 +81,11 @@ h1 {
 .color-7{ background-color: rgb(220, 235, 245); } /*light blue*/
 .color-8 { background-color: rgb(231, 222, 244); } /*soft purple*/
 .color-9{ background-color: rgb(244, 223, 235); } /*light pink*/
-.color-10{ background-color: rgb(253, 235, 236); } /*light red*/
-.color-11 { background-color: rgb(209, 225, 244); } /*blue strong*/
-.color-12 { background-color: rgb(201, 218, 223); } /*grey*/
-.color-13 { background-color: rgb(213, 217, 231); } /*not sure*/
-.color-14 { background-color: rgb(235, 219, 229); } /*skin color*/
-.color-15 { background-color: rgb(213, 220, 245); } /*light purple*/
-.color-16 { background-color: rgb(208, 208, 234); } /*soft purple*/
+.color-10 { background-color: rgb(209, 225, 244); } /*blue strong*/
+.color-11 { background-color: rgb(201, 218, 223); } /*grey*/
+.color-12 { background-color: rgb(213, 217, 231); } /*not sure*/
+.color-13 { background-color: rgb(213, 220, 245); } /*light purple*/
+.color-14 { background-color: rgb(208, 208, 234); } /*soft purple*/
 .color-default{ background-color: #dbdee2; } /*light grey*/
 
 
@@ -161,19 +159,3 @@ h1 {
   padding: 1rem;
   z-index: 10000;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

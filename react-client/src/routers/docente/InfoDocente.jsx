@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useEffect } from 'react';
 import { useAuth } from '../../auth/AuthProvider';
+import { setToken, getDocenteById } from '../../api/docenteRoutes';
 import fotoDocente from '../../assets/img/fotoDocente.jpg';
 import DefaultLayout from '../../components/DefaultLayout'
-import { setToken, getDocenteById } from '../../api/docenteRoutes';
 
 const InfoDocente = () => {
-  const auth = useAuth();
 
+  const auth = useAuth();
   setToken(auth.getAccessToken());
 
   const [user, setUser] = React.useState(auth.getUser());

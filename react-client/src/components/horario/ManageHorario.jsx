@@ -1,18 +1,19 @@
 import React from 'react'
+import { useAuth } from '../../auth/AuthProvider';
 import { useCommonHorarioContext } from './CommonHorarioContext';
-import { useAuth } from '../auth/AuthProvider';
-import * as horarioRoutes from '../api/horarioRoutes';
-import { showConfirmationMessageHorario } from '../utilities/Messages';
+import { showConfirmationMessageHorario } from '../../utilities/Messages';
+import * as horarioRoutes from '../../api/horarioRoutes';
 
 const ManageHorario = () => {
 
     const auth = useAuth();
     horarioRoutes.setToken(auth.getAccessToken());
 
-    const { states, state, 
-        horario, setHorario, 
-        datosHorario, setDatosHorario, 
-        setState, setError, setErrorMessage, setShowMessage
+    const { state, states, setState,
+        horario, setHorario,
+        datosHorario, setDatosHorario,
+        setError, setErrorMessage, setShowMessage,
+        getHorarios
     } = useCommonHorarioContext();
 
     const handleNew = () => {
@@ -27,8 +28,8 @@ const ManageHorario = () => {
             });
             setState(states.adding);
         } else {
-            setError("Espera!");
-            setErrorMessage("Ingresa los datos para consultar un horario primero");
+            setError("Datos Incompletos");
+            setErrorMessage("Por favor, ingresa los datos necesarios para crear un nuevo horario.");
             setShowMessage(true);
         }
     }
@@ -41,14 +42,17 @@ const ManageHorario = () => {
             response = await horarioRoutes.updateHorario(datosHorario.periodo_id, datosHorario.docente_id, horario);
         }
         if (!response.error) {
-            setHorario(response);
-            setState(states.consulting);
+            if (response) {
+                setHorario(response);
+                setState(states.consulting);
+            }
         } else {
-            setError("Aún no!");
+            setError("No se puede guardar el horario");
             setErrorMessage(response.error);
             setShowMessage(true);
         }
     }
+
     const handleUpdate = () => {
         setHorario({
             ...datosHorario,
@@ -70,11 +74,13 @@ const ManageHorario = () => {
             }
         });
     }
+
     const handleCancelar = () => {
         if (state == states.adding) {
             setHorario({});
             setState(states.new);
         } else if (state == states.editing) {
+            getHorarios(datosHorario.periodo_id, datosHorario.docente_id, "", false);
             setState(states.consulting);
         }
     }

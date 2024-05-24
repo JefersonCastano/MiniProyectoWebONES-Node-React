@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { useCommonContext } from '../CommonContext';
+import { useCommonContext } from '../items/CommonContext';
 
 const DocenteForm = () => {
 

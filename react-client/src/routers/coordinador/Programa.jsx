@@ -1,9 +1,9 @@
 import React from 'react'
 import { useAuth } from '../../auth/AuthProvider';
 import DefaultLayout from '../../components/DefaultLayout'
-import ListItems from '../../components/ListItems';
-import ManageItems from '../../components/ManageItems';
-import CommonContext from '../../components/CommonContext';
+import ListItems from '../../components/items/ListItems';
+import ManageItems from '../../components/items/ManageItems';
+import CommonContext from '../../components/items/CommonContext';
 import ProgramaForm from '../../components/forms/ProgramaForm';
 import * as programaRoutes from '../../api/programaRoutes';
 

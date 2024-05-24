@@ -3,8 +3,6 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider'
 import logo from '../../assets/img/logo.png';
 import '../../assets/css/styles.css'
-import '../../assets/js/main.js'
-
 
 const Home = () => {
   const navigate = useNavigate();

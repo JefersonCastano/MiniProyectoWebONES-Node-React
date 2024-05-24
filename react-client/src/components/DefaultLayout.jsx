@@ -26,7 +26,6 @@ const DefaultLayout = ({ children, rol }) => {
     navItems = rol == "COORDINADOR" ? navCoor : navDoc;
     title = navItems.find(item => item.route == actualLocation).page;
 
-    
     return (
         <div>
             <Navbar items={navItems} />

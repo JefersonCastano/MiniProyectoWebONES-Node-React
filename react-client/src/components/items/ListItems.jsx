@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useCommonContext } from './CommonContext';
-import { showConfirmationMessage } from '../utilities/Messages';
+import { showConfirmationMessage } from '../../utilities/Messages';
 import Pagination from './Pagination';
 
 const ListItems = ({ keys }) => {

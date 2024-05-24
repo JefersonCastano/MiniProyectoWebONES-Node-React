@@ -12,7 +12,6 @@ function ToastBS({ show, toggleShow, title, message }) {
         <Toast.Header>
           <span className="toast-header-icon rounded me-2"></span>
           <strong className="me-auto">{title}</strong>
-          <small className="text-muted">Hace 1 segundo</small>
         </Toast.Header>
         <Toast.Body>{message}</Toast.Body>
       </Toast>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { useCommonContext } from '../CommonContext';
-import SearchableDropdown from '../SearchableDropdown';
+import { useCommonContext } from '../items/CommonContext';
 import { getAllProgramas } from '../../api/programaRoutes';
+import SearchableDropdown from '../SearchableDropdown';
 
 const CompetenciaForm = () => {
 

@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, Controller, set } from 'react-hook-form';
+import React from 'react'
+import { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { getAllPeriodosAcademicos } from '../../api/periodoAcademicoRoutes';
-import SearchableDropdown from '../../components/SearchableDropdown';
-import { useCommonHorarioContext } from '../CommonHorarioContext';
+import { useCommonHorarioContext } from '../horario/CommonHorarioContext';
+import SearchableDropdown from '../SearchableDropdown';
 
-const ConsultaHorarioDocenteForm = ({docente_id}) => {
+const ConsultaHorarioDocenteForm = ({ docente_id }) => {
 
-    const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
-    const { states, state, setDatosHorario, datosHorario, getHorarios } = useCommonHorarioContext();
+    const { state, states,
+        datosHorario, setDatosHorario,
+        getHorarios } = useCommonHorarioContext();
+
+    const { handleSubmit, setValue, control, formState: { errors, isValid } } = useForm();
 
     const [periodosAcademicos, setPeriodosAcademicos] = useState([]);
 
@@ -30,7 +34,7 @@ const ConsultaHorarioDocenteForm = ({docente_id}) => {
     const onSubmit = handleSubmit(async (data, e) => {
         e.preventDefault();
         if (isValid) {
-            getHorarios(data.periodo_id, docente_id, "No cuentas con ningún horario registrado para este periodo académico");
+            getHorarios(data.periodo_id, docente_id, "No cuentas con ningún horario registrado para este periodo académico", true);
             setDatosHorario({ ...data, docente_id });
         }
     });

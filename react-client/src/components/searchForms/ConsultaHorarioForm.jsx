@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, Controller, set } from 'react-hook-form';
+import React from 'react'
+import { useState, useEffect } from 'react'
+import { useForm, Controller } from 'react-hook-form';
 import { getAllPeriodosAcademicos } from '../../api/periodoAcademicoRoutes';
-import SearchableDropdown from '../../components/SearchableDropdown';
-
 import { getAllDocentes } from '../../api/docenteRoutes';
-
-import { useCommonHorarioContext } from '../CommonHorarioContext';
+import { useCommonHorarioContext } from '../horario/CommonHorarioContext';
+import SearchableDropdown from '../../components/SearchableDropdown';
 
 const ConsultaHorarioForm = () => {
 
-    const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
-    const { states, state, setDatosHorario, datosHorario, getHorarios } = useCommonHorarioContext();
+    const { state, states,
+        getHorarios,
+        datosHorario, setDatosHorario } = useCommonHorarioContext();
+
+    const { handleSubmit, setValue, control, formState: { errors, isValid } } = useForm();
 
     const [periodosAcademicos, setPeriodosAcademicos] = useState([]);
     const [docentes, setDocentes] = useState([]);
@@ -44,7 +46,7 @@ const ConsultaHorarioForm = () => {
     const onSubmit = handleSubmit(async (data, e) => {
         e.preventDefault();
         if (isValid) {
-            getHorarios(data.periodo_id, data.docente_id, "Puedes crearlo ahora mismo");
+            getHorarios(data.periodo_id, data.docente_id, "Puedes crearlo ahora mismo", true);
             setDatosHorario(data);
         }
     });
@@ -61,7 +63,7 @@ const ConsultaHorarioForm = () => {
                         }}
                         render={({ field }) =>
                             <SearchableDropdown
-                                options={periodosAcademicos} value={field.value} setValue={field.onChange} 
+                                options={periodosAcademicos} value={field.value} setValue={field.onChange}
                                 disabled={[states.adding, states.editing].includes(state)} keys={keysPeriodo} />
                         } />
                     <div className="invalid-feedback d-block">
@@ -77,7 +79,7 @@ const ConsultaHorarioForm = () => {
                         }}
                         render={({ field }) =>
                             <SearchableDropdown
-                                options={docentes} value={field.value} setValue={field.onChange} 
+                                options={docentes} value={field.value} setValue={field.onChange}
                                 disabled={[states.adding, states.editing].includes(state)} keys={keysDocente} />
                         } />
                     <div className="invalid-feedback d-block">

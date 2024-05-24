@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext, createContext, useState, useEffect } from 'react'
-import { getUserData } from '../api/userRoutes';
+import { getUserData } from '../api/authRoutes/userRoutes';
 import loading from '../assets/img/loading.png';
 
 const AuthContext = createContext({

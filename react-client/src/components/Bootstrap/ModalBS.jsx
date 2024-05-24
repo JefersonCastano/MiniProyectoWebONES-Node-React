@@ -1,10 +1,8 @@
-
-import { useEffect, useState } from 'react';
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+import { useEffect, useState } from 'react';
+import { useCommonHorarioContext } from '../horario/CommonHorarioContext';
 import Modal from 'react-bootstrap/Modal';
 import HorarioForm from '../forms/HorarioForm';
-import { useCommonHorarioContext } from '../CommonHorarioContext';
 
 function ModalBS({ children, closeModal, setCloseModal }) {
 

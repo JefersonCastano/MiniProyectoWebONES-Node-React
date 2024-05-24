@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import Modal from 'react-bootstrap/Modal';
-import SearchableDropdown from '../SearchableDropdown';
 import { getAllProgramas } from '../../api/programaRoutes';
-import { getAllCompetencias } from '../../api/competenciaRoutes';
 import { getAllCompetenciasGenericas } from '../../api/competenciaRoutes';
 import { getAllCompetenciasByProgramaId } from '../../api/competenciaRoutes';
-import { getAllAmbientes } from '../../api/ambienteRoutes';
 import { getAllAmbientesDisponibles } from '../../api/horarioRoutes';
 import { getDocenteById } from '../../api/docenteRoutes';
-import { useCommonHorarioContext } from '../CommonHorarioContext';
+import { useCommonHorarioContext } from '../horario/CommonHorarioContext';
+import Modal from 'react-bootstrap/Modal';
+import SearchableDropdown from '../SearchableDropdown';
 
-const HorarioForm = ({ handleClose, deleteFranja }) => {
+const HorarioForm = ({ handleClose, deleteFranjaActual }) => {
 
-    const { state, states, franjaActual, horario, setHorario, datosHorario, setError, setShowMessage, setErrorMessage } = useCommonHorarioContext();
+    const { state, states,
+        horario, setHorario,
+        franjaActual,
+        datosHorario,
+        setError, setErrorMessage, setShowMessage } = useCommonHorarioContext();
 
     const { register, handleSubmit, setValue, reset, watch, control, formState: { errors, isValid } } = useForm();
 
@@ -22,14 +24,13 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     const [competencias, setCompetencias] = useState([]);
     const [ambientes, setAmbientes] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [horasMaximas, setHorasMaximas] = useState({});
 
     const keysPrograma = { id: 'programa_id', name: 'programa_nombre' };
     const keysCompetencia = { id: 'competencia_id', name: 'competencia_nombre' };
     const keysAmbiente = { id: 'ambiente_id', name: 'ambiente_nombre' };
 
     const programa = watch('programa_id');
-
-    const [horasMaximas, setHorasMaximas] = useState({});
     const horasTipoContrato = { PT: { max_dia: 8, max_semana: 32 }, CNT: { max_dia: 10, max_semana: 40 } }
 
     useEffect(() => {
@@ -48,37 +49,37 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
             if (programasResult) setProgramas(programasResult);
             if (competenciasGenericasResult) setCompetencias(competenciasGenericasResult);
             if (ambientesResult) setAmbientes(ambientesResult);
-                    
-            if (state == states.consulting || state == states.editing) {
-                setAmbientes(prevAmbientes => {
-                    const ambienteExists = prevAmbientes.some(ambiente => ambiente.ambiente_id === franjaActual.ambiente_id);
-                    if (!ambienteExists) {
-                      return [{ ambiente_id: franjaActual.ambiente_id, ambiente_nombre: franjaActual.ambiente.ambiente_nombre },
-                        ...prevAmbientes
-                      ];
-                    }
-                    return prevAmbientes;
-                  });
-
-                setCompetencias(prevCompetencias => {
-                    const competenciaExists = prevCompetencias.some(competencia => competencia.competencia_id === franjaActual.competencia_id);
-                    if (!competenciaExists) {
-                      return [{ competencia_id: franjaActual.competencia_id, competencia_nombre: franjaActual.competencia.competencia_nombre },
-                        ...prevCompetencias
-                      ];
-                    }
-                    return prevCompetencias;
-                  });
-            } 
 
             if (franjaActual.state == 'existing') {
                 if (franjaActual.competencia.programa_id && programa != -1) {
                     const competenciasEspecificasResult = await getAllCompetenciasByProgramaId(franjaActual.competencia.programa_id);
                     if (competenciasEspecificasResult) {
-                        setCompetencias(prevCompetencias => [...competenciasEspecificasResult, ...prevCompetencias]);
+                        setCompetencias([...competenciasEspecificasResult, ...competenciasGenericasResult]);
                     }
                 }
                 setValue('competencia_id', franjaActual.competencia_id);
+            }
+
+            if (state == states.consulting || state == states.editing) {
+                setAmbientes(prevAmbientes => {
+                    const ambienteExists = prevAmbientes.some(ambiente => ambiente.ambiente_id === franjaActual.ambiente_id);
+                    if (!ambienteExists && franjaActual.ambiente) {
+                        return [{ ambiente_id: franjaActual.ambiente_id, ambiente_nombre: franjaActual.ambiente.ambiente_nombre },
+                        ...prevAmbientes
+                        ];
+                    }
+                    return prevAmbientes;
+                });
+
+                setCompetencias(prevCompetencias => {
+                    const competenciaExists = prevCompetencias.some(competencia => competencia.competencia_id === franjaActual.competencia_id);
+                    if (!competenciaExists && franjaActual.competencia) {
+                        return [{ competencia_id: franjaActual.competencia_id, competencia_nombre: franjaActual.competencia.competencia_nombre },
+                        ...prevCompetencias
+                        ];
+                    }
+                    return prevCompetencias;
+                });
             }
             setDataLoaded(true);
         };
@@ -112,8 +113,8 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
         const franjas_dia = horario.horario_franjas.find(franja => franja.franja_dia === franjaActual.franja_dia).franjas;
         const hours = franjas_dia.reduce((acc, franja) => acc + franja.franja_duracion, 0);
         if (hours > horasMaximas.max_dia) {
-            setError("oh oh");
-            setErrorMessage(`El docente debe orientar máximo ${horasMaximas.max_dia} horas por día.`);
+            setError("Límite Diario Excedido");
+            setErrorMessage(`El docente puede orientar un máximo de ${horasMaximas.max_dia} horas por día.`);
             setShowMessage(true);
             return false;
         }
@@ -122,8 +123,8 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     const validateHoursWeek = (horario) => {
         const hours = horario.horario_franjas.reduce((acc, franja) => acc + franja.franjas.reduce((acc, franja) => acc + franja.franja_duracion, 0), 0);
         if (hours > horasMaximas.max_semana) {
-            setError("oh oh");
-            setErrorMessage(`El docente debe orientar máximo ${horasMaximas.max_semana} horas por semana.`);
+            setError("Límite Semanal Excedido");
+            setErrorMessage(`El docente puede orientar un máximo de ${horasMaximas.max_semana} horas por semana.`);
             setShowMessage(true);
             return false;
         }
@@ -133,7 +134,6 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
         return validateHoursDay(horario) && validateHoursWeek(horario);
     }
     const validateCrossing = (horario, newFranja) => {
-
         const franjas_dia = horario.horario_franjas.find(franja => franja?.franja_dia === franjaActual.franja_dia)?.franjas;
         const crossing = franjas_dia?.find(franja =>
             franja.franja_hora_inicio < newFranja.franja_hora_inicio && franja.franja_hora_fin > newFranja.franja_hora_inicio
@@ -141,8 +141,8 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
             || franja.franja_hora_inicio >= newFranja.franja_hora_inicio && franja.franja_hora_fin <= newFranja.franja_hora_fin
         );
         if (crossing) {
-            setError("oh oh");
-            setErrorMessage(`Se presenta un cruce de horas con la competencia: ${crossing.competencia.competencia_nombre}`);
+            setError("Cruce de Horarios");
+            setErrorMessage(`Hay un cruce de horas con la competencia: ${crossing.competencia.competencia_nombre}`);
             setShowMessage(true);
             return false;
         }
@@ -150,8 +150,8 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
     }
     const validateAmbiente = (newFranja) => {
         const ambiente = ambientes.find(ambiente => ambiente.ambiente_id == newFranja.ambiente_id);
-        if(ambiente.available_until < newFranja.franja_hora_fin){
-            setError("oh oh");
+        if (ambiente.available_until < newFranja.franja_hora_fin) {
+            setError("Ambiente No Disponible");
             setErrorMessage(`El ambiente ${ambiente.ambiente_nombre} no está disponible para las horas seleccionadas.`);
             setShowMessage(true);
             return false;
@@ -189,7 +189,7 @@ const HorarioForm = ({ handleClose, deleteFranja }) => {
         if (isValid) {
             let horarioActual = JSON.parse(JSON.stringify(horario));
             if (franjaActual.state == 'existing') {
-                horarioActual = deleteFranja();
+                horarioActual = deleteFranjaActual();
             }
             const newFranja = getNewFranja(data);
             const nuevoHorario = addFranja(horarioActual, newFranja);

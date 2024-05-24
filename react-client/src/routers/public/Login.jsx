@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthProvider'
-import { login } from '../../api/loginRoutes';
+import { login } from '../../api/authRoutes/loginRoutes';
+import { secretKey } from '../../auth/config';
+import CryptoJS from 'crypto-js';
 import logo from '../../assets/img/logo.png';
 import logoSena from '../../assets/img/logoSena.png';
 
-
 const Login = () => {
+
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState('');
-
-  const auth = useAuth();
-  const navigate = useNavigate();
 
   const camposVacios = (e) => {
     const form = e.currentTarget;
@@ -31,17 +34,18 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     if (camposVacios(event)) return;
 
-    login(username, password).then(json => {
-      if(!json) return;
+    const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
+    login(username, encryptedPassword).then(json => {
+      if (!json) return;
       if (json.status === "OK") {
         setError('');
         const user = json.data;
         if (user.token) {
           auth.saveUser(user);
-          if (user.role === 'COORDINADOR'){
+          if (user.role === 'COORDINADOR') {
             navigate('/horarios');
           }
           else if (user.role === 'DOCENTE') {

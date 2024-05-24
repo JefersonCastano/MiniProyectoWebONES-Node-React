@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useCommonContext } from '../CommonContext';
+import { useCommonContext } from '../items/CommonContext';
 import { set, useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 
@@ -59,7 +59,6 @@ const PeriodoAcademicoForm = () => {
             data.periodo_fecha_ini = initialDate.format('YYYY-MM-DD');
             data.periodo_fecha_fin = finalDate.format('YYYY-MM-DD');
             if (state == states.adding) {
-                console.log(data);
                 const result = await createItem(data);
                 if (result) {
                     setSelectedItem(result.periodo_id);

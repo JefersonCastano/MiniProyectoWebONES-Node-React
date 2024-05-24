@@ -1,13 +1,13 @@
 import React from 'react'
-import DefaultLayout from '../../components/DefaultLayout'
 import { useAuth } from '../../auth/AuthProvider';
-import CommonHorarioContext, { useCommonHorarioContext } from '../../components/CommonHorarioContext';
-import ToastBS from '../../components/Bootstrap/ToastBS';
-import ConsultaHorarioForm from '../../components/forms/ConsultaHorarioForm';
-import HorarioComponent from '../../components/HorarioComponent';
-import ManageHorario from '../../components/ManageHorario';
+import DefaultLayout from '../../components/DefaultLayout'
+import CommonHorarioContext from '../../components/horario/CommonHorarioContext';
+import ConsultaHorarioForm from '../../components/searchForms/ConsultaHorarioForm';
+import HorarioComponent from '../../components/horario/HorarioComponent';
+import ManageHorario from '../../components/horario/ManageHorario';
 
 const Horario = () => {
+    
     const auth = useAuth();
     
     return (

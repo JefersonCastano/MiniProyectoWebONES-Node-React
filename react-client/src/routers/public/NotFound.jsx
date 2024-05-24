@@ -5,9 +5,10 @@ import logo from '../../assets/img/logo.png';
 import error404 from '../../assets/img/error404.png';
 
 const NotFound = () => {
-    const navigate = useNavigate();
+    
     const auth = useAuth();
-
+    const navigate = useNavigate();
+    
     const handleButton = () => {
         if (auth.isAuthenticated) {
             if (auth.getUser()?.role === 'COORDINADOR') {

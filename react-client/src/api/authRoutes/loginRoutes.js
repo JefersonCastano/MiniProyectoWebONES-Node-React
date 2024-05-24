@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import { API_URL } from "../auth/config";
-import { showErrorMessage } from '../utilities/Messages';
+import { API_URL } from "../../auth/config";
+import { showErrorMessage } from '../../utilities/Messages';
 
 export async function login(username, password) {
     try {

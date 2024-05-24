@@ -66,7 +66,6 @@ const CommonContext = ({ children, crudMethods, }) => {
             } else return false;
         },
         changeStateItem: async (newState) => {
-            console.log(selectedItem, newState)
             if (newState) {
                 return await crudMethods.changeState(selectedItem, newState);
             } else {
