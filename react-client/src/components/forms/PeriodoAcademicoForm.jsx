@@ -4,7 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useCommonContext } from '../items/CommonContext';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 
 const PeriodoAcademicoForm = () => {

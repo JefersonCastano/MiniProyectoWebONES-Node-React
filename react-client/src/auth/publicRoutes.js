@@ -1,6 +1,6 @@
-import Home from '../routers/public/Home';
-import Login from '../routers/public/Login';
-import NotFound from '../routers/public/NotFound';
+import Home from '../views/public/Home';
+import Login from '../views/public/Login';
+import NotFound from '../views/public/NotFound';
 
 export const public_routes = [
     {

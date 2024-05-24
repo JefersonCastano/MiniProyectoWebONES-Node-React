@@ -2,9 +2,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { public_routes } from './auth/publicRoutes';
 import { coordinador_routes } from './auth/coordinadorRoutes';
 import { docente_routes } from './auth/docenteRoutes';
-import ProtectedRoute from './routers/ProtectedRoute';
-import CoorProtectedRoute from './routers/coordinador/CoorProtectedRoute';
-import DocProtectedRoute from './routers/docente/DocProtectedRoute';
+import ProtectedRoute from './views/ProtectedRoute';
+import CoorProtectedRoute from './views/coordinador/CoorProtectedRoute';
+import DocProtectedRoute from './views/docente/DocProtectedRoute';
 import AuthProvider from './auth/AuthProvider';
 
 const coor_routes = [

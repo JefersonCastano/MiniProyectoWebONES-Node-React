@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { API_URL } from '../../auth/config';
-import { showErrorMessage } from '../../utilities/Messages';
 
 export async function getUserData(accessToken) {
     try {

@@ -1,5 +1,5 @@
-import HorarioDocente from '../routers/docente/HorarioDocente';
-import InfoDocente from '../routers/docente/InfoDocente';
+import HorarioDocente from '../views/docente/HorarioDocente';
+import InfoDocente from '../views/docente/InfoDocente';
 
 export const docente_routes = [
     {
